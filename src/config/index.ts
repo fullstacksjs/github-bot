@@ -1,16 +1,16 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Config } from "@fullstacksjs/config";
 import { env } from "node:process";
 
+// TODO: Add `required`s back once the upstream issues fixed.
 const schema = new Config({
   bot: Config.object({
-    token: Config.string().required(),
-    chatId: Config.number().required(),
+    token: Config.string(), //.required(),
+    chatId: Config.number(), //.required(),
     topicId: Config.number(),
   }).required(),
 
   github: Config.object({
-    token: Config.string().required(),
+    token: Config.string(), //.required(),
   }).required(),
 
   database: Config.object({
@@ -18,7 +18,7 @@ const schema = new Config({
   }),
 });
 
-const rawConfig = schema
+export const config = schema
   .parse({
     bot: {
       token: env.BOT_TOKEN,
@@ -33,16 +33,3 @@ const rawConfig = schema
     },
   })
   .getAll();
-
-// NOTE: This is a temporary workaround until the issue with undefined fields gets fixed.
-export const config = {
-  bot: {
-    token: { ...rawConfig.bot.token, value: rawConfig.bot.token.value! },
-    chatId: { ...rawConfig.bot.chatId, value: rawConfig.bot.chatId.value! },
-    topicId: rawConfig.bot.topicId.value,
-  },
-  github: {
-    token: { ...rawConfig.github.token, value: rawConfig.github.token.value! },
-  },
-  database: rawConfig.database,
-} as const;
