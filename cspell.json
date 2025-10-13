@@ -1,0 +1,15 @@
+{
+  "version": "0.2",
+  "import": ["@cspell/dict-fa-ir/cspell-ext.json"],
+  "language": "en, fa, fa-IR",
+  "dictionaryDefinitions": [
+    {
+      "name": "cspell-words",
+      "path": "./cspell-words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["cspell-words"],
+  "ignorePaths": ["node_modules", "/cspell-words.txt", "./pnpm-*.yaml"],
+  "enabled": true
+}

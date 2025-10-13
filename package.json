@@ -1,0 +1,40 @@
+{
+  "name": "clown-counter-bot",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "dev": "node --watch --import=tsx --env-file-if-exists=.env src/index.ts",
+    "start": "node --import=tsx --env-file-if-exists=.env src/index.ts",
+    "lint": "eslint . --fix",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "drizzle-kit migrate",
+    "db:generate": "drizzle-kit generate",
+    "prepare": "simple-git-hooks && git config --local commit.template '.gitmessage'"
+  },
+  "dependencies": {
+    "@fullstacksjs/config": "1.1.0",
+    "@grammyjs/i18n": "1.1.2",
+    "@grammyjs/ratelimiter": "1.2.1",
+    "drizzle-orm": "0.44.6",
+    "grammy": "1.38.2",
+    "octokit": "5.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.0.0",
+    "@commitlint/config-conventional": "20.0.0",
+    "@commitlint/types": "20.0.0",
+    "@cspell/dict-fa-ir": "4.0.5",
+    "@fullstacksjs/eslint-config": "13.5.0",
+    "@fullstacksjs/tsconfig": "2.0.0",
+    "@types/node": "24.5.2",
+    "cspell": "9.2.1",
+    "drizzle-kit": "0.31.5",
+    "eslint": "9.36.0",
+    "lint-staged": "16.2.3",
+    "prettier": "3.6.2",
+    "simple-git-hooks": "2.13.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.2"
+  }
+}
