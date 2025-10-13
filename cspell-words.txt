@@ -1,3 +1,4 @@
 fullstacksjs
 gitmessage
 grammyjs
+libsql
