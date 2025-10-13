@@ -16,6 +16,7 @@
     "@fullstacksjs/config": "1.1.0",
     "@grammyjs/i18n": "1.1.2",
     "@grammyjs/ratelimiter": "1.2.1",
+    "@libsql/client": "0.15.15",
     "drizzle-orm": "0.44.6",
     "grammy": "1.38.2",
     "octokit": "5.0.3"

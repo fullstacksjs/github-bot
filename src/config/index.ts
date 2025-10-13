@@ -12,6 +12,10 @@ const schema = new Config({
   github: Config.object({
     token: Config.string().required(),
   }).required(),
+
+  database: Config.object({
+    filePath: Config.string({ default: "file:database.sqlite" }),
+  }),
 });
 
 const rawConfig = schema
@@ -23,6 +27,9 @@ const rawConfig = schema
     },
     github: {
       token: env.GITHUB_TOKEN,
+    },
+    database: {
+      filePath: env.DB_FILE_PATH,
     },
   })
   .getAll();
@@ -37,4 +44,5 @@ export const config = {
   github: {
     token: { ...rawConfig.github.token, value: rawConfig.github.token.value! },
   },
+  database: rawConfig.database,
 } as const;

@@ -7,5 +7,8 @@ declare namespace NodeJS {
 
     // GitHub Application variables
     GITHUB_TOKEN?: string;
+
+    // Database Application variables
+    DB_FILE_PATH?: string;
   }
 }
