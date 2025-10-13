@@ -2,6 +2,7 @@
   "exclude": ["@fullstacksjs/tsconfig/esm"],
   "compilerOptions": {
     // TSX compatibility
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
 
