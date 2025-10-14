@@ -11,7 +11,6 @@ export type BotContext = Context & I18nFlavor;
 
 export class Bot extends GrammyBot<BotContext> {
   constructor() {
-    //@ts-expect-error TODO: Waiting for @fullstacksjs/config patch
     super(config.bot.token);
 
     const i18n = new I18n<BotContext>({ defaultLocale: "en", directory: "locales" });
@@ -36,7 +35,6 @@ export class Bot extends GrammyBot<BotContext> {
    * @param topicId ID of the chat topic for the message to get announced in. default: `config.bot.topicId`
    */
   public async announce(text: string, chatId?: number, topicId?: number) {
-    //@ts-expect-error TODO: Waiting for @fullstacksjs/config patch
     await this.api.sendMessage(chatId ?? config.bot.chatId, text, {
       direct_messages_topic_id: topicId ?? config.bot.topicId,
       parse_mode: "MarkdownV2",

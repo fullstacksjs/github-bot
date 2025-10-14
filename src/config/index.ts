@@ -1,17 +1,16 @@
 import { Config } from "@fullstacksjs/config";
 import { env } from "node:process";
 
-// TODO: Add `required`s back once the upstream issues fixed.
 const schema = new Config({
   bot: Config.object({
-    token: Config.string(), //.required(),
-    chatId: Config.number(), //.required(),
+    token: Config.string().required(),
+    chatId: Config.number().required(),
     topicId: Config.number(),
-  }).required(),
+  }),
 
   github: Config.object({
-    token: Config.string(), //.required(),
-  }).required(),
+    token: Config.string().required(),
+  }),
 
   database: Config.object({
     filePath: Config.string({ default: "file:database.sqlite" }),
