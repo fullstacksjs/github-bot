@@ -3,4 +3,3 @@ fullstacksjs
 gitmessage
 grammyjs
 libsql
-skullbuster
