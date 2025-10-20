@@ -1,1 +1,2 @@
-// TODO:
+export * from "./relations";
+export * from "./tables";

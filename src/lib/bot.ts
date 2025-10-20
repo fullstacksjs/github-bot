@@ -1,6 +1,7 @@
 import type { I18nFlavor } from "@grammyjs/i18n";
 import type { Context, ErrorHandler } from "grammy";
 
+import { autoRetry } from "@grammyjs/auto-retry";
 import { I18n } from "@grammyjs/i18n";
 import { limit } from "@grammyjs/ratelimiter";
 import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
@@ -25,6 +26,8 @@ export class Bot extends GrammyBot<BotContext> {
         },
       }),
     );
+
+    this.api.config.use(autoRetry());
   }
 
   /**
