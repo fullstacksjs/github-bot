@@ -10,6 +10,7 @@ const schema = new Config({
 
   github: Config.object({
     token: Config.string().required(),
+    orgName: Config.string().required(),
   }),
 
   database: Config.object({
@@ -26,6 +27,7 @@ export const config = schema
     },
     github: {
       token: env.GITHUB_TOKEN,
+      orgName: env.GITHUB_ORG_NAME,
     },
     database: {
       filePath: env.DB_FILE_PATH,

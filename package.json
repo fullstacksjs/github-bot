@@ -10,6 +10,7 @@
     "db:studio": "drizzle-kit studio",
     "db:migrate": "drizzle-kit migrate",
     "db:generate": "drizzle-kit generate",
+    "gh:discover": "node --import=tsx --env-file-if-exists=.env scripts/gh-discover.ts",
     "prepare": "simple-git-hooks && git config --local commit.template '.gitmessage'"
   },
   "dependencies": {
