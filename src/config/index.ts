@@ -6,7 +6,7 @@ const schema = new Config({
     token: Config.string().required(),
     chatId: Config.number().required(),
     topicId: Config.number(),
-    adminIds: Config.array(Config.number()),
+    adminIds: Config.array(Config.number({ coerce: true })),
   }),
 
   github: Config.object({
