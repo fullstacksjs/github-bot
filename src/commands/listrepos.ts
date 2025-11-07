@@ -39,7 +39,6 @@ export async function listreposHandler(ctx: BotContext) {
   );
 }
 
-export const cmdListRepos = new Command<BotContext>("listrepos", "List monitored repositories").addToScope(
-  { type: "chat", chat_id: config.bot.chatId },
-  listreposHandler,
-);
+export const cmdListRepos = new Command<BotContext>("listrepos", "List monitored repositories")
+  .addToScope({ type: "chat", chat_id: config.bot.chatId }, listreposHandler)
+  .addToScope({ type: "chat_administrators", chat_id: config.bot.chatId }, listreposHandler);
