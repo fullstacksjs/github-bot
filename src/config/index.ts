@@ -25,7 +25,7 @@ export const config = schema
       token: env.BOT_TOKEN,
       chatId: env.BOT_CHAT_ID,
       topicId: env.BOT_TOPIC_ID,
-      adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => v.trim()),
+      adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => parseInt(v.trim(), 10)),
     },
     github: {
       token: env.GITHUB_TOKEN,
