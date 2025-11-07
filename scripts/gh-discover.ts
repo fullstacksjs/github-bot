@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { config } from "../src/config";
-import { contributorsTable, db, repositoriesTable, repositoryContributorsTable } from "../src/db";
+import { db, schema } from "../src/db";
 import { octokit } from "../src/lib/github";
 
 async function saveContributors(owner: string, repo: string, repositoryId: number) {
@@ -15,25 +15,25 @@ async function saveContributors(owner: string, repo: string, repositoryId: numbe
       const ghUsername = contributor.login ?? contributor.name ?? contributor.id?.toString(10) ?? "unknown";
 
       const res = await db
-        .insert(contributorsTable)
+        .insert(schema.contributorsTable)
         .values({ ghUsername })
         // Just to make `returning` work.
-        .onConflictDoUpdate({ target: contributorsTable.ghUsername, set: { ghUsername } })
-        .returning({ id: contributorsTable.id });
+        .onConflictDoUpdate({ target: schema.contributorsTable.ghUsername, set: { ghUsername } })
+        .returning({ id: schema.contributorsTable.id });
 
       if (res.length < 1) throw new Error("failed to insert the contributor");
 
       console.info(`saved contributor: ${ghUsername}`);
 
       await db
-        .insert(repositoryContributorsTable)
+        .insert(schema.repositoryContributorsTable)
         .values({
           repositoryId,
           contributorId: res[0].id,
           contributions: contributor.contributions,
         })
         .onConflictDoUpdate({
-          target: [repositoryContributorsTable.repositoryId, repositoryContributorsTable.contributorId],
+          target: [schema.repositoryContributorsTable.repositoryId, schema.repositoryContributorsTable.contributorId],
           set: { contributions: contributor.contributions },
         });
 
@@ -54,11 +54,11 @@ async function saveRepos(org: string) {
   for await (const repos of reposPaginator) {
     for await (const repo of repos.data) {
       const res = await db
-        .insert(repositoriesTable)
+        .insert(schema.repositoriesTable)
         .values({ name: repo.full_name, htmlUrl: repo.html_url })
         // Just to make `returning` work.
-        .onConflictDoUpdate({ target: repositoriesTable.name, set: { htmlUrl: repo.html_url } })
-        .returning({ id: repositoriesTable.id });
+        .onConflictDoUpdate({ target: schema.repositoriesTable.name, set: { htmlUrl: repo.html_url } })
+        .returning({ id: schema.repositoriesTable.id });
 
       if (res.length < 1) throw new Error("failed to insert the repository");
 
