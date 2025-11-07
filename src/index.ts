@@ -1,8 +1,9 @@
+import { commands } from "./commands";
 import { bot } from "./lib/bot";
 
-// NOTE: It's just an experiment to make sure that it's working
-// until we start to use it everywhere else.
-await bot.announce("I'm up and running again\\!");
+await commands.setCommands(bot);
+
+bot.use(commands);
 
 bot.start({
   onStart(botInfo) {
