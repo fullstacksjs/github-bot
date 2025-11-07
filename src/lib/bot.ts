@@ -8,11 +8,36 @@ import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
 import { config } from "../config";
 
+/** BotContext is the context passed to the update handlers after passing all middlewares. */
 export type BotContext = Context & I18nFlavor;
 
+/** BotOptions is the constructor options of Bot class */
+interface BotOptions {
+  /** Telegram bot's token */
+  token: string;
+
+  /** Default channel to announce updates in */
+  announceChat: {
+    /** Numeric id of the chat */
+    chatId: number;
+    /** Optional. Numeric id of the chat's topic */
+    topicId?: number | undefined;
+  };
+}
+
+/**
+ * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.
+ */
 export class Bot extends GrammyBot<BotContext> {
-  constructor() {
-    super(config.bot.token);
+  /** Default chat used to announce messages in */
+  announceChat: BotOptions["announceChat"];
+
+  /**
+   * @param options bot options required to make the bot work.
+   */
+  constructor({ token, announceChat }: BotOptions) {
+    super(token);
+    this.announceChat = announceChat;
 
     const i18n = new I18n<BotContext>({ defaultLocale: "en", directory: "locales" });
 
@@ -38,13 +63,13 @@ export class Bot extends GrammyBot<BotContext> {
    * @param topicId ID of the chat topic for the message to get announced in. default: `config.bot.topicId`
    */
   public async announce(text: string, chatId?: number, topicId?: number) {
-    await this.api.sendMessage(chatId ?? config.bot.chatId, text, {
-      direct_messages_topic_id: topicId ?? config.bot.topicId,
+    await this.api.sendMessage(chatId ?? this.announceChat.chatId, text, {
+      direct_messages_topic_id: topicId ?? this.announceChat.topicId,
       parse_mode: "MarkdownV2",
     });
   }
 
-  // TODO: Use `pinia` for logging instead.
+  // TODO: Use a better way of logging error
   override errorHandler: ErrorHandler = (err) => {
     // eslint-disable-next-line no-console
     const logErr = console.error;
@@ -61,3 +86,12 @@ export class Bot extends GrammyBot<BotContext> {
     }
   };
 }
+
+/** bot is just an instance of Bot with options passed from the config */
+export const bot = new Bot({
+  token: config.bot.token,
+  announceChat: {
+    chatId: config.bot.chatId,
+    topicId: config.bot.topicId,
+  },
+});

@@ -1,4 +1,4 @@
-import { bot } from "./bot";
+import { bot } from "./lib/bot";
 
 // NOTE: It's just an experiment to make sure that it's working
 // until we start to use it everywhere else.
