@@ -1,6 +1,9 @@
 # Plugin: ratelimiter
 ratelimiter_onLimitExceeded = Chill out. D:
 
+# Shared
+insufficient_permissions = 🔪 You're *not allowed* to perform such an action\.
+
 # Commands
 cmd_listrepos =
     ✨ *Repositories:*
@@ -12,6 +15,21 @@ cmd_listrepos =
 cmd_listrepos_url = — [{ $name }]({ $url })
 
 cmd_listrepos_no_repo = 🌚 Nothing's getting monitored
+
+cmd_removerepo = Repository [{ $name }]({ $url }) removed successfully\.
+
+cmd_removerepo_not_found = Repository couldn't be found\!
+
+cmd_removerepo_help =
+    ✍️ `/removerepo` Guide:
+
+    Pass the complete GitHub repository url after the command\.
+
+    Pattern:
+    — `/removerepo <github-url>`
+
+    Example:
+    — `/removerepo https://github.com/fullstacksjs/github-bot`
 
 cmd_whoami =
     Hello *{ $name }*\!
