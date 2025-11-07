@@ -1,22 +1,22 @@
 import { relations } from "drizzle-orm";
 
-import { contributorsTable, repositoriesTable, repositoryContributorsTable } from "./tables";
+import { contributors, repositories, repositoryContributors } from "./tables";
 
-export const repositoriesRelations = relations(repositoriesTable, ({ many }) => ({
-  contributors: many(repositoryContributorsTable),
+export const repositoriesRelations = relations(repositories, ({ many }) => ({
+  contributors: many(repositoryContributors),
 }));
 
-export const contributorsRelations = relations(contributorsTable, ({ many }) => ({
-  contributions: many(repositoryContributorsTable),
+export const contributorsRelations = relations(contributors, ({ many }) => ({
+  contributions: many(repositoryContributors),
 }));
 
-export const repositoryContributorsRelations = relations(repositoryContributorsTable, ({ one }) => ({
-  repository: one(repositoriesTable, {
-    fields: [repositoryContributorsTable.repositoryId],
-    references: [repositoriesTable.id],
+export const repositoryContributorsRelations = relations(repositoryContributors, ({ one }) => ({
+  repository: one(repositories, {
+    fields: [repositoryContributors.repositoryId],
+    references: [repositories.id],
   }),
-  contributor: one(contributorsTable, {
-    fields: [repositoryContributorsTable.contributorId],
-    references: [contributorsTable.id],
+  contributor: one(contributors, {
+    fields: [repositoryContributors.contributorId],
+    references: [contributors.id],
   }),
 }));

@@ -15,25 +15,25 @@ async function saveContributors(owner: string, repo: string, repositoryId: numbe
       const ghUsername = contributor.login ?? contributor.name ?? contributor.id?.toString(10) ?? "unknown";
 
       const res = await db
-        .insert(schema.contributorsTable)
+        .insert(schema.contributors)
         .values({ ghUsername })
         // Just to make `returning` work.
-        .onConflictDoUpdate({ target: schema.contributorsTable.ghUsername, set: { ghUsername } })
-        .returning({ id: schema.contributorsTable.id });
+        .onConflictDoUpdate({ target: schema.contributors.ghUsername, set: { ghUsername } })
+        .returning({ id: schema.contributors.id });
 
       if (res.length < 1) throw new Error("failed to insert the contributor");
 
       console.info(`saved contributor: ${ghUsername}`);
 
       await db
-        .insert(schema.repositoryContributorsTable)
+        .insert(schema.repositoryContributors)
         .values({
           repositoryId,
           contributorId: res[0].id,
           contributions: contributor.contributions,
         })
         .onConflictDoUpdate({
-          target: [schema.repositoryContributorsTable.repositoryId, schema.repositoryContributorsTable.contributorId],
+          target: [schema.repositoryContributors.repositoryId, schema.repositoryContributors.contributorId],
           set: { contributions: contributor.contributions },
         });
 
@@ -54,11 +54,11 @@ async function saveRepos(org: string) {
   for await (const repos of reposPaginator) {
     for await (const repo of repos.data) {
       const res = await db
-        .insert(schema.repositoriesTable)
+        .insert(schema.repositories)
         .values({ name: repo.full_name, htmlUrl: repo.html_url })
         // Just to make `returning` work.
-        .onConflictDoUpdate({ target: schema.repositoriesTable.name, set: { htmlUrl: repo.html_url } })
-        .returning({ id: schema.repositoriesTable.id });
+        .onConflictDoUpdate({ target: schema.repositories.name, set: { htmlUrl: repo.html_url } })
+        .returning({ id: schema.repositories.id });
 
       if (res.length < 1) throw new Error("failed to insert the repository");
 
