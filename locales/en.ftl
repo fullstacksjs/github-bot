@@ -5,6 +5,13 @@ ratelimiter_onLimitExceeded = Chill out. D:
 insufficient_permissions = 🔪 You're *not allowed* to perform such an action\.
 
 # Commands
+cmd_discover =
+    ⏳ *Discovery began*\.
+
+    This might take a few seconds\.
+
+cmd_discover_done = ✅ Discovery completed in { $duration } seconds\!
+
 cmd_listrepos =
     ✨ *Repositories:*
 
