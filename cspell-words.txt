@@ -1,5 +1,8 @@
+addrepo
 autoincrement
 fullstacksjs
 gitmessage
 grammyjs
 libsql
+listrepos
+removerepo

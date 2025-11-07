@@ -14,6 +14,9 @@ importers:
       '@grammyjs/auto-retry':
         specifier: 2.0.2
         version: 2.0.2(grammy@1.38.3)
+      '@grammyjs/commands':
+        specifier: 1.2.0
+        version: 1.2.0(grammy@1.38.3)
       '@grammyjs/i18n':
         specifier: 1.1.2
         version: 1.1.2(grammy@1.38.3)
@@ -876,6 +879,11 @@ packages:
     engines: {node: '>=12.20.0 || >=14.13.1'}
     peerDependencies:
       grammy: ^1.10.0
+
+  '@grammyjs/commands@1.2.0':
+    resolution: {integrity: sha512-np3uZElWtVIQk8w73szBXcubuKFOEGnp+4dHyhw+KeVsN/yVwuaEAxt+kyEhfTUQdNH0zU7ffuCM2l7lVUDBWw==}
+    peerDependencies:
+      grammy: ^1.17.1
 
   '@grammyjs/i18n@1.1.2':
     resolution: {integrity: sha512-PcK06mxuDDZjxdZ5HywBhr+erEITsR816KP4DNIDDds1jpA45pfz/nS9FdZmzF8H6lMyPix3mV5WL1rT4q+BuA==}
@@ -4130,6 +4138,10 @@ snapshots:
       grammy: 1.38.3
     transitivePeerDependencies:
       - supports-color
+
+  '@grammyjs/commands@1.2.0(grammy@1.38.3)':
+    dependencies:
+      grammy: 1.38.3
 
   '@grammyjs/i18n@1.1.2(grammy@1.38.3)':
     dependencies:
