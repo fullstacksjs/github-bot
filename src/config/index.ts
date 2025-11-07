@@ -6,6 +6,7 @@ const schema = new Config({
     token: Config.string().required(),
     chatId: Config.number().required(),
     topicId: Config.number(),
+    adminIds: Config.array(Config.number()),
   }),
 
   github: Config.object({
@@ -24,6 +25,7 @@ export const config = schema
       token: env.BOT_TOKEN,
       chatId: env.BOT_CHAT_ID,
       topicId: env.BOT_TOPIC_ID,
+      adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => v.trim()),
     },
     github: {
       token: env.GITHUB_TOKEN,
