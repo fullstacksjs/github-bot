@@ -45,7 +45,6 @@ export async function whoamiHandler(ctx: BotContext) {
   );
 }
 
-export const cmdWhoami = new Command<BotContext>("whoami", "Who am I?").addToScope(
-  { type: "chat", chat_id: config.bot.chatId },
-  whoamiHandler,
-);
+export const cmdWhoami = new Command<BotContext>("whoami", "Who am I?")
+  .addToScope({ type: "chat", chat_id: config.bot.chatId }, whoamiHandler)
+  .addToScope({ type: "chat_administrators", chat_id: config.bot.chatId }, whoamiHandler);
