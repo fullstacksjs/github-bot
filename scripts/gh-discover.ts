@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { config } from "../src/config";
-import { db, schema } from "../src/db";
-import { octokit } from "../src/lib/github";
+import { config } from "@/config";
+import { db, schema } from "@/db";
+import { octokit } from "@/github";
 
 async function saveContributors(owner: string, repo: string, repositoryId: number) {
   const contributorsPaginator = octokit.paginate.iterator("GET /repos/{owner}/{repo}/contributors", {

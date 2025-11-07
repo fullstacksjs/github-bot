@@ -1,7 +1,8 @@
 import { createClient } from "@libsql/client/node";
 import { drizzle } from "drizzle-orm/libsql";
 
-import { config } from "../config";
+import { config } from "@/config";
+
 import * as schema from "./schema";
 
 /** Drizzle database instance */

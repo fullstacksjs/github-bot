@@ -6,7 +6,7 @@ import { I18n } from "@grammyjs/i18n";
 import { limit } from "@grammyjs/ratelimiter";
 import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
-import { config } from "../config";
+import { config } from "@/config";
 
 /** BotContext is the context passed to the update handlers after passing all middlewares. */
 export type BotContext = Context & I18nFlavor;

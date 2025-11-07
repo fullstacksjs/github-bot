@@ -1,10 +1,11 @@
 import { Command } from "@grammyjs/commands";
 import { eq } from "drizzle-orm";
 
-import type { BotContext } from "../lib/bot";
+import type { BotContext } from "@/bot";
 
-import { config } from "../config";
-import { db, schema } from "../db";
+import { config } from "@/config";
+import { db, schema } from "@/db";
+
 import { escapeMarkdown } from "../lib/escape-markdown";
 
 export async function whoamiHandler(ctx: BotContext) {

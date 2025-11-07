@@ -1,6 +1,6 @@
 import { CommandGroup } from "@grammyjs/commands";
 
-import type { BotContext } from "../lib/bot";
+import type { BotContext } from "@/bot";
 
 import { cmdWhoami } from "./whoami";
 
