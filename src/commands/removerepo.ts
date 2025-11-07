@@ -5,9 +5,9 @@ import type { BotContext } from "@/bot";
 
 import { config } from "@/config";
 import { db, schema } from "@/db";
+import { isGitHubUrl } from "@/github";
 
 import { escapeMarkdown } from "../lib/escape-markdown";
-import { isGitHubUrl } from "../lib/is-github-url";
 
 export async function removerepoHandler(ctx: BotContext) {
   if (!ctx.message) return;
