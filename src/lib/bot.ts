@@ -39,7 +39,13 @@ export class Bot extends GrammyBot<BotContext> {
     super(token);
     this.announceChat = announceChat;
 
-    const i18n = new I18n<BotContext>({ defaultLocale: "en", directory: "locales" });
+    const i18n = new I18n<BotContext>({
+      defaultLocale: "en",
+      directory: "locales",
+      fluentBundleOptions: {
+        useIsolating: false,
+      },
+    });
 
     this.use(i18n);
     this.use(
