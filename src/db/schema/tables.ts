@@ -1,6 +1,6 @@
 import * as t from "drizzle-orm/sqlite-core";
 
-export const repositoriesTable = t.sqliteTable(
+export const repositories = t.sqliteTable(
   "repositories",
   {
     id: t.int().primaryKey({ autoIncrement: true }),
@@ -11,7 +11,7 @@ export const repositoriesTable = t.sqliteTable(
   (self) => [t.index("idx_repository_name").on(self.name)],
 );
 
-export const contributorsTable = t.sqliteTable(
+export const contributors = t.sqliteTable(
   "contributors",
   {
     id: t.int().primaryKey({ autoIncrement: true }),
@@ -23,18 +23,18 @@ export const contributorsTable = t.sqliteTable(
   (self) => [t.index("idx_contributors_gh").on(self.ghUsername)],
 );
 
-export const repositoryContributorsTable = t.sqliteTable(
+export const repositoryContributors = t.sqliteTable(
   "repository_contributors",
   {
     id: t.int().primaryKey({ autoIncrement: true }),
     repositoryId: t
       .int()
       .notNull()
-      .references(() => repositoriesTable.id, { onDelete: "cascade" }),
+      .references(() => repositories.id, { onDelete: "cascade" }),
     contributorId: t
       .int()
       .notNull()
-      .references(() => contributorsTable.id, { onDelete: "cascade" }),
+      .references(() => contributors.id, { onDelete: "cascade" }),
     contributions: t.int(),
   },
   (self) => [t.uniqueIndex("idx_unique_repo_contributor").on(self.repositoryId, self.contributorId)],
