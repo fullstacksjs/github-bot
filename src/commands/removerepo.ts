@@ -7,8 +7,7 @@ import { config } from "@/config";
 import { db, schema } from "@/db";
 
 import { escapeMarkdown } from "../lib/escape-markdown";
-
-const githubRepoUrlRegex = /^https:\/\/github\.com\/[\w-]+\/[\w\-.]+$/;
+import { isGitHubUrl } from "../lib/is-github-url";
 
 export async function removerepoHandler(ctx: BotContext) {
   if (!ctx.message) return;
@@ -23,7 +22,7 @@ export async function removerepoHandler(ctx: BotContext) {
   const parts = ctx.message.text?.split(" ") ?? [];
   const gitHubUrl = parts[1];
 
-  if (parts.length < 2 || !githubRepoUrlRegex.test(gitHubUrl)) {
+  if (parts.length < 2 || !isGitHubUrl(gitHubUrl)) {
     return await ctx.reply(ctx.t("cmd_removerepo_help"), {
       parse_mode: "MarkdownV2",
       reply_parameters: { message_id: ctx.message.message_id },
