@@ -5,6 +5,19 @@ ratelimiter_onLimitExceeded = Chill out. D:
 insufficient_permissions = 🔪 You're *not allowed* to perform such an action\.
 
 # Commands
+cmd_addrepo = ✅ *Repository added successfully*\!
+
+cmd_addrepo_help =
+    ✍️ `/addrepo` Guide:
+
+    Pass the complete GitHub repository url after the command\.
+
+    Pattern:
+    — `/addrepo <github-url>`
+
+    Example:
+    — `/addrepo https://github.com/fullstacksjs/github-bot`
+
 cmd_discover =
     ⏳ *Discovery began*\.
 
