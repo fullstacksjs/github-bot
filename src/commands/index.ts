@@ -2,13 +2,14 @@ import { CommandGroup } from "@grammyjs/commands";
 
 import type { BotContext } from "@/bot";
 
+import { cmdDiscover } from "./discover";
 import { cmdListRepos } from "./listrepos";
 import { cmdRemoveRepo } from "./removerepo";
 import { cmdWhoami } from "./whoami";
 
 export const commands = new CommandGroup<BotContext>().add([
   // cmdAddRepo,
-  // cmdDiscover,
+  cmdDiscover,
   // cmdLink,
   cmdListRepos,
   cmdRemoveRepo,
