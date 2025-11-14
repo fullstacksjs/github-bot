@@ -70,10 +70,11 @@ export class Bot extends GrammyBot<BotContext> {
    * @param chatId ID of the chat for the message to get announced in. default: `config.bot.chatId`
    * @param topicId ID of the chat topic for the message to get announced in. default: `config.bot.topicId`
    */
-  public async announce(text: string, chat?: AnnounceChat) {
+  public async announce(text: string, other?: Parameters<typeof this.api.sendMessage>[2], chat?: AnnounceChat) {
     await this.api.sendMessage(chat?.chatId ?? this.announceChat.chatId, text, {
       direct_messages_topic_id: chat?.topicId ?? this.announceChat.topicId,
       parse_mode: "MarkdownV2",
+      ...other,
     });
   }
 
