@@ -58,3 +58,39 @@ cmd_whoami =
 
 cmd_whoami_not_found =
     I've never seen you before.
+
+# Events
+e_issue_opened =
+    🔘 Issue: *{ $issueTitle }*\.
+
+    👤 Author: [{ $user }]({ $userUrl })
+
+    — { $issueUrl }
+
+e_pull_request_closed_merged =
+    🌳 PR Merged\!
+
+    👤 Author: [{ $user }]({ $userUrl })
+
+    — { $prUrl }
+
+e_pull_request_opened =
+    🌴 PR Created: *{ $prTitle }*
+
+    👤 Author: [{ $user }]({ $userUrl })\!
+
+    — { $prUrl }
+
+e_release_created =
+    🎉 *{ $repoName } { $releaseTag }*
+    — { $releaseUrl }
+
+    #release
+
+e_repository_created =
+    ✨ New repository\!
+
+    — [{ $repoName }]({ $repoUrl })
+
+e_star_created =
+    🌟 [{ $user }]({ $userUrl }) starred [{ $repoName }]({ $repoUrl })\.
