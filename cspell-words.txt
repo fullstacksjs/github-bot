@@ -6,3 +6,4 @@ grammyjs
 libsql
 listrepos
 removerepo
+smee
