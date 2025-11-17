@@ -1,0 +1,10 @@
+services:
+  bot:
+    build:
+      context: .
+    ports:
+      - ${API_PORT}:${API_PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
