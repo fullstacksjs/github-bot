@@ -1,11 +1,11 @@
 import { Command } from "@grammyjs/commands";
 
-import type { BotContext } from "@/bot";
-
 import { config } from "@/config";
 import { db } from "@/db";
 
-import { escapeMarkdown } from "../lib/escape-markdown";
+import type { BotContext } from "../bot";
+
+import { escapeMarkdown } from "../../lib/escape-markdown";
 
 export async function listreposHandler(ctx: BotContext) {
   if (!ctx.message) return;

@@ -16,7 +16,7 @@
     "paths": {
       "@/config": ["./src/config/index.ts"],
       "@/db": ["./src/db/index.ts"],
-      "@/bot": ["./src/lib/bot.ts"],
+      "@/bot": ["./src/bot/bot.ts"],
       "@/github": ["./src/lib/github.ts"]
     }
   }

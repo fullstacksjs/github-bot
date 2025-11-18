@@ -8,6 +8,8 @@ import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
 import { config } from "@/config";
 
+import { commands } from "./commands";
+
 /** BotContext is the context passed to the update handlers after passing all middlewares. */
 export type BotContext = Context & I18nFlavor;
 
@@ -94,9 +96,19 @@ export class Bot extends GrammyBot<BotContext> {
       logErr("Unknown error:", e);
     }
   };
+
+  async setCommands() {
+    return commands.setCommands(this);
+  }
+
+  async setupWebhook({ secret, url }: { url: string; secret: string }) {
+    return this.api.setWebhook(url, {
+      allowed_updates: ["message"],
+      secret_token: secret,
+    });
+  }
 }
 
-/** bot is just an instance of Bot with options passed from the config */
 export const bot = new Bot({
   token: config.bot.token,
   announceChat: {
