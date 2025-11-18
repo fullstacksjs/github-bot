@@ -62,6 +62,7 @@ export class Bot extends GrammyBot<BotContext> {
       }),
     );
 
+    this.use(commands);
     this.api.config.use(autoRetry());
   }
 
