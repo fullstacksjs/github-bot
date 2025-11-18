@@ -63,7 +63,7 @@ export class Bot extends GrammyBot<BotContext> {
     );
 
     this.use(commands);
-    this.api.config.use(autoRetry());
+    this.api.config.use(autoRetry({ maxRetryAttempts: 2 }));
   }
 
   /**
@@ -117,3 +117,5 @@ export const bot = new Bot({
     topicId: config.bot.topicId,
   },
 });
+
+bot.catch(bot.errorHandler);
