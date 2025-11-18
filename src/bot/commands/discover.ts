@@ -1,11 +1,11 @@
 import { Command } from "@grammyjs/commands";
 
-import type { BotContext } from "@/bot";
-
 import { config } from "@/config";
 
-import { startDiscovery } from "../lib/discovery";
-import { escapeMarkdown } from "../lib/escape-markdown";
+import type { BotContext } from "../bot";
+
+import { startDiscovery } from "../../lib/discovery";
+import { escapeMarkdown } from "../../lib/escape-markdown";
 
 export async function discoverHandler(ctx: BotContext) {
   if (!ctx.message) return;

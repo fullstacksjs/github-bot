@@ -2,22 +2,9 @@ import { serve } from "@hono/node-server";
 import { webhookCallback } from "grammy";
 import { Hono } from "hono";
 
-import { bot } from "@/bot";
-
-import { commands } from "./commands";
+import { bot } from "./bot/bot";
 import { config } from "./config";
 import { webhooks } from "./lib/github-webhooks";
-
-async function setupBot() {
-  bot.use(commands);
-
-  await commands.setCommands(bot);
-
-  await bot.api.setWebhook(config.bot.webhookUrl, {
-    allowed_updates: ["message"],
-    secret_token: config.bot.webhookSecret,
-  });
-}
 
 async function startApi() {
   const api = new Hono();
@@ -38,6 +25,6 @@ async function startApi() {
   return serve({ fetch: api.fetch, port: config.api.port });
 }
 
-await setupBot();
-
+await bot.setCommands();
+await bot.setupWebhook({ url: config.bot.webhookUrl, secret: config.bot.webhookSecret });
 await startApi();
