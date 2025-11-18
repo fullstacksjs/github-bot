@@ -32,7 +32,7 @@ export async function whoamiHandler(ctx: BotContext) {
     .set({ tgName: name, tgUsername: username })
     .where(eq(schema.contributors.tgId, sender.id));
 
-  return ctx.reply(
+  return await ctx.reply(
     ctx.t("cmd_whoami", {
       name: escapeMarkdown(name),
       githubUrl: escapeMarkdown(githubUrl),

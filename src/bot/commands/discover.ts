@@ -26,7 +26,7 @@ export async function discoverHandler(ctx: BotContext) {
 
   const duration = (rawDuration / 1000).toFixed(2);
 
-  ctx.api.editMessageText(
+  return await ctx.api.editMessageText(
     update.chat.id,
     update.message_id,
     ctx.t("cmd_discover_done", { duration: escapeMarkdown(duration) }),
