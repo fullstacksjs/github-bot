@@ -9,6 +9,10 @@ interface User {
   userUrl: string;
 }
 
+type Reviewer =
+  components["schemas"]["webhook-pull-request-review-requested"]["pull_request"]["requested_reviewers"][number];
+type ValidReviewer = Extract<Reviewer, { login: string }>;
+
 export function botText(key: string, variables?: TranslationVariables<string> | undefined): string {
   return bot.i18n.t("en", key, variables);
 }
@@ -21,11 +25,11 @@ export async function isRepositoryAccepted(repo: string): Promise<boolean> {
   return !resp?.isBlacklisted;
 }
 
-export async function getUser(simpleUser: components["schemas"]["simple-user"]): Promise<User> {
+export async function getUser(simpleUser: components["schemas"]["simple-user"] | ValidReviewer): Promise<User> {
   const ghUsername = simpleUser.login;
 
   let user = simpleUser.name ?? ghUsername;
-  let userUrl = simpleUser.html_url;
+  let userUrl = simpleUser.html_url ?? "";
 
   const dbUser = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, ghUsername),
@@ -41,4 +45,12 @@ export async function getUser(simpleUser: components["schemas"]["simple-user"]):
   }
 
   return { user, userUrl };
+}
+
+function isValidReviewer(r: Reviewer): r is ValidReviewer {
+  return !!r && "login" in r && typeof r.login === "string";
+}
+
+export async function getReviewers(reviewers: Reviewer[]): Promise<User[]> {
+  return Promise.all(reviewers.filter(isValidReviewer).map(getUser));
 }
