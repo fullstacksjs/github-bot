@@ -15,16 +15,16 @@ export async function discoverHandler(ctx: BotContext) {
   }
   const update = await ctx.md.replyToMessage(ctx.t("cmd_discover"));
 
-  const rawDuration = await startDiscovery();
+  startDiscovery().then((rawDuration) => {
+    const duration = (rawDuration / 1000).toFixed(2);
 
-  const duration = (rawDuration / 1000).toFixed(2);
-
-  return await ctx.api.editMessageText(
-    update.chat.id,
-    update.message_id,
-    ctx.t("cmd_discover_done", { duration: escapeMarkdown(duration) }),
-    { parse_mode: "MarkdownV2" },
-  );
+    return ctx.api.editMessageText(
+      update.chat.id,
+      update.message_id,
+      ctx.t("cmd_discover_done", { duration: escapeMarkdown(duration) }),
+      { parse_mode: "MarkdownV2" },
+    );
+  });
 }
 
 export const cmdDiscover = new Command<BotContext>("discover", "🛡 Update the repository database").addToScope(
