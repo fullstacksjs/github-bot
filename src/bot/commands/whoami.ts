@@ -37,6 +37,7 @@ export async function whoamiHandler(ctx: BotContext) {
       name: escapeMarkdown(name),
       githubUrl: escapeMarkdown(githubUrl),
     }),
+    { link_preview_options: { prefer_small_media: true } },
   );
 }
 
