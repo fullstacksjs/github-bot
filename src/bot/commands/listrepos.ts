@@ -3,7 +3,7 @@ import { Command } from "@grammyjs/commands";
 import { config } from "@/config";
 import { db } from "@/db";
 
-import type { BotContext } from "../bot";
+import type { BotContext } from "../context";
 
 import { escapeMarkdown } from "../../lib/escape-markdown";
 
@@ -17,25 +17,18 @@ export async function listreposHandler(ctx: BotContext) {
   });
 
   if (repos.length === 0) {
-    return await ctx.reply(ctx.t("cmd_listrepos_no_repo"), {
-      reply_parameters: { message_id: ctx.message.message_id },
-    });
+    return await ctx.md.replyToMessage(ctx.t("cmd_listrepos_no_repo"));
   }
 
   const repositories = repos.map((repo) =>
     ctx.t("cmd_listrepos_url", { name: escapeMarkdown(repo.name), url: escapeMarkdown(repo.htmlUrl) }),
   );
 
-  return await ctx.reply(
+  return await ctx.md.replyToMessage(
     ctx.t("cmd_listrepos", {
       repositories: repositories.join("\n"),
       repositoriesCount: repositories.length,
     }),
-    {
-      parse_mode: "MarkdownV2",
-      reply_parameters: { message_id: ctx.message.message_id },
-      link_preview_options: { is_disabled: true },
-    },
   );
 }
 

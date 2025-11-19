@@ -11,10 +11,7 @@ export async function addrepoHandler(ctx: BotContext) {
   if (!ctx.message) return;
 
   if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.reply(ctx.t("insufficient_permissions"), {
-      parse_mode: "MarkdownV2",
-      reply_parameters: { message_id: ctx.message.message_id },
-    });
+    return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
   const parts = ctx.message.text?.split(" ") ?? [];
@@ -22,10 +19,7 @@ export async function addrepoHandler(ctx: BotContext) {
   const repoName = gitHubRepoName(repoUrl);
 
   if (parts.length < 2 || !isGitHubUrl(repoUrl) || !repoName) {
-    return await ctx.reply(ctx.t("cmd_addrepo_help"), {
-      parse_mode: "MarkdownV2",
-      reply_parameters: { message_id: ctx.message.message_id },
-    });
+    return await ctx.md.replyToMessage(ctx.t("cmd_addrepo_help"));
   }
 
   await db
@@ -39,10 +33,7 @@ export async function addrepoHandler(ctx: BotContext) {
       set: { isBlacklisted: false },
     });
 
-  return await ctx.reply(ctx.t("cmd_addrepo"), {
-    parse_mode: "MarkdownV2",
-    reply_parameters: { message_id: ctx.message.message_id },
-  });
+  return await ctx.md.replyToMessage(ctx.t("cmd_addrepo"));
 }
 
 export const cmdAddRepo = new Command<BotContext>("addrepo", "🛡 Add a repository").addToScope(
