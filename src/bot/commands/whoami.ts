@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { config } from "@/config";
 import { db, schema } from "@/db";
 
-import type { BotContext } from "../bot";
+import type { BotContext } from "../context";
 
 import { escapeMarkdown } from "../../lib/escape-markdown";
 
@@ -19,7 +19,7 @@ export async function whoamiHandler(ctx: BotContext) {
   });
 
   if (!ghUser) {
-    return await ctx.reply(ctx.t("cmd_whoami_not_found"));
+    return await ctx.replyToMessage(ctx.t("cmd_whoami_not_found"));
   }
 
   const name = sender.first_name + (sender.last_name ? ` ${sender.last_name}` : "");
@@ -32,16 +32,11 @@ export async function whoamiHandler(ctx: BotContext) {
     .set({ tgName: name, tgUsername: username })
     .where(eq(schema.contributors.tgId, sender.id));
 
-  return await ctx.reply(
+  return await ctx.md.replyToMessage(
     ctx.t("cmd_whoami", {
       name: escapeMarkdown(name),
       githubUrl: escapeMarkdown(githubUrl),
     }),
-    {
-      parse_mode: "MarkdownV2",
-      reply_parameters: { message_id: ctx.message.message_id },
-      link_preview_options: { prefer_small_media: true },
-    },
   );
 }
 

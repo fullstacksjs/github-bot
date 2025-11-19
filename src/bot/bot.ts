@@ -8,10 +8,21 @@ import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
 import { config } from "@/config";
 
-import { commands } from "./commands";
+import type { MarkdownContext } from "./middleware/markdown";
 
-/** BotContext is the context passed to the update handlers after passing all middlewares. */
-export type BotContext = Context & I18nFlavor;
+import { commands } from "./commands";
+import { markdown } from "./middleware/markdown";
+
+const defaultChat: AnnounceChat = {
+  chatId: config.bot.chatId,
+  topicId: config.bot.topicId,
+};
+
+/** BotOptions is the constructor options of Bot class */
+interface BotOptions {
+  /** Telegram bot's token */
+  token: string;
+}
 
 interface AnnounceChat {
   /** Numeric id of the chat */
@@ -20,14 +31,7 @@ interface AnnounceChat {
   topicId?: number | undefined;
 }
 
-/** BotOptions is the constructor options of Bot class */
-interface BotOptions {
-  /** Telegram bot's token */
-  token: string;
-
-  /** Default channel to announce updates in */
-  announceChat: AnnounceChat;
-}
+export type BotContext = Context & I18nFlavor & MarkdownContext;
 
 /**
  * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.
@@ -41,16 +45,12 @@ export class Bot extends GrammyBot<BotContext> {
     },
   });
 
-  /** Default chat used to announce messages in */
-  private announceChat: AnnounceChat;
-
   /**
    * @param options bot options required to make the bot work.
    */
-  constructor({ token, announceChat }: BotOptions) {
+  constructor({ token }: BotOptions) {
     super(token);
-    this.announceChat = announceChat;
-
+    this.use(markdown);
     this.use(this.i18n);
     this.use(
       limit({
@@ -73,9 +73,9 @@ export class Bot extends GrammyBot<BotContext> {
    * @param chatId ID of the chat for the message to get announced in. default: `config.bot.chatId`
    * @param topicId ID of the chat topic for the message to get announced in. default: `config.bot.topicId`
    */
-  public async announce(text: string, other?: Parameters<typeof this.api.sendMessage>[2], chat?: AnnounceChat) {
-    await this.api.sendMessage(chat?.chatId ?? this.announceChat.chatId, text, {
-      direct_messages_topic_id: chat?.topicId ?? this.announceChat.topicId,
+  public async announce(text: string, other?: Parameters<typeof this.api.sendMessage>[2], chat = defaultChat) {
+    await this.api.sendMessage(chat?.chatId, text, {
+      direct_messages_topic_id: chat?.topicId,
       parse_mode: "MarkdownV2",
       ...other,
     });
@@ -112,10 +112,6 @@ export class Bot extends GrammyBot<BotContext> {
 
 export const bot = new Bot({
   token: config.bot.token,
-  announceChat: {
-    chatId: config.bot.chatId,
-    topicId: config.bot.topicId,
-  },
 });
 
 bot.catch(bot.errorHandler);
