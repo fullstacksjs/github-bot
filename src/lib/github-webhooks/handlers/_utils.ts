@@ -31,11 +31,13 @@ export async function getUser(simpleUser: components["schemas"]["simple-user"]):
     where: (f, o) => o.eq(f.ghUsername, ghUsername),
   });
 
-  if (dbUser && dbUser.tgId && dbUser.tgName) {
+  if (!dbUser?.ghUsername) {
+    await db.insert(schema.contributors).values({ ghUsername });
+  }
+
+  if (dbUser?.tgId && dbUser?.tgName) {
     user = dbUser.tgName;
     userUrl = `tg://user?id=${dbUser.tgId}`;
-  } else {
-    await db.insert(schema.contributors).values({ ghUsername });
   }
 
   return { user, userUrl };
