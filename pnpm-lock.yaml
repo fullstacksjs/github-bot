@@ -47,6 +47,9 @@ importers:
       octokit:
         specifier: 5.0.5
         version: 5.0.5
+      zod:
+        specifier: 4.1.12
+        version: 4.1.12
     devDependencies:
       '@commitlint/cli':
         specifier: 20.1.0
