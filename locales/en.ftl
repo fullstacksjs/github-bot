@@ -53,7 +53,7 @@ cmd_removerepo_help =
 
 cmd_whoami =
     Hello *{ $name }*\!
-
+    I know you as { $ghUsername }
     { $githubUrl }
 
 cmd_whoami_not_found =

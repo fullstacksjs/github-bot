@@ -24,5 +24,6 @@ export const repositoryCreatedCallback: HandlerFunction<"repository.created", un
       repoName: escapeMarkdown(repo.full_name),
       repoUrl: escapeMarkdown(repo.html_url),
     }),
+    { link_preview_options: { prefer_small_media: true, url: repo.html_url } },
   );
 };

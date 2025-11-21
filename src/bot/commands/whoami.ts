@@ -39,8 +39,9 @@ export async function whoamiHandler(ctx: BotContext) {
     ctx.t("cmd_whoami", {
       name: escapeMarkdown(fullName),
       githubUrl: escapeMarkdown(githubUrl),
+      ghUsername: escapeMarkdown(ghUser.ghUsername),
     }),
-    { link_preview_options: { prefer_small_media: true } },
+    { link_preview_options: { prefer_small_media: true, url: githubUrl } },
   );
 }
 

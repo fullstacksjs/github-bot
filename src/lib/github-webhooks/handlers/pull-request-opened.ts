@@ -18,5 +18,6 @@ export const pullRequestOpenedCallback: HandlerFunction<"pull_request.opened", u
       userUrl: escapeMarkdown(user.userUrl),
       prUrl: escapeMarkdown(pr.html_url),
     }),
+    { link_preview_options: { prefer_small_media: true, url: pr.html_url } },
   );
 };

@@ -18,6 +18,6 @@ export const starCreatedCallback: HandlerFunction<"star.created", unknown> = asy
       repoName: escapeMarkdown(repo.full_name),
       repoUrl: escapeMarkdown(repo.html_url),
     }),
-    { link_preview_options: { is_disabled: true } },
+    { link_preview_options: { prefer_small_media: true, url: user.userUrl } },
   );
 };
