@@ -4,14 +4,16 @@ import type { components } from "@octokit/openapi-webhooks-types";
 import { bot } from "@/bot";
 import { db, schema } from "@/db";
 
-interface User {
+export interface User {
   user: string;
   userUrl: string;
 }
 
-type Reviewer =
+export type Reviewer =
   components["schemas"]["webhook-pull-request-review-requested"]["pull_request"]["requested_reviewers"][number];
-type ValidReviewer = Extract<Reviewer, { login: string }>;
+export type ValidReviewer = Extract<Reviewer, { login: string }>;
+
+type SimpleUser = Pick<components["schemas"]["simple-user"] | ValidReviewer, "html_url" | "login" | "name">;
 
 export function botText(key: string, variables?: TranslationVariables<string> | undefined): string {
   return bot.i18n.t("en", key, variables);
@@ -25,7 +27,7 @@ export async function isRepositoryAccepted(repo: string): Promise<boolean> {
   return !resp?.isBlacklisted;
 }
 
-export async function getUser(simpleUser: components["schemas"]["simple-user"] | ValidReviewer): Promise<User> {
+export async function getUser(simpleUser: SimpleUser): Promise<User> {
   const ghUsername = simpleUser.login;
 
   let user = simpleUser.name ?? ghUsername;
@@ -45,12 +47,4 @@ export async function getUser(simpleUser: components["schemas"]["simple-user"] |
   }
 
   return { user, userUrl };
-}
-
-function isValidReviewer(r: Reviewer): r is ValidReviewer {
-  return !!r && "login" in r && typeof r.login === "string";
-}
-
-export async function getReviewers(reviewers: Reviewer[]): Promise<User[]> {
-  return Promise.all(reviewers.filter(isValidReviewer).map(getUser));
 }
