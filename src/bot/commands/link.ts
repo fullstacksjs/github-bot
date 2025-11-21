@@ -29,15 +29,6 @@ export async function linkHandler(ctx: BotContext) {
     where: (f, o) => o.eq(f.ghUsername, githubUsername),
   });
 
-  if (existingContributor?.tgUsername) {
-    return await ctx.md.replyToMessage(
-      ctx.t("cmd_link_already_linked", {
-        githubUsername: escapeMarkdown(githubUsername),
-        telegramUsername: escapeMarkdown(existingContributor.tgUsername),
-      }),
-    );
-  }
-
   if (existingContributor) {
     await db
       .update(schema.contributors)

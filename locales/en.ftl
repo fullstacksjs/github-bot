@@ -72,8 +72,6 @@ cmd_link_help =
 
 cmd_link = ✅ *Account linked successfully*\!
 
-cmd_link_already_linked = ⚠️ GitHub account *{ $githubUsername }* is already linked to `{ $telegramUsername }`\.
-
 # Events
 e_issue_opened =
     🔘 Issue: *{ $issueTitle }*\.
