@@ -59,6 +59,9 @@ cmd_whoami =
 cmd_whoami_not_found =
     I've never seen you before.
 
+cmd_whoami_no_username =
+    If you don't know, why should I?
+
 cmd_link_help =
     ✍️ `/link` Guide:
 
@@ -113,7 +116,7 @@ e_pull_request_review_requested =
     ✨ PR Review Requested\!
 
     👤 Requester: [{ $requester }]({ $requesterUrl })
-    
+
     — { $prUrl }
     Reviewers:
     { $reviewers }
