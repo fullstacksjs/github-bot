@@ -17,5 +17,6 @@ export const releaseCreatedCallback: HandlerFunction<"release.created", unknown>
       releaseTag: escapeMarkdown(release.tag_name),
       releaseUrl: escapeMarkdown(release.html_url),
     }),
+    { link_preview_options: { prefer_small_media: true, url: release.html_url } },
   );
 };

@@ -38,5 +38,6 @@ export const pullRequestReviewRequestedCallback: HandlerFunction<"pull_request.r
       prUrl: escapeMarkdown(pr.html_url),
       reviewers: reviewersText,
     }),
+    { link_preview_options: { prefer_small_media: true, url: pr.html_url } },
   );
 };
