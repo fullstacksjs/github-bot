@@ -9,15 +9,16 @@ export const starCreatedCallback: HandlerFunction<"star.created", unknown> = asy
   if (!(await isRepositoryAccepted(event.payload.repository.full_name))) return;
 
   const user = await getUser(event.payload.sender);
+  const githubUrl = event.payload.sender.html_url;
   const repo = event.payload.repository;
 
   await bot.announce(
     botText("e_star_created", {
       user: escapeMarkdown(user.user),
-      userUrl: escapeMarkdown(user.userUrl),
+      userUrl: escapeMarkdown(githubUrl),
       repoName: escapeMarkdown(repo.full_name),
       repoUrl: escapeMarkdown(repo.html_url),
     }),
-    { link_preview_options: { prefer_small_media: true, url: user.userUrl } },
+    { link_preview_options: { prefer_small_media: true, url: githubUrl } },
   );
 };
