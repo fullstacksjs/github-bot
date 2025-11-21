@@ -41,7 +41,7 @@ export async function whoamiHandler(ctx: BotContext) {
       githubUrl: escapeMarkdown(githubUrl),
       ghUsername: escapeMarkdown(ghUser.ghUsername),
     }),
-    { link_preview_options: { prefer_small_media: true, url: githubUrl } },
+    { link_preview_options: { prefer_small_media: true, is_disabled: false, url: githubUrl } },
   );
 }
 
