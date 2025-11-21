@@ -6,8 +6,6 @@ import { db, schema } from "@/db";
 
 import type { BotContext } from "../context";
 
-import { escapeMarkdown } from "../../lib/escape-markdown";
-
 export async function linkHandler(ctx: BotContext) {
   if (!ctx.message) return;
 

@@ -9,32 +9,35 @@ import type { BotContext } from "../context";
 import { escapeMarkdown } from "../../lib/escape-markdown";
 
 export async function whoamiHandler(ctx: BotContext) {
-  if (!ctx.message) return; // the update must be a new message.
+  if (!ctx.message) return;
 
   const sender = ctx.message.from;
+  const tgUsername = sender.username;
+  if (!tgUsername) {
+    return await ctx.replyToMessage(ctx.t("cmd_whoami_no_username"));
+  }
 
   const ghUser = await db.query.contributors.findFirst({
     columns: { ghUsername: true },
-    where: (f, o) => o.eq(f.tgId, sender.id),
+    where: (f, o) => o.eq(f.tgUsername, tgUsername),
   });
 
   if (!ghUser) {
     return await ctx.replyToMessage(ctx.t("cmd_whoami_not_found"));
   }
 
-  const name = sender.first_name + (sender.last_name ? ` ${sender.last_name}` : "");
-  const username = sender.username;
+  const fullName = `${sender.first_name} ${sender.last_name ?? ""}`;
   const githubUrl = `https://github.com/${ghUser.ghUsername}`;
 
   // Make user's Telegram information fresh.
   await db
     .update(schema.contributors)
-    .set({ tgName: name, tgUsername: username })
-    .where(eq(schema.contributors.tgId, sender.id));
+    .set({ tgName: fullName, tgId: sender.id })
+    .where(eq(schema.contributors.tgUsername, tgUsername));
 
   return await ctx.md.replyToMessage(
     ctx.t("cmd_whoami", {
-      name: escapeMarkdown(name),
+      name: escapeMarkdown(fullName),
       githubUrl: escapeMarkdown(githubUrl),
     }),
     { link_preview_options: { prefer_small_media: true } },
