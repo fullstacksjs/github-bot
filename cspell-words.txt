@@ -7,3 +7,4 @@ libsql
 listrepos
 removerepo
 smee
+Safaeirad
