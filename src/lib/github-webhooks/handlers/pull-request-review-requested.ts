@@ -2,8 +2,18 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 
 import { bot } from "@/bot";
 
+import type { Reviewer, User, ValidReviewer } from "./_utils";
+
 import { escapeMarkdown } from "../../escape-markdown";
-import { botText, getReviewers, getUser, isRepositoryAccepted } from "./_utils";
+import { botText, getUser, isRepositoryAccepted } from "./_utils";
+
+function isValidReviewer(r: Reviewer): r is ValidReviewer {
+  return !!r && "login" in r && typeof r.login === "string";
+}
+
+async function getReviewers(reviewers: Reviewer[]): Promise<User[]> {
+  return Promise.all(reviewers.filter(isValidReviewer).map(getUser));
+}
 
 export const pullRequestReviewRequestedCallback: HandlerFunction<"pull_request.review_requested", unknown> = async (
   event,
@@ -16,15 +26,17 @@ export const pullRequestReviewRequestedCallback: HandlerFunction<"pull_request.r
   const pr = event.payload.pull_request;
 
   const reviewersText = reviewers
-    .map((r) => botText("e_reviewer", { reviewer: r.user, reviewerUrl: r.userUrl }))
+    .map((r) =>
+      botText("e_pull_request_reviewer", { reviewer: escapeMarkdown(r.user), reviewerUrl: escapeMarkdown(r.userUrl) }),
+    )
     .join("\n");
 
   await bot.announce(
-    botText("e_pull_request.review_requested", {
+    botText("e_pull_request_review_requested", {
       requester: escapeMarkdown(requester.user),
       requesterUrl: escapeMarkdown(requester.userUrl),
       prUrl: escapeMarkdown(pr.html_url),
-      reviewers: escapeMarkdown(reviewersText),
+      reviewers: reviewersText,
     }),
   );
 };

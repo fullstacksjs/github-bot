@@ -96,12 +96,13 @@ e_star_created =
     🌟 [{ $user }]({ $userUrl }) starred [{ $repoName }]({ $repoUrl })\.
 
 
-e_reviewer: — [{ $reviewer }]({ $reviewerUrl })
+e_pull_request_review_requested =
+    ✨ PR Review Requested\!
 
-e_pull_request.review_requested: 
-    ✨ PR Review Requested!
     👤 Requester: [{ $requester }]({ $requesterUrl })
+    
     — { $prUrl }
-
     Reviewers:
     { $reviewers }
+
+e_pull_request_reviewer = — [{ $reviewer }]({ $reviewerUrl })
