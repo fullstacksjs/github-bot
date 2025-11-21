@@ -59,6 +59,21 @@ cmd_whoami =
 cmd_whoami_not_found =
     I've never seen you before.
 
+cmd_link_help =
+    ✍️ `/link` Guide:
+
+    Pass the Telegram username and GitHub username after the command\.
+
+    Pattern:
+    — `/link <telegram-username> <github-username>`
+
+    Example:
+    — `/link @S_Kill ASafaeirad`
+
+cmd_link = ✅ *Account linked successfully*\!
+
+cmd_link_already_linked = ⚠️ GitHub account *{ $githubUsername }* is already linked to `{ $telegramUsername }`\.
+
 # Events
 e_issue_opened =
     🔘 Issue: *{ $issueTitle }*\.
