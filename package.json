@@ -7,6 +7,7 @@
     "dev": "node --watch --import=tsx --env-file-if-exists=.env src/index.ts",
     "start": "node --import=tsx --env-file-if-exists=.env src/index.ts",
     "lint": "eslint . --fix",
+    "typecheck": "tsc",
     "smee": "smee",
     "db:studio": "drizzle-kit studio",
     "db:migrate": "drizzle-kit migrate",
