@@ -11,7 +11,6 @@ import { escapeMarkdown } from "../../lib/escape-markdown";
 export async function listcontributorsHandler(ctx: BotContext) {
   if (!ctx.message) return;
 
-  // SELECT SUM(contributions), ghUsername, tgUsername FROM repository_contributors as rc JOIN contributors ON rc.contributorId = contributors.id GROUP BY rc.contributorId ORDER BY SUM(contributions) DESC;
   const contributors = await db
     .select({
       contributions: sum(schema.repositoryContributors.contributions),
@@ -20,7 +19,7 @@ export async function listcontributorsHandler(ctx: BotContext) {
     })
     .from(schema.repositoryContributors)
     .leftJoin(schema.contributors, eq(schema.repositoryContributors.contributorId, schema.contributors.id))
-    .groupBy(schema.repositoryContributors.contributorId)
+    .groupBy(schema.contributors.ghUsername)
     .orderBy(desc(sum(schema.repositoryContributors.contributions)));
 
   if (contributors.length === 0) {
