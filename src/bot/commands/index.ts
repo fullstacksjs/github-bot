@@ -5,6 +5,7 @@ import type { BotContext } from "../bot";
 import { cmdAddRepo } from "./addrepo";
 import { cmdDiscover } from "./discover";
 import { cmdLink } from "./link";
+import { cmdListContributors } from "./listcontributors";
 import { cmdListRepos } from "./listrepos";
 import { cmdRemoveRepo } from "./removerepo";
 import { cmdWhoami } from "./whoami";
@@ -16,4 +17,5 @@ export const commands = new CommandGroup<BotContext>().add([
   cmdListRepos,
   cmdRemoveRepo,
   cmdWhoami,
+  cmdListContributors,
 ]);
