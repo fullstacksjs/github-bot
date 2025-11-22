@@ -9,12 +9,14 @@ import { cmdLink } from "./link";
 import { cmdListContributors } from "./listcontributors";
 import { cmdListRepos } from "./listrepos";
 import { cmdRemoveRepo } from "./removerepo";
+import { cmdUnLink } from "./unlink";
 import { cmdWhoami } from "./whoami";
 
 export const commands = new CommandGroup<BotContext>().add([
   cmdAddRepo,
   cmdDiscover,
   cmdLink,
+  cmdUnLink,
   cmdListRepos,
   cmdRemoveRepo,
   cmdWhoami,

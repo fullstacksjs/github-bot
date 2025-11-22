@@ -86,6 +86,18 @@ cmd_link_help =
 
 cmd_link = ✅ *Account linked successfully*\!
 
+cmd_unlink_help =
+    ✍️ `/unlink` Guide:
+    Pass the Telegram username after the command\.
+    Pattern:
+    — `/link <telegram-username>`
+    Example:
+    — `/link @S_Kill`
+
+cmd_unlink = ✅ *Account unlinked successfully*\!
+
+cmd_unlink_not_found = ❌ *User not found*\!
+
 cmd_help_admin =
     This bot will monitor and notify GitHub activities within the FullstacksJS community.
 
@@ -155,6 +167,7 @@ e_pull_request_review_requested =
     👤 Requester: [{ $requester }]({ $requesterUrl })
 
     — { $prUrl }
+
     Reviewers:
     { $reviewers }
 
