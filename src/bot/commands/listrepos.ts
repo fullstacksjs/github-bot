@@ -3,7 +3,7 @@ import { Command } from "@grammyjs/commands";
 import { config } from "@/config";
 import { db } from "@/db";
 
-import type { BotContext } from "../context";
+import type { BotContext } from "../bot";
 
 import { escapeMarkdown } from "../../lib/escape-markdown";
 

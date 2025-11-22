@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { config } from "@/config";
 import { db, schema } from "@/db";
 
-import type { BotContext } from "../context";
+import type { BotContext } from "../bot";
 
 export async function linkHandler(ctx: BotContext) {
   if (!ctx.message) return;
