@@ -92,11 +92,12 @@ cmd_help_commands =
      💡 Commands:
      
       /help - to see this help.
-      /addrepo - add an existing repository.
-      /discover - update the repository database.
-      /link - link telegram account to the github username.
       /listrepos - see list of the monitored repositories.
+      /addrepo - add an existing repository.
       /removerepo - remove a repository.
+      /link - link telegram account to the github username.
+      /listcontributors - see list of the monitored contributors.
+      /discover - update the repository database.
       /whoami - show your GitHub account.
  
 
