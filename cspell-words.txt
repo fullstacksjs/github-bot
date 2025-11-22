@@ -5,6 +5,7 @@ gitmessage
 grammyjs
 libsql
 listrepos
+listcontributors
 removerepo
 smee
 Safaeirad

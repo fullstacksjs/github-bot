@@ -36,6 +36,17 @@ cmd_listrepos_url = — [{ $name }]({ $url })
 
 cmd_listrepos_no_repo = 🌚 Nothing's getting monitored
 
+cmd_listcontributors =
+    🏆 *Contributors:*
+    GitHub, Telegram, Contributions
+    { $contributors }
+
+    💎 *Total:* `{ $count }`
+
+cmd_listcontributors_url = — [{ $ghUsername }]({ $ghUrl }), { $tgUsername }, { $contributions }
+
+cmd_listcontributors_empty = 🥲 No one is here
+
 cmd_removerepo = Repository [{ $name }]({ $url }) removed successfully\.
 
 cmd_removerepo_not_found = Repository couldn't be found\!
