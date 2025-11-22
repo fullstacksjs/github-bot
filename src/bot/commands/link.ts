@@ -6,6 +6,8 @@ import { db, schema } from "@/db";
 
 import type { BotContext } from "../bot";
 
+import { cleanTelegramUsername } from "../../lib/telegram";
+
 export async function linkHandler(ctx: BotContext) {
   if (!ctx.message) return;
 
@@ -21,7 +23,7 @@ export async function linkHandler(ctx: BotContext) {
     return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
   }
 
-  const cleanTgUsername = telegramUsername.startsWith("@") ? telegramUsername.slice(1) : telegramUsername;
+  const cleanTgUsername = cleanTelegramUsername(telegramUsername);
 
   const existingContributor = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, githubUsername),
