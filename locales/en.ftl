@@ -86,19 +86,30 @@ cmd_link_help =
 
 cmd_link = ✅ *Account linked successfully*\!
 
-cmd_help_commands =
+cmd_help_admin =
     This bot will monitor and notify GitHub activities within the FullstacksJS community.
 
-     💡 Commands:
+    💡 Commands:
      
-      /help - to see this help.
-      /listrepos - see list of the monitored repositories.
-      /addrepo - add an existing repository.
-      /removerepo - remove a repository.
-      /link - link telegram account to the github username.
-      /listcontributors - see list of the monitored contributors.
-      /discover - update the repository database.
-      /whoami - show your GitHub account.
+     /help - to see this help.
+     /listrepos - see list of the monitored repositories.
+     /addrepo - add an existing repository.
+     /removerepo - remove a repository.
+     /link - link telegram account to the github username.
+     /unlink - unlink telegram account from github username.
+     /listcontributors - see list of the monitored contributors.
+     /discover - update the repository database.
+     /whoami - show your GitHub account.
+
+cmd_help =
+    This bot will monitor and notify GitHub activities within the FullstacksJS community.
+
+    💡 Commands:
+     
+     /help - to see this help.
+     /listrepos - see list of the monitored repositories.
+     /listcontributors - see list of the monitored contributors.
+     /whoami - show your GitHub account.
  
 
 # Events
