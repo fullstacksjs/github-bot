@@ -1,6 +1,6 @@
 import type { Context } from "grammy";
 
-import type { BotContext } from "../context";
+import type { BotContext } from "../bot";
 
 export const markdown = async (ctx: BotContext, next: () => Promise<unknown>) => {
   ctx.md = {} as BotContext["md"];

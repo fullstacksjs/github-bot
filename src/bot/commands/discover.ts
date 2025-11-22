@@ -2,7 +2,7 @@ import { Command } from "@grammyjs/commands";
 
 import { config } from "@/config";
 
-import type { BotContext } from "../context";
+import type { BotContext } from "../bot";
 
 import { startDiscovery } from "../../lib/discovery";
 import { escapeMarkdown } from "../../lib/escape-markdown";
