@@ -86,6 +86,20 @@ cmd_link_help =
 
 cmd_link = ✅ *Account linked successfully*\!
 
+cmd_help_commands =
+    This bot will monitor and notify GitHub activities within the FullstacksJS community.
+
+     💡 Commands:
+     
+      /help - to see this help.
+      /addrepo - add an existing repository.
+      /discover - update the repository database.
+      /link - link telegram account to the github username.
+      /listrepos - see list of the monitored repositories.
+      /removerepo - remove a repository.
+      /whoami - show your GitHub account.
+ 
+
 # Events
 e_issue_opened =
     🔘 Issue: *{ $issueTitle }*\.
