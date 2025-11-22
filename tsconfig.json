@@ -7,11 +7,14 @@
     "moduleResolution": "bundler",
 
     // Extra strictness / type-safety
+    "strict": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "strictNullChecks": true,
     "allowArbitraryExtensions": true,
     "noUncheckedSideEffectImports": true,
+    "noEmit": true,
+    "skipLibCheck": true,
 
     "paths": {
       "@/config": ["./src/config/index.ts"],
