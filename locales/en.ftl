@@ -40,7 +40,7 @@ cmd_listcontributors =
 
     💎 *Total:* `{ $count }`
 
-cmd_listcontributors_url = — [{ $ghUsername }]({ $ghUrl }), { $tgUsername }, { $contributions }
+cmd_listcontributors_url = — [{ $ghUsername }]({ $ghUrl }), { $tgUsername }, { $contributions } { $isMuted }
 
 cmd_listcontributors_empty = 🥲 No one is here
 
@@ -124,6 +124,20 @@ cmd_help =
      /listcontributors - see list of the monitored contributors.
      /whoami - show your GitHub account.
  
+cmd_mute_help =
+    ✍️ `/mute` Guide:
+
+    Pass the GitHub username after the command\.
+
+    Pattern:
+    — `/mute <github-username>`
+
+    Example:
+    — `/mute ASafaeirad`
+
+cmd_mute_already = *{ $ghUsername }* has been muted already\!
+
+cmd_mute = 🔇 *User muted successfully*\!
 
 # Events
 e_issue_opened =

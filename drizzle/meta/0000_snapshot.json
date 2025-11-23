@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4b68150c-5b69-4ae5-a876-87fda783251a",
+  "id": "0591dce5-9e3a-4a24-8b11-447ea7e6b596",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "contributors": {
@@ -41,6 +41,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "is_muted": {
+          "name": "is_muted",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {

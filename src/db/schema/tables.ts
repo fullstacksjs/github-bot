@@ -19,6 +19,7 @@ export const contributors = t.sqliteTable(
     tgId: t.int(), // Don't unique tgId as some people might have multiple GitHub accounts
     tgName: t.text(),
     tgUsername: t.text(),
+    isMuted: t.integer({ mode: "boolean" }).notNull().default(false),
   },
   (self) => [t.index("idx_contributors_gh").on(self.ghUsername)],
 );

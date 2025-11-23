@@ -15,6 +15,7 @@ export async function listcontributorsHandler(ctx: BotContext) {
       tgUsername: schema.contributors.tgUsername,
       tgName: schema.contributors.tgName,
       ghUsername: schema.contributors.ghUsername,
+      isMuted: schema.contributors.isMuted,
     })
     .from(schema.repositoryContributors)
     .leftJoin(schema.contributors, eq(schema.repositoryContributors.contributorId, schema.contributors.id))
@@ -38,6 +39,7 @@ export async function listcontributorsHandler(ctx: BotContext) {
 
     return ctx.t("cmd_listcontributors_url", {
       contributions: c.contributions ?? 0,
+      isMuted: c.isMuted ? "🔇" : "",
       ghUsername: c.ghUsername ? escapeMarkdown(c.ghUsername) : "",
       ghUrl: c.ghUsername ? escapeMarkdown(`https://github.com/${c.ghUsername}`) : "",
       tgUsername: tgLink,

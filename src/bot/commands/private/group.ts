@@ -7,6 +7,7 @@ import { cmdDiscover } from "./discover.ts";
 import { cmdLink } from "./link.ts";
 import { cmdRemoveRepo } from "./removerepo.ts";
 import { cmdUnlink } from "./unlink.ts";
+import { cmdMute } from "./mute.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const adminCommands = new CommandGroup<BotContext<any>>().add([
@@ -15,4 +16,5 @@ export const adminCommands = new CommandGroup<BotContext<any>>().add([
   cmdLink,
   cmdRemoveRepo,
   cmdUnlink,
+  cmdMute,
 ]);
