@@ -76,13 +76,14 @@ cmd_whoami_no_username =
 cmd_link_help =
     ✍️ `/link` Guide:
 
-    Pass the Telegram username and GitHub username after the command\.
+    Pass the Telegram username or user ID and GitHub username after the command\.
 
     Pattern:
-    — `/link <telegram-username> <github-username>`
+    — `/link <telegram-username|telegram-id> <github-username>`
 
-    Example:
+    Examples:
     — `/link @S_Kill ASafaeirad`
+    — `/link 123456789 ASafaeirad`
 
 cmd_link = ✅ *Account linked successfully*\!
 

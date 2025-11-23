@@ -6,7 +6,7 @@ import { db, schema } from "@/db";
 
 import type { BotContext } from "../bot";
 
-import { cleanTelegramUsername } from "../../lib/telegram";
+import { cleanTelegramUsername, isTelegramId } from "../../lib/telegram";
 
 export async function linkHandler(ctx: BotContext) {
   if (!ctx.message) return;
@@ -16,29 +16,45 @@ export async function linkHandler(ctx: BotContext) {
   }
 
   const parts = ctx.message.text?.split(" ") ?? [];
-  const telegramUsername = parts[1];
+  const telegramArg = parts[1];
   const githubUsername = parts[2];
 
-  if (parts.length < 3 || !telegramUsername || !githubUsername) {
+  if (parts.length < 3 || !telegramArg || !githubUsername) {
     return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
   }
-
-  const cleanTgUsername = cleanTelegramUsername(telegramUsername);
 
   const existingContributor = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, githubUsername),
   });
 
-  if (existingContributor) {
-    await db
-      .update(schema.contributors)
-      .set({ tgUsername: cleanTgUsername })
-      .where(eq(schema.contributors.ghUsername, githubUsername));
+  if (isTelegramId(telegramArg)) {
+    const telegramId = Number(telegramArg);
+
+    if (existingContributor) {
+      await db
+        .update(schema.contributors)
+        .set({ tgId: telegramId })
+        .where(eq(schema.contributors.ghUsername, githubUsername));
+    } else {
+      await db.insert(schema.contributors).values({
+        ghUsername: githubUsername,
+        tgId: telegramId,
+      });
+    }
   } else {
-    await db.insert(schema.contributors).values({
-      ghUsername: githubUsername,
-      tgUsername: cleanTgUsername,
-    });
+    const cleanTgUsername = cleanTelegramUsername(telegramArg);
+
+    if (existingContributor) {
+      await db
+        .update(schema.contributors)
+        .set({ tgUsername: cleanTgUsername })
+        .where(eq(schema.contributors.ghUsername, githubUsername));
+    } else {
+      await db.insert(schema.contributors).values({
+        ghUsername: githubUsername,
+        tgUsername: cleanTgUsername,
+      });
+    }
   }
 
   return await ctx.md.replyToMessage(ctx.t("cmd_link"));
