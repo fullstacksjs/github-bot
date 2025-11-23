@@ -13,7 +13,9 @@ export async function listcontributorsHandler(ctx: BotContext) {
   const contributors = await db
     .select({
       contributions: sum(schema.repositoryContributors.contributions),
+      tgId: schema.contributors.tgId,
       tgUsername: schema.contributors.tgUsername,
+      tgName: schema.contributors.tgName,
       ghUsername: schema.contributors.ghUsername,
     })
     .from(schema.repositoryContributors)
@@ -25,14 +27,24 @@ export async function listcontributorsHandler(ctx: BotContext) {
     return await ctx.md.replyToMessage(ctx.t("cmd_listcontributors_empty"));
   }
 
-  const contributorEntries = contributors.map((c) =>
-    ctx.t("cmd_listcontributors_url", {
+  const contributorEntries = contributors.map((c) => {
+    let tgLink: string;
+    if (c.tgId) {
+      const displayName = c.tgName || c.tgUsername || c.tgId.toString();
+      tgLink = `[${escapeMarkdown(displayName)}](tg://user?id=${c.tgId})`;
+    } else if (c.tgUsername) {
+      tgLink = `@${escapeMarkdown(c.tgUsername)}`;
+    } else {
+      tgLink = "🤷‍♂️";
+    }
+
+    return ctx.t("cmd_listcontributors_url", {
       contributions: c.contributions ?? 0,
       ghUsername: c.ghUsername ? escapeMarkdown(c.ghUsername) : "",
       ghUrl: c.ghUsername ? escapeMarkdown(`https://github.com/${c.ghUsername}`) : "",
-      tgUsername: c.tgUsername ? `@${escapeMarkdown(c.tgUsername)}` : "🤷‍♂️",
-    }),
-  );
+      tgUsername: tgLink,
+    });
+  });
 
   return await ctx.md.replyToMessage(
     ctx.t("cmd_listcontributors", {
