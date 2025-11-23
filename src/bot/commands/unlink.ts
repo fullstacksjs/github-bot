@@ -13,13 +13,14 @@ export async function unlinkHandler(ctx: BotContext) {
     return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
-  const telegramUsername = ctx.message.text;
+  const parts = ctx.message.text?.split(" ") ?? [];
+  const telegramArg = parts[1];
 
-  if (!telegramUsername) {
+  if (!telegramArg) {
     return await ctx.md.replyToMessage(ctx.t("cmd_unlink_help"));
   }
 
-  const cleanTgUsername = cleanTelegramUsername(telegramUsername);
+  const cleanTgUsername = cleanTelegramUsername(telegramArg);
 
   const existingContributor = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.tgUsername, cleanTgUsername),
