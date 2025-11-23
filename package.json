@@ -20,13 +20,15 @@
       "./src/lib/github/webhooks/index.ts"
     ],
     "#telegram": [
-      "./src/lib/telegram.ts"
+      "./src/lib/telegram/index.ts"
     ]
   },
   "scripts": {
     "dev": "node --watch --env-file-if-exists=.env src/index.ts",
     "start": "node --env-file-if-exists=.env src/index.ts",
     "lint": "eslint . --fix",
+    "test": "node --test src/**/*.spec.ts",
+    "test:watch": "node --watch --test src/**/*.spec.ts",
     "typecheck": "tsc",
     "smee": "smee",
     "db:studio": "drizzle-kit studio",
