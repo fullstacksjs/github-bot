@@ -1,26 +1,29 @@
 import { Command } from "@grammyjs/commands";
 import { config } from "#config";
 import { db, schema } from "#db";
-import { isGitHubUrl } from "#github";
+import { CommandParser, zs } from "#telegram";
 import { eq } from "drizzle-orm";
+import z from "zod";
 
 import type { BotContext } from "../bot.ts";
 
 import { escapeMarkdown } from "../../lib/escape-markdown.ts";
 
 export async function removerepoHandler(ctx: BotContext) {
-  if (!ctx.message) return;
+  if (!ctx.message?.text) return;
 
   if (!config.bot.adminIds.includes(ctx.message.from.id)) {
     return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
-  const parts = ctx.message.text?.split(" ") ?? [];
-  const gitHubUrl = parts[1];
+  const parser = CommandParser("/removerepo $gitHubUrl", z.object({ gitHubUrl: zs.repoUrl }));
+  const { success, data } = parser(ctx.message.text);
 
-  if (parts.length < 2 || !isGitHubUrl(gitHubUrl)) {
+  if (!success) {
     return await ctx.md.replyToMessage(ctx.t("cmd_removerepo_help"));
   }
+
+  const { gitHubUrl } = data;
 
   const repo = await db.query.repositories.findFirst({
     where: (f, o) => o.eq(f.htmlUrl, gitHubUrl),

@@ -1,21 +1,14 @@
 import { config } from "#config";
 import { Octokit } from "octokit";
 
-const githubRepoUrlRegex = /^https:\/\/github\.com\/([\w-]+\/[\w\-.]+)$/;
+const githubRepoUrlRegex = /^https:\/\/github\.com\/(?<name>[\w-]+\/[\w\-.]+)$/;
 
-export function isGitHubUrl(url: string): boolean {
-  return githubRepoUrlRegex.test(url);
-}
+export function extractRepoName(url: string | undefined): string | undefined {
+  const res = url?.match(githubRepoUrlRegex);
+  const name = res?.groups?.name;
 
-export function gitHubRepoName(url: string): string | null {
-  if (!url) return null;
-
-  const res = url.match(githubRepoUrlRegex);
-
-  if (!res) return null;
-  else if (!res[1]) return null;
-
-  return res[1];
+  if (!name) return;
+  return name;
 }
 
 // TODO: Unexport it and write wrappers.
