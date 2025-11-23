@@ -1,8 +1,7 @@
 import { Command } from "@grammyjs/commands";
+import { config } from "#config";
 
-import { config } from "@/config";
-
-import type { BotContext } from "../bot";
+import type { BotContext } from "../bot.ts";
 
 export async function helpHandler(ctx: BotContext) {
   if (!ctx.message) return;

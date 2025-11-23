@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 
-import { contributors, repositories, repositoryContributors } from "./tables";
+import { contributors, repositories, repositoryContributors } from "./tables.ts";
 
 export const repositoriesRelations = relations(repositories, ({ many }) => ({
   contributors: many(repositoryContributors),

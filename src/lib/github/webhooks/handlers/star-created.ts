@@ -1,9 +1,9 @@
 import type { HandlerFunction } from "@octokit/webhooks/types";
 
-import { bot } from "@/bot";
+import { bot } from "#bot";
 
-import { escapeMarkdown } from "../../escape-markdown";
-import { botText, getUser, isRepositoryAccepted } from "./_utils";
+import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { botText, getUser, isRepositoryAccepted } from "./_utils.ts";
 
 export const starCreatedCallback: HandlerFunction<"star.created", unknown> = async (event) => {
   if (!(await isRepositoryAccepted(event.payload.repository.full_name))) return;

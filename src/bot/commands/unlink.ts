@@ -1,12 +1,10 @@
 import { Command } from "@grammyjs/commands";
+import { config } from "#config";
+import { db, schema } from "#db";
+import { cleanTelegramUsername } from "#telegram";
 import { eq } from "drizzle-orm";
 
-import { config } from "@/config";
-import { db, schema } from "@/db";
-
-import type { BotContext } from "../bot";
-
-import { cleanTelegramUsername } from "../../lib/telegram";
+import type { BotContext } from "../bot.ts";
 
 export async function unlinkHandler(ctx: BotContext) {
   if (!ctx.message) return;

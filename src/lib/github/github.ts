@@ -1,6 +1,5 @@
+import { config } from "#config";
 import { Octokit } from "octokit";
-
-import { config } from "@/config";
 
 const githubRepoUrlRegex = /^https:\/\/github\.com\/([\w-]+\/[\w\-.]+)$/;
 
