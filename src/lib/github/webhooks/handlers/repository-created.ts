@@ -1,10 +1,10 @@
 import type { HandlerFunction } from "@octokit/webhooks/types";
 
-import { bot } from "@/bot";
-import { db, schema } from "@/db";
+import { bot } from "#bot";
+import { db, schema } from "#db";
 
-import { escapeMarkdown } from "../../escape-markdown";
-import { botText, isRepositoryAccepted } from "./_utils";
+import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { botText, isRepositoryAccepted } from "./_utils.ts";
 
 export const repositoryCreatedCallback: HandlerFunction<"repository.created", unknown> = async (event) => {
   if (!(await isRepositoryAccepted(event.payload.repository.full_name))) return;

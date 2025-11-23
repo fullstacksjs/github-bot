@@ -1,12 +1,11 @@
 import { Command } from "@grammyjs/commands";
+import { config } from "#config";
+import { db, schema } from "#db";
 import { desc, eq, sum } from "drizzle-orm";
 
-import { config } from "@/config";
-import { db, schema } from "@/db";
+import type { BotContext } from "../bot.ts";
 
-import type { BotContext } from "../bot";
-
-import { escapeMarkdown } from "../../lib/escape-markdown";
+import { escapeMarkdown } from "../../lib/escape-markdown.ts";
 
 export async function listcontributorsHandler(ctx: BotContext) {
   if (!ctx.message) return;

@@ -4,14 +4,13 @@ import type { Context, ErrorHandler } from "grammy";
 import { autoRetry } from "@grammyjs/auto-retry";
 import { I18n } from "@grammyjs/i18n";
 import { limit } from "@grammyjs/ratelimiter";
+import { config } from "#config";
 import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
-import { config } from "@/config";
+import type { MarkdownContext } from "./middleware/markdown.ts";
 
-import type { MarkdownContext } from "./middleware/markdown";
-
-import { commands } from "./commands";
-import { markdown } from "./middleware/markdown";
+import { commands } from "./commands/index.ts";
+import { markdown } from "./middleware/markdown.ts";
 
 const defaultChat: AnnounceChat = {
   chatId: config.bot.chatId,

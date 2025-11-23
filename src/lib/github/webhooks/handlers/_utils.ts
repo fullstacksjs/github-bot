@@ -1,8 +1,8 @@
 import type { TranslationVariables } from "@grammyjs/i18n";
 import type { components } from "@octokit/openapi-webhooks-types";
 
-import { bot } from "@/bot";
-import { db, schema } from "@/db";
+import { bot } from "#bot";
+import { db, schema } from "#db";
 
 export interface User {
   user: string;

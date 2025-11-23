@@ -1,11 +1,10 @@
 import { serve } from "@hono/node-server";
+import { bot } from "#bot";
+import { config } from "#config";
+import { webhooks } from "#webhooks";
 import { webhookCallback } from "grammy";
 import { Hono } from "hono";
 import * as z from "zod";
-
-import { bot } from "./bot/bot";
-import { config } from "./config";
-import { webhooks } from "./lib/github-webhooks";
 
 async function startApi() {
   const api = new Hono();

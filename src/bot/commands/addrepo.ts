@@ -1,10 +1,10 @@
 import { Command } from "@grammyjs/commands";
+import { config } from "#config";
+import { db, schema } from "#db";
 
-import { config } from "@/config";
-import { db, schema } from "@/db";
-import { gitHubRepoName, isGitHubUrl } from "@/github";
+import type { BotContext } from "../bot.ts";
 
-import type { BotContext } from "../bot";
+import { gitHubRepoName, isGitHubUrl } from "../../lib/github/github.ts";
 
 // TODO: Fetch and store contributors too
 export async function addrepoHandler(ctx: BotContext) {
