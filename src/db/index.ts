@@ -1,9 +1,8 @@
 import { createClient } from "@libsql/client/node";
+import { config } from "#config";
 import { drizzle } from "drizzle-orm/libsql";
 
-import { config } from "@/config";
-
-import * as schema from "./schema";
+import * as schema from "./schema/index.ts";
 
 /** Drizzle database instance */
 export const db = drizzle({
@@ -13,4 +12,4 @@ export const db = drizzle({
 });
 
 /** Complete database schema */
-export * as schema from "./schema";
+export * as schema from "./schema/index.ts";

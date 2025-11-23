@@ -14,4 +14,4 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 ENTRYPOINT ["./scripts/entrypoint.sh"]
-CMD ["node", "--import=tsx", "src/index.ts"]
+CMD ["node", "src/index.ts"]

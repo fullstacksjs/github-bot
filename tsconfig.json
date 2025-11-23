@@ -1,10 +1,10 @@
 {
   "exclude": ["@fullstacksjs/tsconfig/esm"],
   "compilerOptions": {
-    // TSX compatibility
     "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
 
     // Extra strictness / type-safety
     "strict": true,
@@ -16,11 +16,14 @@
     "noEmit": true,
     "skipLibCheck": true,
 
+    // ISSUE: ESLint plugin does not work subpath imports https://github.com/un-ts/eslint-plugin-import-x/issues/437
     "paths": {
-      "@/config": ["./src/config/index.ts"],
-      "@/db": ["./src/db/index.ts"],
-      "@/bot": ["./src/bot/bot.ts"],
-      "@/github": ["./src/lib/github.ts"]
+      "#config": ["./src/config/index.ts"],
+      "#db": ["./src/db/index.ts"],
+      "#bot": ["./src/bot/bot.ts"],
+      "#github": ["./src/lib/github/index.ts"],
+      "#webhooks": ["./src/lib/github/webhooks/index.ts"],
+      "#telegram": ["./src/lib/telegram.ts"]
     }
   }
 }

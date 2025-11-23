@@ -1,11 +1,11 @@
 import type { HandlerFunction } from "@octokit/webhooks/types";
 
-import { bot } from "@/bot";
+import { bot } from "#bot";
 
-import type { Reviewer, User, ValidReviewer } from "./_utils";
+import type { Reviewer, User, ValidReviewer } from "./_utils.ts";
 
-import { escapeMarkdown } from "../../escape-markdown";
-import { botText, getUser, isRepositoryAccepted } from "./_utils";
+import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { botText, getUser, isRepositoryAccepted } from "./_utils.ts";
 
 function isValidReviewer(r: Reviewer): r is ValidReviewer {
   return !!r && "login" in r && typeof r.login === "string";

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { startDiscovery } from "../src/lib/discovery";
+import { startDiscovery } from "../src/lib/discovery.ts";
 
 console.info(`Discovery began`);
 
