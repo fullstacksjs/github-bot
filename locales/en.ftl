@@ -113,6 +113,7 @@ cmd_help_admin =
      /listcontributors - see list of the monitored contributors.
      /discover - update the repository database.
      /whoami - show your GitHub account.
+     /mute - mute github account.
 
 cmd_help =
     This bot will monitor and notify GitHub activities within the FullstacksJS community.
