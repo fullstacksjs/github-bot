@@ -1,15 +1,18 @@
 import type { SQLiteInsertValue, SQLiteUpdateSetSource } from "drizzle-orm/sqlite-core";
 
-import { Command } from "@grammyjs/commands";
 import { config } from "#config";
-import { db, schema } from "#db";
-import { CommandParser, zs } from "#telegram";
+import { db, schema as s } from "#db";
+import { createCommand, zs } from "#telegram";
 import z from "zod";
 
 import type { BotContext } from "../bot.ts";
 
-export async function linkHandler(ctx: BotContext) {
-  if (!ctx.message?.text) return;
+const schema = z.object({
+  ghUsername: zs.ghUsername,
+  tgUsername: zs.tgUsername.optional(),
+});
+
+export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   const repliedMessage = ctx.message.reply_to_message;
   const isActualReply = repliedMessage && !repliedMessage.forum_topic_created;
 
@@ -17,41 +20,33 @@ export async function linkHandler(ctx: BotContext) {
     return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
-  const { success, data } = CommandParser(
-    "/link $ghUsername $tgUsername",
-    z.object({
-      ghUsername: zs.ghUsername,
-      tgUsername: zs.tgUsername.optional(),
-    }),
-  )(ctx.message.text);
-
-  if (!success) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
-  }
-
-  const { ghUsername, tgUsername } = data;
+  const { ghUsername, tgUsername } = ctx.args;
   const tgId = isActualReply ? repliedMessage.from?.id : null;
 
   if (!tgId && !tgUsername) {
     return await ctx.md.replyToMessage(ctx.t("cmd_link_no_user"));
   }
 
-  const set: SQLiteInsertValue<typeof schema.contributors> = { ghUsername };
+  const set: SQLiteInsertValue<typeof s.contributors> = { ghUsername };
   if (tgId) set.tgId = tgId;
   if (tgUsername) set.tgUsername = tgUsername;
 
   await db
-    .insert(schema.contributors)
+    .insert(s.contributors)
     .values(set)
     .onConflictDoUpdate({
-      target: schema.contributors.ghUsername,
-      set: set as SQLiteUpdateSetSource<typeof schema.contributors>,
+      target: s.contributors.ghUsername,
+      set: set as SQLiteUpdateSetSource<typeof s.contributors>,
     });
 
   return await ctx.md.replyToMessage(ctx.t("cmd_link"));
 }
 
-export const cmdLink = new Command<BotContext>("link", "🛡 Link Telegram and GitHub accounts").addToScope(
-  { type: "chat_administrators", chat_id: config.bot.chatId },
-  linkHandler,
-);
+export const cmdLink = createCommand({
+  template: "link $ghUsername $tgUsername",
+  description: "🛡 Link Telegram and GitHub accounts",
+  handler,
+  schema,
+  helpMessage: (t) => t("cmd_link_help"),
+  scopes: [{ type: "chat_administrators", chat_id: config.bot.chatId }],
+});
