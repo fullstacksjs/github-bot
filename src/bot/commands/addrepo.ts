@@ -1,46 +1,46 @@
-import { Command } from "@grammyjs/commands";
 import { config } from "#config";
-import { db, schema } from "#db";
+import { db, schema as s } from "#db";
 import { extractRepoName } from "#github";
-import { CommandParser, zs } from "#telegram";
+import { createCommand, zs } from "#telegram";
 import z from "zod";
 
 import type { BotContext } from "../bot.ts";
 
-// TODO: Fetch and store contributors too
-export async function addrepoHandler(ctx: BotContext) {
-  if (!ctx.message?.text) return;
+const schema = z.object({
+  repoUrl: zs.repoUrl,
+});
 
+// TODO: Fetch and store contributors too
+export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   if (!config.bot.adminIds.includes(ctx.message.from.id)) {
     return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
-  const command = CommandParser("/addrepo $repoUrl", z.object({ repoUrl: zs.repoUrl }));
-
-  const { success, data } = command(ctx.message.text);
-
-  const repoName = extractRepoName(data?.repoUrl);
-  if (!success || !repoName) {
+  const { repoUrl } = ctx.args;
+  const repoName = extractRepoName(repoUrl);
+  if (!repoName) {
     return await ctx.md.replyToMessage(ctx.t("cmd_addrepo_help"));
   }
 
-  const { repoUrl } = data;
-
   await db
-    .insert(schema.repositories)
+    .insert(s.repositories)
     .values({
       name: repoName,
       htmlUrl: repoUrl,
     })
     .onConflictDoUpdate({
-      target: schema.repositories.name,
+      target: s.repositories.name,
       set: { isBlacklisted: false },
     });
 
   return await ctx.md.replyToMessage(ctx.t("cmd_addrepo"));
 }
 
-export const cmdAddRepo = new Command<BotContext>("addrepo", "🛡 Add a repository").addToScope(
-  { type: "chat_administrators", chat_id: config.bot.chatId },
-  addrepoHandler,
-);
+export const cmdAddRepo = createCommand({
+  template: "addrepo $repoUrl",
+  description: "🛡 Add a repository",
+  handler,
+  schema,
+  helpMessage: (t) => t("cmd_addrepo_help"),
+  scopes: [{ type: "chat_administrators", chat_id: config.bot.chatId }],
+});
