@@ -1,14 +1,12 @@
-import { Command } from "@grammyjs/commands";
 import { config } from "#config";
 import { db } from "#db";
+import { createCommand } from "#telegram";
 
 import type { BotContext } from "../bot.ts";
 
 import { escapeMarkdown } from "../../lib/escape-markdown.ts";
 
-export async function listreposHandler(ctx: BotContext) {
-  if (!ctx.message) return;
-
+export async function handler(ctx: BotContext) {
   const repos = await db.query.repositories.findMany({
     columns: { name: true, htmlUrl: true },
     where: (f, o) => o.eq(f.isBlacklisted, false),
@@ -31,6 +29,12 @@ export async function listreposHandler(ctx: BotContext) {
   );
 }
 
-export const cmdListRepos = new Command<BotContext>("listrepos", "List monitored repositories")
-  .addToScope({ type: "chat", chat_id: config.bot.chatId }, listreposHandler)
-  .addToScope({ type: "chat_administrators", chat_id: config.bot.chatId }, listreposHandler);
+export const cmdListRepos = createCommand({
+  template: "listrepos",
+  description: "List monitored repositories",
+  handler,
+  scopes: [
+    { type: "chat", chat_id: config.bot.chatId },
+    { type: "chat_administrators", chat_id: config.bot.chatId },
+  ],
+});
