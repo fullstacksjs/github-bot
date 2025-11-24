@@ -173,3 +173,4 @@ e_star_created =
     🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
 
     { $repoHashtag } #star
+
