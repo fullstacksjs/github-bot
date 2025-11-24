@@ -18,6 +18,7 @@ export const starCreatedCallback: HandlerFunction<"star.created", unknown> = asy
       userUrl: escapeMarkdown(githubUrl),
       repoName: escapeMarkdown(repo.full_name),
       repoUrl: escapeMarkdown(repo.html_url),
+      starNumber: repo.stargazers_count,
     }),
     { link_preview_options: { prefer_small_media: true, url: githubUrl } },
   );
