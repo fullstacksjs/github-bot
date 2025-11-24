@@ -30,7 +30,15 @@ interface AnnounceChat {
   topicId?: number | undefined;
 }
 
-export type BotContext = Context & I18nFlavor & MarkdownContext;
+export type BotContext<Args = Record<string, never>> = Context &
+  I18nFlavor &
+  MarkdownContext & {
+    args: Args;
+  } & {
+    message: {
+      text: string;
+    };
+  };
 
 /**
  * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.

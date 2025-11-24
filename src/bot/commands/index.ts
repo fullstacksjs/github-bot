@@ -12,7 +12,8 @@ import { cmdRemoveRepo } from "./removerepo.ts";
 import { cmdUnLink } from "./unlink.ts";
 import { cmdWhoami } from "./whoami.ts";
 
-export const commands = new CommandGroup<BotContext>().add([
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const commands = new CommandGroup<BotContext<any>>().add([
   cmdAddRepo,
   cmdDiscover,
   cmdLink,
