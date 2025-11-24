@@ -19,6 +19,10 @@ export function botText(key: string, variables?: TranslationVariables<string> | 
   return bot.i18n.t("en", key, variables);
 }
 
+export function getRepoHashtag(repoFullName: string): string {
+  return `#${repoFullName.replace(/[-/]/g, "_")}`;
+}
+
 export async function isRepositoryAccepted(repo: string): Promise<boolean> {
   const resp = await db.query.repositories.findFirst({
     where: (f, o) => o.eq(f.name, repo),

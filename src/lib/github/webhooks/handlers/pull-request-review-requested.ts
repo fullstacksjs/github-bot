@@ -5,7 +5,7 @@ import { bot } from "#bot";
 import type { Reviewer, User, ValidReviewer } from "./_utils.ts";
 
 import { escapeMarkdown } from "../../../escape-markdown.ts";
-import { botText, getUser, isRepositoryAccepted } from "./_utils.ts";
+import { botText, getRepoHashtag, getUser, isRepositoryAccepted } from "./_utils.ts";
 
 function isValidReviewer(r: Reviewer): r is ValidReviewer {
   return !!r && "login" in r && typeof r.login === "string";
@@ -24,6 +24,7 @@ export const pullRequestReviewRequestedCallback: HandlerFunction<"pull_request.r
   const requester = await getUser(event.payload.sender);
   const reviewers = await getReviewers(event.payload.pull_request.requested_reviewers);
   const pr = event.payload.pull_request;
+  const repoHashtag = getRepoHashtag(repo);
 
   const reviewersText = reviewers
     .map((r) =>
@@ -37,6 +38,7 @@ export const pullRequestReviewRequestedCallback: HandlerFunction<"pull_request.r
       requesterUrl: escapeMarkdown(requester.userUrl),
       prUrl: escapeMarkdown(pr.html_url),
       reviewers: reviewersText,
+      repoHashtag,
     }),
     { link_preview_options: { prefer_small_media: true, url: pr.html_url } },
   );
