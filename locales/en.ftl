@@ -170,6 +170,6 @@ e_repository_created =
     { $repoHashtag } #new_repo
 
 e_star_created =
-    🌟 [{ $user }]({ $userUrl }) starred [{ $repoName }]({ $repoUrl })\.
+    🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
 
     { $repoHashtag } #star
