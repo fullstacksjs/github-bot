@@ -170,21 +170,7 @@ e_repository_created =
     { $repoHashtag } #new_repo
 
 e_star_created =
-    🌟 [{ $user }]({ $userUrl }) starred [{ $repoName }]({ $repoUrl })\.
+    🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
 
     { $repoHashtag } #star
 
-
-e_pull_request_review_requested =
-    ✨ PR Review Requested\!
-
-    👤 Requester: [{ $requester }]({ $requesterUrl })
-
-    — { $prUrl }
-
-    Reviewers:
-    { $reviewers }
-
-    { $repoHashtag } #pr #review
-
-e_pull_request_reviewer = — [{ $reviewer }]({ $reviewerUrl })
