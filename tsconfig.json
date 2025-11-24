@@ -23,7 +23,7 @@
       "#bot": ["./src/bot/bot.ts"],
       "#github": ["./src/lib/github/index.ts"],
       "#webhooks": ["./src/lib/github/webhooks/index.ts"],
-      "#telegram": ["./src/lib/telegram.ts"]
+      "#telegram": ["./src/lib/index.ts"]
     }
   }
 }
