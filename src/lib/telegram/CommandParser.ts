@@ -22,7 +22,7 @@ export function CommandParser<S extends Record<string, ZodType>>(template: strin
     templateParts.forEach((part, index) => {
       if (part.startsWith("$")) {
         const key = part.slice(1);
-        argMap[key] = args[index - 1] || "";
+        argMap[key] = args[index - 1];
       }
     });
     return schema.safeParse(argMap);

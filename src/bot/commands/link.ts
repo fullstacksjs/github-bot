@@ -47,6 +47,7 @@ export async function linkHandler(ctx: BotContext) {
       target: schema.contributors.ghUsername,
       set: set as SQLiteUpdateSetSource<typeof schema.contributors>,
     });
+
   return await ctx.md.replyToMessage(ctx.t("cmd_link"));
 }
 
