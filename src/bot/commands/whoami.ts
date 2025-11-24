@@ -1,15 +1,13 @@
-import { Command } from "@grammyjs/commands";
 import { config } from "#config";
 import { db, schema } from "#db";
+import { createCommand } from "#telegram";
 import { eq } from "drizzle-orm";
 
 import type { BotContext } from "../bot.ts";
 
 import { escapeMarkdown } from "../../lib/escape-markdown.ts";
 
-export async function whoamiHandler(ctx: BotContext) {
-  if (!ctx.message) return;
-
+export async function handler(ctx: BotContext) {
   const sender = ctx.message.from;
 
   const ghUser = await db.query.contributors.findFirst({
@@ -40,6 +38,12 @@ export async function whoamiHandler(ctx: BotContext) {
   );
 }
 
-export const cmdWhoami = new Command<BotContext>("whoami", "Who am I?")
-  .addToScope({ type: "chat", chat_id: config.bot.chatId }, whoamiHandler)
-  .addToScope({ type: "chat_administrators", chat_id: config.bot.chatId }, whoamiHandler);
+export const cmdWhoami = createCommand({
+  template: "whoami",
+  description: "Who am I?",
+  handler,
+  scopes: [
+    { type: "chat", chat_id: config.bot.chatId },
+    { type: "chat_administrators", chat_id: config.bot.chatId },
+  ],
+});
