@@ -9,11 +9,7 @@ export interface User {
   userUrl: string;
 }
 
-export type Reviewer =
-  components["schemas"]["webhook-pull-request-review-requested"]["pull_request"]["requested_reviewers"][number];
-export type ValidReviewer = Extract<Reviewer, { login: string }>;
-
-type SimpleUser = Pick<components["schemas"]["simple-user"] | ValidReviewer, "html_url" | "login" | "name">;
+type SimpleUser = Pick<components["schemas"]["simple-user"], "html_url" | "login" | "name">;
 
 export function botText(key: string, variables?: TranslationVariables<string> | undefined): string {
   return bot.i18n.t("en", key, variables);
@@ -35,7 +31,7 @@ export async function getUser(simpleUser: SimpleUser): Promise<User> {
   const ghUsername = simpleUser.login;
 
   let user = simpleUser.name ?? ghUsername;
-  let userUrl = simpleUser.html_url ?? "";
+  let userUrl = simpleUser.html_url;
 
   const dbUser = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, ghUsername),
