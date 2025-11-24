@@ -1,14 +1,12 @@
-import { Command } from "@grammyjs/commands";
 import { config } from "#config";
+import { createCommand } from "#telegram";
 
 import type { BotContext } from "../bot.ts";
 
 import { startDiscovery } from "../../lib/discovery.ts";
 import { escapeMarkdown } from "../../lib/escape-markdown.ts";
 
-export async function discoverHandler(ctx: BotContext) {
-  if (!ctx.message) return;
-
+export async function handler(ctx: BotContext) {
   if (!config.bot.adminIds.includes(ctx.message.from.id)) {
     return await ctx.replyToMessage(ctx.t("insufficient_permissions"));
   }
@@ -26,7 +24,9 @@ export async function discoverHandler(ctx: BotContext) {
   });
 }
 
-export const cmdDiscover = new Command<BotContext>("discover", "🛡 Update the repository database").addToScope(
-  { type: "chat_administrators", chat_id: config.bot.chatId },
-  discoverHandler,
-);
+export const cmdDiscover = createCommand({
+  template: "discover",
+  description: "🛡 Update the repository database",
+  handler,
+  scopes: [{ type: "chat_administrators", chat_id: config.bot.chatId }],
+});
