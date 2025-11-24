@@ -162,4 +162,4 @@ e_repository_created =
     — [{ $repoName }]({ $repoUrl })
 
 e_star_created =
-    🌟 [{ $user }]({ $userUrl }) starred [{ $repoName }]({ $repoUrl })\.
+    🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
