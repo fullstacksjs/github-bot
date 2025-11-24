@@ -76,15 +76,19 @@ cmd_whoami_no_username =
 cmd_link_help =
     ✍️ `/link` Guide:
 
-    Pass the Telegram username and GitHub username after the command\.
+    Method 1: Reply to a user's message
+    — `/link <github-username>`
 
-    Pattern:
-    — `/link <telegram-username> <github-username>`
+    Method 2: Provide both usernames
+    — `/link <github-username> <telegram-username>`
 
-    Example:
-    — `/link @S_Kill ASafaeirad`
+    Examples:
+    — Reply to user: `/link ASafaeirad`
+    — Direct: `/link ASafaeirad S_Kill`
 
 cmd_link = ✅ *Account linked successfully*\!
+
+cmd_link_no_user = ⚠️ Could not find user information\.
 
 cmd_unlink_help =
     ✍️ `/unlink` Guide:

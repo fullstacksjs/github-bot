@@ -11,14 +11,10 @@ export async function whoamiHandler(ctx: BotContext) {
   if (!ctx.message) return;
 
   const sender = ctx.message.from;
-  const tgUsername = sender.username;
-  if (!tgUsername) {
-    return await ctx.replyToMessage(ctx.t("cmd_whoami_no_username"));
-  }
 
   const ghUser = await db.query.contributors.findFirst({
     columns: { ghUsername: true },
-    where: (f, o) => o.eq(f.tgUsername, tgUsername),
+    where: (f, o) => o.or(o.eq(f.tgId, sender.id), o.eq(f.tgUsername, sender.username ?? "")),
   });
 
   if (!ghUser) {
@@ -31,8 +27,8 @@ export async function whoamiHandler(ctx: BotContext) {
   // Make user's Telegram information fresh.
   await db
     .update(schema.contributors)
-    .set({ tgName: fullName, tgId: sender.id })
-    .where(eq(schema.contributors.tgUsername, tgUsername));
+    .set({ tgName: fullName, tgId: sender.id, tgUsername: sender.username })
+    .where(eq(schema.contributors.ghUsername, ghUser.ghUsername));
 
   return await ctx.md.replyToMessage(
     ctx.t("cmd_whoami", {
