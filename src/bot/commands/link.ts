@@ -6,26 +6,6 @@ import { eq } from "drizzle-orm";
 
 import type { BotContext } from "../bot.ts";
 
-interface TelegramAccountData {
-  tgId?: number;
-  tgUsername?: string;
-}
-
-async function linkAccounts(githubUsername: string, telegramData: TelegramAccountData) {
-  const existingContributor = await db.query.contributors.findFirst({
-    where: (f, o) => o.eq(f.ghUsername, githubUsername),
-  });
-
-  if (existingContributor) {
-    await db.update(schema.contributors).set(telegramData).where(eq(schema.contributors.ghUsername, githubUsername));
-  } else {
-    await db.insert(schema.contributors).values({
-      ghUsername: githubUsername,
-      ...telegramData,
-    });
-  }
-}
-
 export async function linkHandler(ctx: BotContext) {
   if (!ctx.message) return;
 
@@ -37,10 +17,12 @@ export async function linkHandler(ctx: BotContext) {
   const repliedMessage = ctx.message.reply_to_message;
   const isActualReply = repliedMessage && !repliedMessage.forum_topic_created;
 
-  if (isActualReply) {
-    const githubUsername = parts[1];
+  const ghUsername = parts[1];
+  let tgId: number | undefined;
+  let tgUsername: string | undefined;
 
-    if (!githubUsername) {
+  if (isActualReply) {
+    if (!ghUsername) {
       return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
     }
 
@@ -50,26 +32,34 @@ export async function linkHandler(ctx: BotContext) {
       return await ctx.md.replyToMessage(ctx.t("cmd_link_no_user"));
     }
 
-    await linkAccounts(githubUsername, {
-      tgId: targetUser.id,
-      tgUsername: targetUser.username,
-    });
+    tgId = targetUser.id;
+    tgUsername = targetUser.username;
+  } else {
+    const telegramUsername = parts[2];
 
-    return await ctx.md.replyToMessage(ctx.t("cmd_link"));
+    if (parts.length < 3 || !ghUsername || !telegramUsername) {
+      return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
+    }
+
+    tgUsername = cleanTelegramUsername(telegramUsername);
   }
 
-  const githubUsername = parts[1];
-  const telegramUsername = parts[2];
-
-  if (parts.length < 3 || !githubUsername || !telegramUsername) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_link_help"));
-  }
-
-  const cleanTgUsername = cleanTelegramUsername(telegramUsername);
-
-  await linkAccounts(githubUsername, {
-    tgUsername: cleanTgUsername,
+  const existingContributor = await db.query.contributors.findFirst({
+    where: (f, o) => o.eq(f.ghUsername, ghUsername),
   });
+
+  if (existingContributor) {
+    await db
+      .update(schema.contributors)
+      .set({ tgId, tgUsername })
+      .where(eq(schema.contributors.ghUsername, ghUsername));
+  } else {
+    await db.insert(schema.contributors).values({
+      ghUsername,
+      tgId,
+      tgUsername,
+    });
+  }
 
   return await ctx.md.replyToMessage(ctx.t("cmd_link"));
 }
