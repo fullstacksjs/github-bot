@@ -136,7 +136,7 @@ e_issue_opened =
 
     — { $issueUrl }
 
-    { $repoHashtag } #issue
+    { $repoHashtag } \#issue
 
 e_pull_request_closed_merged =
     🌳 PR Merged\!
@@ -145,7 +145,7 @@ e_pull_request_closed_merged =
 
     — { $prUrl }
 
-    { $repoHashtag } #pr
+    { $repoHashtag } \#pr
 
 e_pull_request_opened =
     🌴 PR Created: *{ $prTitle }*
@@ -154,23 +154,23 @@ e_pull_request_opened =
 
     — { $prUrl }
 
-    { $repoHashtag } #pr
+    { $repoHashtag } \#pr
 
 e_release_created =
     🎉 *{ $repoName } { $releaseTag }*
     — { $releaseUrl }
 
-    { $repoHashtag } #release
+    { $repoHashtag } \#release
 
 e_repository_created =
     ✨ New repository\!
 
     — [{ $repoName }]({ $repoUrl })
 
-    { $repoHashtag } #new_repo
+    { $repoHashtag } \#new_repo
 
 e_star_created =
     🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
 
-    { $repoHashtag } #star
+    { $repoHashtag } \#star
 
