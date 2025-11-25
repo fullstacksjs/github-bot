@@ -24,7 +24,7 @@ export const repositoryCreatedCallback: HandlerFunction<"repository.created", un
     botText("e_repository_created", {
       repoName: escapeMarkdown(repo.full_name),
       repoUrl: escapeMarkdown(repo.html_url),
-      repoHashtag,
+      repoHashtag: escapeMarkdown(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: repo.html_url } },
   );

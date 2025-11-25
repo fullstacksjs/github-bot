@@ -18,7 +18,7 @@ export const issuesOpenedCallback: HandlerFunction<"issues.opened", unknown> = a
       user: escapeMarkdown(user.user),
       userUrl: escapeMarkdown(user.userUrl),
       issueUrl: escapeMarkdown(issue.html_url),
-      repoHashtag,
+      repoHashtag: escapeMarkdown(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: issue.html_url } },
   );

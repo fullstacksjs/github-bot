@@ -18,7 +18,7 @@ export const pullRequestOpenedCallback: HandlerFunction<"pull_request.opened", u
       user: escapeMarkdown(user.user),
       userUrl: escapeMarkdown(user.userUrl),
       prUrl: escapeMarkdown(pr.html_url),
-      repoHashtag,
+      repoHashtag: escapeMarkdown(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: pr.html_url } },
   );
