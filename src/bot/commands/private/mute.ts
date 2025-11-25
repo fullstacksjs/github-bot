@@ -1,43 +1,41 @@
-import { Command } from "@grammyjs/commands";
+import type { BotContext } from "#bot";
+
+import { config } from "#config";
+import { db, schema as s } from "#db";
+import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
-
-import { config } from "@/config";
-import { db, schema } from "@/db";
-
-import type { BotContext } from "../../bot.ts";
+import z from "zod";
 
 import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
-export async function muteHandler(ctx: BotContext) {
-  if (!ctx.message) return;
+const schema = z.object({
+  ghUsername: zs.ghUsername,
+});
 
+export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   if (!config.bot.adminIds.includes(ctx.message.from.id)) {
     return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
   }
 
-  const parts = ctx.message.text?.split(" ") ?? [];
-  const githubUsername = parts[1];
+  const { ghUsername } = ctx.args;
 
-  if (parts.length < 2 || !githubUsername) {
+  if (!ghUsername) {
     return await ctx.md.replyToMessage(ctx.t("cmd_mute_help"));
   }
 
   const existingContributor = await db.query.contributors.findFirst({
-    where: (f, o) => o.eq(f.ghUsername, githubUsername),
+    where: (f, o) => o.eq(f.ghUsername, ghUsername),
   });
 
   if (existingContributor?.isMuted) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_mute_already", { ghUsername: escapeMarkdown(githubUsername) }));
+    return await ctx.md.replyToMessage(ctx.t("cmd_mute_already", { ghUsername: escapeMarkdown(ghUsername) }));
   }
 
   if (existingContributor) {
-    await db
-      .update(schema.contributors)
-      .set({ isMuted: true })
-      .where(eq(schema.contributors.ghUsername, githubUsername));
+    await db.update(s.contributors).set({ isMuted: true }).where(eq(s.contributors.ghUsername, ghUsername));
   } else {
-    await db.insert(schema.contributors).values({
-      ghUsername: githubUsername,
+    await db.insert(s.contributors).values({
+      ghUsername,
       isMuted: true,
     });
   }
@@ -45,7 +43,11 @@ export async function muteHandler(ctx: BotContext) {
   return await ctx.md.replyToMessage(ctx.t("cmd_mute"));
 }
 
-export const cmdMute = new Command<BotContext>("mute", "🔇 Mute GitHub accounts").addToScope(
-  { type: "chat_administrators", chat_id: config.bot.chatId },
-  muteHandler,
-);
+export const cmdMute = createCommand({
+  template: "mute $ghUsername",
+  description: "🔇 Mute GitHub accounts",
+  handler,
+  schema,
+  helpMessage: (t) => t("cmd_mute_help"),
+  scopes: [{ type: "chat_administrators", chat_id: config.bot.chatId }],
+});
