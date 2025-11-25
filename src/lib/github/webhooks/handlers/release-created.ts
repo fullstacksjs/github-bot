@@ -17,7 +17,7 @@ export const releaseCreatedCallback: HandlerFunction<"release.created", unknown>
       repoName: escapeMarkdown(repo.full_name),
       releaseTag: escapeMarkdown(release.tag_name),
       releaseUrl: escapeMarkdown(release.html_url),
-      repoHashtag,
+      repoHashtag: escapeMarkdown(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: release.html_url } },
   );
