@@ -4,15 +4,11 @@ import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
 const schema = z.object({ tgUsername: zs.tgUsername });
 
 export async function handler(ctx: BotContext) {
-  if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
-  }
-
   const { tgUsername } = ctx.args;
 
   const existingContributor = await db.query.contributors.findFirst({

@@ -9,7 +9,8 @@ import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
 
 import type { MarkdownContext } from "./middleware/markdown.ts";
 
-import { commands } from "./commands/index.ts";
+import { adminCommands } from "./commands/private/group.ts";
+import { userCommands } from "./commands/public/group.ts";
 import { markdown } from "./middleware/markdown.ts";
 
 const defaultChat: AnnounceChat = {
@@ -43,6 +44,7 @@ export type BotContext<Args = Record<string, never>> = Context &
 /**
  * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.
  */
+
 export class Bot extends GrammyBot<BotContext> {
   i18n = new I18n<BotContext>({
     defaultLocale: "en",
@@ -69,7 +71,8 @@ export class Bot extends GrammyBot<BotContext> {
       }),
     );
 
-    this.use(commands);
+    this.use(userCommands);
+    this.filter((ctx) => config.bot.adminIds.includes(ctx.message.from.id)).use(adminCommands);
     this.api.config.use(autoRetry({ maxRetryAttempts: 2 }));
   }
 
@@ -106,7 +109,7 @@ export class Bot extends GrammyBot<BotContext> {
   };
 
   async setCommands() {
-    return commands.setCommands(this);
+    await Promise.all([userCommands.setCommands(this), adminCommands.setCommands(this)]);
   }
 
   async setupWebhook({ secret, url }: { url: string; secret: string }) {

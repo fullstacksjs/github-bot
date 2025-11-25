@@ -1,15 +1,12 @@
+import type { BotContext } from "#bot";
+
 import { config } from "#config";
 import { createCommand } from "#telegram";
 
-import type { BotContext } from "../bot.ts";
-
-import { startDiscovery } from "../../lib/discovery.ts";
-import { escapeMarkdown } from "../../lib/escape-markdown.ts";
+import { startDiscovery } from "../../../lib/discovery.ts";
+import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 export async function handler(ctx: BotContext) {
-  if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.replyToMessage(ctx.t("insufficient_permissions"));
-  }
   const update = await ctx.md.replyToMessage(ctx.t("cmd_discover"));
 
   startDiscovery().then((rawDuration) => {

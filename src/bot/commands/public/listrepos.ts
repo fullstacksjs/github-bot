@@ -2,9 +2,9 @@ import { config } from "#config";
 import { db } from "#db";
 import { createCommand } from "#telegram";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../lib/escape-markdown.ts";
+import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 export async function handler(ctx: BotContext) {
   const repos = await db.query.repositories.findMany({

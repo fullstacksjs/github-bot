@@ -3,9 +3,9 @@ import { db, schema } from "#db";
 import { createCommand } from "#telegram";
 import { eq } from "drizzle-orm";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../lib/escape-markdown.ts";
+import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 export async function handler(ctx: BotContext) {
   const sender = ctx.message.from;

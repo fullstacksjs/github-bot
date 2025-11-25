@@ -1,20 +1,16 @@
+import type { BotContext } from "#bot";
+
 import { config } from "#config";
 import { db, schema as s } from "#db";
 import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-import type { BotContext } from "../bot.ts";
-
-import { escapeMarkdown } from "../../lib/escape-markdown.ts";
+import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 const schema = z.object({ gitHubUrl: zs.repoUrl });
 
 export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
-  if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
-  }
-
   const { gitHubUrl } = ctx.args;
 
   const repo = await db.query.repositories.findFirst({
