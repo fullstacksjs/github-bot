@@ -1,7 +1,7 @@
 import { config } from "#config";
 import { createCommand } from "#telegram";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
 export async function handler(ctx: BotContext) {
   const isAdmin = config.bot.adminIds.includes(ctx.message.from.id);

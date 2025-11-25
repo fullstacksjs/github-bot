@@ -5,7 +5,7 @@ import { db, schema as s } from "#db";
 import { createCommand, zs } from "#telegram";
 import z from "zod";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
 const schema = z.object({
   ghUsername: zs.ghUsername,
@@ -15,10 +15,6 @@ const schema = z.object({
 export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   const repliedMessage = ctx.message.reply_to_message;
   const isActualReply = repliedMessage && !repliedMessage.forum_topic_created;
-
-  if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
-  }
 
   const { ghUsername, tgUsername } = ctx.args;
   const tgId = isActualReply ? repliedMessage.from?.id : null;

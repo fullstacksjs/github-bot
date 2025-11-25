@@ -3,9 +3,9 @@ import { db, schema } from "#db";
 import { createCommand } from "#telegram";
 import { desc, eq, sum } from "drizzle-orm";
 
-import type { BotContext } from "../bot.ts";
+import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../lib/escape-markdown.ts";
+import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 export async function listcontributorsHandler(ctx: BotContext) {
   const contributors = await db

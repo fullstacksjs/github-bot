@@ -1,9 +1,6 @@
 # Plugin: ratelimiter
 ratelimiter_onLimitExceeded = Chill out. D:
 
-# Shared
-insufficient_permissions = 🔪 You're *not allowed* to perform such an action\.
-
 # Commands
 cmd_addrepo = ✅ *Repository added successfully*\!
 
