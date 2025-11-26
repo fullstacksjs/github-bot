@@ -3,11 +3,9 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 import { bot } from "#bot";
 
 import { escapeMarkdown } from "../../../escape-markdown.ts";
-import { botText, getRepoHashtag, isRepositoryAccepted } from "./_utils.ts";
+import { botText, getRepoHashtag } from "./_utils.ts";
 
 export const releaseCreatedCallback: HandlerFunction<"release.created", unknown> = async (event) => {
-  if (!(await isRepositoryAccepted(event.payload.repository.full_name))) return;
-
   const repo = event.payload.repository;
   const release = event.payload.release;
   const repoHashtag = getRepoHashtag(repo.full_name);

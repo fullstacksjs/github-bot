@@ -27,6 +27,14 @@ export async function isRepositoryAccepted(repo: string): Promise<boolean> {
   return !resp?.isBlacklisted;
 }
 
+export async function isUserMuted(githubUsername: string): Promise<boolean> {
+  const contributor = await db.query.contributors.findFirst({
+    where: (f, o) => o.eq(f.ghUsername, githubUsername),
+  });
+
+  return !!contributor?.isMuted;
+}
+
 export async function getUser(simpleUser: SimpleUser): Promise<User> {
   const ghUsername = simpleUser.login;
 

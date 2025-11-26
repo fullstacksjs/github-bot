@@ -3,11 +3,9 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 import { bot } from "#bot";
 
 import { escapeMarkdown } from "../../../escape-markdown.ts";
-import { botText, getRepoHashtag, getUser, isRepositoryAccepted } from "./_utils.ts";
+import { botText, getRepoHashtag, getUser } from "./_utils.ts";
 
 export const pullRequestOpenedCallback: HandlerFunction<"pull_request.opened", unknown> = async (event) => {
-  if (!(await isRepositoryAccepted(event.payload.repository.full_name))) return;
-
   const user = await getUser(event.payload.sender);
   const pr = event.payload.pull_request;
   const repoHashtag = getRepoHashtag(event.payload.repository.full_name);
