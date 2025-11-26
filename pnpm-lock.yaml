@@ -11,6 +11,9 @@ importers:
       '@fullstacksjs/config':
         specifier: 1.1.0
         version: 1.1.0
+      '@fullstacksjs/toolbox':
+        specifier: 4.21.0
+        version: 4.21.0
       '@grammyjs/auto-retry':
         specifier: 2.0.2
         version: 2.0.2(grammy@1.38.3)
@@ -889,6 +892,10 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@fullstacksjs/toolbox@4.21.0':
+    resolution: {integrity: sha512-XKXn++56fMPY5OD6oNsqTd/fnKbeoG8jO1PgWRWFwLRZENBztVv4RVEvBk+kc7jCCnVm5Jx2mh9Byq/reliD4w==}
+    engines: {node: '>=20'}
 
   '@fullstacksjs/tsconfig@2.0.0':
     resolution: {integrity: sha512-/blIYWSnxRO4B+dp5PCcFSRVyg+13pU+mJ5ZJxSHsyynvQt4E70XfR1n5Q4q+fMJP+XiZAMbChmHWrBg/8P5VQ==}
@@ -4375,6 +4382,8 @@ snapshots:
       - supports-color
       - tailwindcss
       - vitest
+
+  '@fullstacksjs/toolbox@4.21.0': {}
 
   '@fullstacksjs/tsconfig@2.0.0(typescript@5.9.3)':
     dependencies:
