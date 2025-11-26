@@ -1,0 +1,1 @@
+ALTER TABLE `contributors` ADD `is_muted` integer DEFAULT false NOT NULL;

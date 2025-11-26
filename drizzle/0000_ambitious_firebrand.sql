@@ -3,8 +3,7 @@ CREATE TABLE `contributors` (
 	`gh_username` text NOT NULL,
 	`tg_id` integer,
 	`tg_name` text,
-	`tg_username` text,
-	`is_muted` integer DEFAULT false NOT NULL
+	`tg_username` text
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `contributors_ghUsername_unique` ON `contributors` (`gh_username`);--> statement-breakpoint
