@@ -1,6 +1,7 @@
 import { Webhooks } from "@octokit/webhooks";
 import { config } from "#config";
 
+import { issuesAssignedCallback } from "./handlers/issues-assigned.ts";
 import { issuesOpenedCallback } from "./handlers/issues-opened.ts";
 import { pullRequestClosedCallback } from "./handlers/pull-request-closed.ts";
 import { pullRequestOpenedCallback } from "./handlers/pull-request-opened.ts";
@@ -11,6 +12,7 @@ import { withGuards } from "./withGuards.ts";
 
 export const webhooks = new Webhooks({ secret: config.github.webhookSecret });
 
+webhooks.on("issues.assigned", withGuards(issuesAssignedCallback));
 webhooks.on("issues.opened", withGuards(issuesOpenedCallback));
 webhooks.on("pull_request.closed", withGuards(pullRequestClosedCallback));
 webhooks.on("pull_request.opened", withGuards(pullRequestOpenedCallback));
