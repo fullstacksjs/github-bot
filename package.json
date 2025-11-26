@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@fullstacksjs/config": "1.1.0",
+    "@fullstacksjs/toolbox": "4.21.0",
     "@grammyjs/auto-retry": "2.0.2",
     "@grammyjs/commands": "1.2.0",
     "@grammyjs/i18n": "1.1.2",

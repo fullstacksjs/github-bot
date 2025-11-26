@@ -1,4 +1,5 @@
 import { Config } from "@fullstacksjs/config";
+import { toDecimal } from "@fullstacksjs/toolbox";
 import { env } from "node:process";
 
 const schema = new Config({
@@ -13,6 +14,7 @@ const schema = new Config({
     adminIds: Config.array(Config.number({ coerce: true })),
     webhookUrl: Config.string().required(),
     webhookSecret: Config.string().required(),
+    reportChatId: Config.number(),
   }),
 
   github: Config.object({
@@ -35,9 +37,10 @@ export const config = schema
       token: env.BOT_TOKEN,
       chatId: env.BOT_CHAT_ID,
       topicId: env.BOT_TOPIC_ID,
-      adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => parseInt(v.trim(), 10)),
+      adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => toDecimal(v.trim())),
       webhookUrl: env.BOT_WEBHOOK_URL,
       webhookSecret: env.BOT_WEBHOOK_SECRET,
+      reportChatId: env.BOT_REPORT_CHAT_ID ? toDecimal(env.BOT_REPORT_CHAT_ID) : undefined,
     },
     github: {
       token: env.GITHUB_TOKEN,
