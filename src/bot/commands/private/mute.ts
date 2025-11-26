@@ -13,10 +13,6 @@ const schema = z.object({
 });
 
 export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
-  if (!config.bot.adminIds.includes(ctx.message.from.id)) {
-    return await ctx.md.replyToMessage(ctx.t("insufficient_permissions"));
-  }
-
   const { ghUsername } = ctx.args;
 
   if (!ghUsername) {
