@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4b68150c-5b69-4ae5-a876-87fda783251a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "c22f58f0-cd1e-4953-8da5-6331da71fc5d",
+  "prevId": "4b68150c-5b69-4ae5-a876-87fda783251a",
   "tables": {
     "contributors": {
       "name": "contributors",
@@ -41,6 +41,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "is_muted": {
+          "name": "is_muted",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {
