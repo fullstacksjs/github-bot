@@ -186,3 +186,12 @@ e_star_created =
 
     { $repoHashtag } \#star
 
+e_issue_assigned =
+    👥 Issue Assigned: *{ $issueTitle }*\.
+
+    👤 Assignee: [{ $assignee }]({ $assigneeUrl })
+
+    — { $issueUrl }
+
+    { $repoHashtag } \#assigned
+
