@@ -42,6 +42,8 @@ cmd_listcontributors =
 
 cmd_listcontributors_url = — [{ $ghUsername }]({ $ghUrl }), { $tgUsername }, { $contributions } { $isMuted }
 
+cmd_no_contributor = 🤔 Who are you talking about?!
+
 cmd_listcontributors_empty = 🥲 No one is here
 
 cmd_removerepo = Repository [{ $name }]({ $url }) removed successfully\.
@@ -139,6 +141,21 @@ cmd_mute_help =
 cmd_mute_already = *{ $ghUsername }* has been muted already\!
 
 cmd_mute = 🔇 *User muted successfully*\!
+
+cmd_unmute_help =
+    ✍️ `/unmute` Guide:
+
+    Pass the GitHub username after the command\.
+
+    Pattern:
+    — `/unmute <github-username>`
+
+    Example:
+    — `/unmute ASafaeirad`
+
+cmd_unmute_already = *{ $ghUsername }* is not muted\!
+
+cmd_unmute = 🔊 *User unMuted successfully*\!
 
 # Events
 e_issue_opened =
