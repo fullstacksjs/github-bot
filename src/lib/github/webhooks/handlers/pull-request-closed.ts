@@ -10,7 +10,7 @@ export const pullRequestClosedCallback: HandlerFunction<"pull_request.closed", u
 
   const user = await getUser(event.payload.sender);
   const pr = event.payload.pull_request;
-  const repoHashtag = getRepoHashtag(event.payload.repository.full_name);
+  const repoHashtag = getRepoHashtag(event.payload.repository.name);
 
   await bot.announce(
     botText("e_pull_request_closed_merged", {

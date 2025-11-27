@@ -8,11 +8,11 @@ import { botText, getRepoHashtag } from "./_utils.ts";
 export const releaseCreatedCallback: HandlerFunction<"release.created", unknown> = async (event) => {
   const repo = event.payload.repository;
   const release = event.payload.release;
-  const repoHashtag = getRepoHashtag(repo.full_name);
+  const repoHashtag = getRepoHashtag(repo.name);
 
   await bot.announce(
     botText("e_release_created", {
-      repoName: escapeMarkdown(repo.full_name),
+      repoName: escapeMarkdown(repo.name),
       releaseTag: escapeMarkdown(release.tag_name),
       releaseUrl: escapeMarkdown(release.html_url),
       repoHashtag: escapeMarkdown(repoHashtag),

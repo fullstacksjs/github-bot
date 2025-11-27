@@ -8,7 +8,7 @@ import { botText, getRepoHashtag, getUser } from "./_utils.ts";
 export const pullRequestOpenedCallback: HandlerFunction<"pull_request.opened", unknown> = async (event) => {
   const user = await getUser(event.payload.sender);
   const pr = event.payload.pull_request;
-  const repoHashtag = getRepoHashtag(event.payload.repository.full_name);
+  const repoHashtag = getRepoHashtag(event.payload.repository.name);
 
   await bot.announce(
     botText("e_pull_request_opened", {

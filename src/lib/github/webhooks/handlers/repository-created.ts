@@ -8,7 +8,7 @@ import { botText, getRepoHashtag } from "./_utils.ts";
 
 export const repositoryCreatedCallback: HandlerFunction<"repository.created", unknown> = async (event) => {
   const repo = event.payload.repository;
-  const repoHashtag = getRepoHashtag(repo.full_name);
+  const repoHashtag = getRepoHashtag(repo.name);
 
   await db
     .insert(schema.repositories)
@@ -20,7 +20,7 @@ export const repositoryCreatedCallback: HandlerFunction<"repository.created", un
 
   await bot.announce(
     botText("e_repository_created", {
-      repoName: escapeMarkdown(repo.full_name),
+      repoName: escapeMarkdown(repo.name),
       repoUrl: escapeMarkdown(repo.html_url),
       repoHashtag: escapeMarkdown(repoHashtag),
     }),
