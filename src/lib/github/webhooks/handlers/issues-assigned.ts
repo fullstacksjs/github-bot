@@ -15,7 +15,7 @@ export const issuesAssignedCallback: HandlerFunction<"issues.assigned", unknown>
     name: assigneeData.name ?? null,
   });
   const issue = event.payload.issue;
-  const repoHashtag = getRepoHashtag(event.payload.repository.full_name);
+  const repoHashtag = getRepoHashtag(event.payload.repository.name);
 
   await bot.announce(
     botText("e_issue_assigned", {

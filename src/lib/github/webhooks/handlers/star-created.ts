@@ -9,13 +9,13 @@ export const starCreatedCallback: HandlerFunction<"star.created", unknown> = asy
   const user = await getUser(event.payload.sender);
   const githubUrl = event.payload.sender.html_url;
   const repo = event.payload.repository;
-  const repoHashtag = getRepoHashtag(repo.full_name);
+  const repoHashtag = getRepoHashtag(repo.name);
 
   await bot.announce(
     botText("e_star_created", {
       user: escapeMarkdown(user.user),
       userUrl: escapeMarkdown(githubUrl),
-      repoName: escapeMarkdown(repo.full_name),
+      repoName: escapeMarkdown(repo.name),
       repoUrl: escapeMarkdown(repo.html_url),
       repoHashtag: escapeMarkdown(repoHashtag),
       starNumber: repo.stargazers_count,
