@@ -1,16 +1,18 @@
 import type { I18nFlavor } from "@grammyjs/i18n";
-import type { Context, ErrorHandler } from "grammy";
+import type { Context } from "grammy";
 
 import { autoRetry } from "@grammyjs/auto-retry";
 import { I18n } from "@grammyjs/i18n";
 import { limit } from "@grammyjs/ratelimiter";
 import { config } from "#config";
-import { Bot as GrammyBot, GrammyError, HttpError } from "grammy";
+import { Bot as GrammyBot } from "grammy";
 
+import type { LoggerContext } from "./middleware/logger.ts";
 import type { MarkdownContext } from "./middleware/markdown.ts";
 
 import { adminCommands } from "./commands/private/group.ts";
 import { userCommands } from "./commands/public/group.ts";
+import { logger } from "./middleware/logger.ts";
 import { markdown } from "./middleware/markdown.ts";
 
 const defaultChat: AnnounceChat = {
@@ -31,15 +33,13 @@ interface AnnounceChat {
   topicId?: number | undefined;
 }
 
-export type BotContext<Args = Record<string, never>> = Context &
+type CommandContext<Args> = { args: Args } & { message: { text: string } };
+
+export type BotContext<Args = Record<string, never>> = CommandContext<Args> &
+  Context &
   I18nFlavor &
-  MarkdownContext & {
-    args: Args;
-  } & {
-    message: {
-      text: string;
-    };
-  };
+  LoggerContext &
+  MarkdownContext;
 
 /**
  * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.
@@ -60,6 +60,7 @@ export class Bot extends GrammyBot<BotContext> {
   constructor({ token }: BotOptions) {
     super(token);
     this.use(markdown);
+    this.use(logger);
     this.use(this.i18n);
     this.use(
       limit({
@@ -91,23 +92,6 @@ export class Bot extends GrammyBot<BotContext> {
     });
   }
 
-  // TODO: Use a better way of logging error
-  override errorHandler: ErrorHandler = (err) => {
-    // eslint-disable-next-line no-console
-    const logErr = console.error;
-
-    logErr(`Error while handling update ${err.ctx.update.update_id}:`);
-
-    const e = err.error;
-    if (e instanceof GrammyError) {
-      logErr("Error in request:", e.description);
-    } else if (e instanceof HttpError) {
-      logErr("Could not contact Telegram:", e);
-    } else {
-      logErr("Unknown error:", e);
-    }
-  };
-
   async setCommands() {
     await Promise.all([userCommands.setCommands(this), adminCommands.setCommands(this)]);
   }
@@ -123,5 +107,3 @@ export class Bot extends GrammyBot<BotContext> {
 export const bot = new Bot({
   token: config.bot.token,
 });
-
-bot.catch(bot.errorHandler);

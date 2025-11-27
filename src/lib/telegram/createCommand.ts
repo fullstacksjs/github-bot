@@ -58,9 +58,16 @@ export const createCommand = <S extends Record<string, ZodType>>(args: CreateCom
     next();
   };
 
-  const middleware = [messageValidator, validator, handler];
+  const middleware = [
+    messageValidator,
+    validator,
+    async (ctx, next) => {
+      // @ts-expect-error It's safe
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return handler(ctx, next).catch(ctx.report);
+    },
+  ] satisfies Middleware<CommandContext<ContextWithValidator<S>>>[];
 
-  // @ts-expect-error It's safe
   const command = new Command<ContextWithValidator<S>>(name, description, middleware, options);
   scopes?.forEach((scope) => {
     // @ts-expect-error It's safe
