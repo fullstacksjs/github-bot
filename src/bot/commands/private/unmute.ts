@@ -19,27 +19,24 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
     where: (f, o) => o.eq(f.ghUsername, ghUsername),
   });
 
-  if (existingContributor?.isMuted) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_mute_already", { ghUsername: escapeMarkdown(ghUsername) }));
+  if (!existingContributor) {
+    return await ctx.replyToMessage(ctx.t("cmd_no_contributor"));
   }
 
-  if (existingContributor) {
-    await db.update(s.contributors).set({ isMuted: true }).where(eq(s.contributors.ghUsername, ghUsername));
-  } else {
-    await db.insert(s.contributors).values({
-      ghUsername,
-      isMuted: true,
-    });
+  if (!existingContributor?.isMuted) {
+    return await ctx.md.replyToMessage(ctx.t("cmd_unmute_already", { ghUsername: escapeMarkdown(ghUsername) }));
   }
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_mute"));
+  await db.update(s.contributors).set({ isMuted: false }).where(eq(s.contributors.ghUsername, ghUsername));
+
+  return await ctx.md.replyToMessage(ctx.t("cmd_unmute"));
 }
 
-export const cmdMute = createCommand({
-  template: "mute $ghUsername",
-  description: "🔇 Mute GitHub accounts",
+export const cmdUnmute = createCommand({
+  template: "unmute $ghUsername",
+  description: "🔊 Unmute GitHub accounts",
   handler,
   schema,
-  helpMessage: (t) => t("cmd_mute_help"),
+  helpMessage: (t) => t("cmd_unmute_help"),
   scopes: [{ type: "chat_administrators", chat_id: config.bot.chatId }],
 });
