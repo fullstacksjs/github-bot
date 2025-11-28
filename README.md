@@ -17,9 +17,9 @@ The bot automatically announces:
 
 Make sure you have:
 
-- [Bash](https://www.gnu.org/software/bash/)
+- [bash](https://www.gnu.org/software/bash/)
+- [node](https://nodejs.org/) >= 22.18.0
 - [pnpm](https://pnpm.io/)
-- [Telegram Bot](https://core.telegram.org/bots#how-do-i-create-a-bot)
 
 You can run the bot locally, with Docker, or deploy it on a server.
 
