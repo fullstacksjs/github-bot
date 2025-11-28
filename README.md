@@ -6,12 +6,12 @@ A Telegram bot that listens to GitHub activity and announces repository events d
 
 The bot automatically announces:
 
-- Repository stars
-- New issues
-- New pull requests
-- Pull request review requests
-- Pull request merges
-- New releases
+- ⭐ **Stars** — when someone stars the repository
+- 📝 **New Issues** — when a new issue is opened
+- 🔀 **Pull Requests** — when a PR is created
+- 👀 **Review Requests** — when a PR review is requested
+- ✅ **PR Merges** — when a PR is merged
+- 🏁 **Releases** — when a new release is published
 
 ## Installation
 
