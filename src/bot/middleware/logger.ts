@@ -34,7 +34,7 @@ export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
     message += [
       "<b>Error:</b>",
       `Command: <code>${update?.text}</code>`,
-      `Sender Name: <code>${link}</code>`,
+      `Sender Name: ${link}`,
       "",
       "<b>Message:</b>",
       "",
@@ -42,8 +42,6 @@ export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
 
     if (e instanceof GrammyError) {
       message += `<pre>${e.description}</pre>\n`;
-    } else if (e instanceof HttpError) {
-      message += `<pre>${e}</pre>\n`;
     } else {
       message += `<pre>${e}</pre>\n`;
     }
