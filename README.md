@@ -161,7 +161,7 @@ Every restart may generate a new URL (you can have Fixed URL if you sign-up in n
 
 ## Contributing
 
-Contributions of all kinds are welcome.
+Contributions of all kinds are welcome 🙌
 
 ### Ways to Contribute
 
@@ -192,7 +192,9 @@ You can also create a new issue if you believe a feature or improvement is neede
 ### Gaining Access to FullstacksJS Events (Optional)
 
 If you want your bot to receive events from the FullstacksJS GitHub organization, contact the admins in the contribution topic of our
-[Telegram group chat](https://t.me/fullstacksjs/163197).
+[Telegram group chat](https://t.me/fullstacksjs/163197).\
+After reviewing your request, we will add your public URL to the organization’s GitHub webhooks so your bot can start receiving the corresponding events.
 
-You must already have a fixed public URL where your bot is running.
-Refer to the [Webhook Requirement](#webhook-requirement) section for more details.
+Note that you must already have a fixed, publicly accessible URL where your bot is running.
+Refer to the Webhook Requirement
+section for more details.
