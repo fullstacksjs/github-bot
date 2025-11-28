@@ -1,6 +1,4 @@
-# GitHub-Telegram Announcer Bot
-
-A Telegram bot that listens to GitHub activity and announces repository events directly into a Telegram chat.
+FullstacksJS Telegram bot that listens to GitHub activity and announces repository events directly into a Telegram chat.
 
 ## Features
 
