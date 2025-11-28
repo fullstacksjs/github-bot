@@ -49,6 +49,25 @@ cp .env.example .env
 Open `.env` and fill in each variable as needed.
 See the **Configuration Reference** and **Contributing** sections below for more information.
 
+## Configuration Reference
+
+Environment variables:
+
+| Key                     | Description                                                    |
+| ----------------------- | -------------------------------------------------------------- |
+| `PORT`                  | Port for the server                                            |
+| `BOT_TOKEN`             | Telegram bot token from BotFather                              |
+| `CHAT_ID`               | Telegram chat, group, or channel ID                            |
+| `BOT_TOPIC_ID`          | Optional Telegram topic ID (for forum groups)                  |
+| `BOT_WEBHOOK_URL`       | Telegram bot webhook URL                                       |
+| `BOT_WEBHOOK_SECRET`    | Secret used for Telegram webhook validation                    |
+| `BOT_POOLING`           | Use polling instead of webhook (recommended for local testing) |
+| `GITHUB_TOKEN`          | Personal GitHub token                                          |
+| `GITHUB_ORG_NAME`       | GitHub organization to receive events from                     |
+| `GITHUB_WEBHOOK_SECRET` | Shared secret for GitHub webhook                               |
+
+See `.env.example` for all available options.
+
 ## Configure GitHub Webhooks
 
 > [!NOTE]
@@ -93,8 +112,7 @@ BOT_POOLING=true
 
 No additional configuration is required.
 
-If you want to configure a Telegram webhook, follow the official documentation:
-[https://core.telegram.org/bots/api#getting-updates](https://core.telegram.org/bots/api#getting-updates)
+If you want to configure a Telegram webhook, follow the [official documentation](https://core.telegram.org/bots/api#getting-updates).
 
 ### 4. Run the Bot
 
@@ -140,25 +158,6 @@ https://<random>.ngrok-free.app/api/webhook/github
 ```
 
 Every restart may generate a new URL (you can have Fixed URL if you sign-up in ngrok)
-
-## Configuration Reference
-
-Environment variables:
-
-| Key                     | Description                                                    |
-| ----------------------- | -------------------------------------------------------------- |
-| `PORT`                  | Port for the server                                            |
-| `BOT_TOKEN`             | Telegram bot token from BotFather                              |
-| `CHAT_ID`               | Telegram chat, group, or channel ID                            |
-| `BOT_TOPIC_ID`          | Optional Telegram topic ID (for forum groups)                  |
-| `BOT_WEBHOOK_URL`       | Telegram bot webhook URL                                       |
-| `BOT_WEBHOOK_SECRET`    | Secret used for Telegram webhook validation                    |
-| `BOT_POOLING`           | Use polling instead of webhook (recommended for local testing) |
-| `GITHUB_TOKEN`          | Personal GitHub token                                          |
-| `GITHUB_ORG_NAME`       | GitHub organization to receive events from                     |
-| `GITHUB_WEBHOOK_SECRET` | Shared secret for GitHub webhook                               |
-
-See `.env.example` for all available options.
 
 ## Contributing
 
