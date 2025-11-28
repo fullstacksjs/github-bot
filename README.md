@@ -19,9 +19,9 @@ The bot automatically announces:
 
 Make sure you have:
 
-- Bash
-- pnpm
-- A Telegram Bot created via BotFather
+- [Bash](https://www.gnu.org/software/bash/)
+- [pnpm](https://pnpm.io/)
+- [Telegram Bot](https://core.telegram.org/bots#how-do-i-create-a-bot)
 
 You can run the bot locally, with Docker, or deploy it on a server.
 
