@@ -2,9 +2,9 @@ import zod from "zod";
 
 export const tgUsername = zod
   .string()
-  .min(1)
+  .min(5)
   .max(32)
-  .regex(/^\w+$/, "Telegram username can only contain alphanumeric characters and underscores")
+  .regex(/^@?\w+$/, "Telegram username can only contain alphanumeric characters and underscores")
   .transform((val) => (val.startsWith("@") ? val.slice(1) : val))
   .brand<"TelegramUsername">();
 
