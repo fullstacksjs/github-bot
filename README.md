@@ -139,10 +139,7 @@ Use the generated HTTPS URL as your GitHub webhook endpoint:
 https://<random>.ngrok-free.app/api/webhook/github
 ```
 
-Every restart may generate a new URL
-
-> [!IMPORTANT]  
-> you can have Fixed URL if you sign-up in ngrok
+Every restart may generate a new URL (you can have Fixed URL if you sign-up in ngrok)
 
 ## Configuration Reference
 
