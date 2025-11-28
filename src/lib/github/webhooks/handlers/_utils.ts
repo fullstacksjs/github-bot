@@ -16,7 +16,7 @@ export function botText(key: string, variables?: TranslationVariables<string> | 
 }
 
 export function getRepoHashtag(repoFullName: string): string {
-  return `#${repoFullName.replace(/[-/]/g, "_")}`;
+  return `#${repoFullName.replace(/[-/]/g, "_").replace(/\./g, "")}`;
 }
 
 export async function isRepositoryAccepted(repo: string): Promise<boolean> {
