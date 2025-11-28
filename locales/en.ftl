@@ -91,9 +91,9 @@ cmd_unlink_help =
     ✍️ `/unlink` Guide:
     Pass the Telegram username after the command\.
     Pattern:
-    — `/link <telegram-username>`
+     — `/unlink <telegram-username>`
     Example:
-    — `/link @S_Kill`
+    — `/unlink @S_Kill`
 
 cmd_unlink = ✅ *Account unlinked successfully*\!
 
