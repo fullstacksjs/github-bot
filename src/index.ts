@@ -9,7 +9,8 @@ import * as z from "zod";
 async function startApi() {
   const api = new Hono();
 
-  api.use(`/api/webhook/telegram`, webhookCallback(bot, "hono", { secretToken: config.bot.webhookSecret }));
+  if (!config.bot.polling)
+    api.use(`/api/webhook/telegram`, webhookCallback(bot, "hono", { secretToken: config.bot.webhookSecret }));
 
   api.post(`/api/webhook/github`, async (ctx) => {
     const payload = z
@@ -41,5 +42,8 @@ async function startApi() {
 }
 
 await bot.setCommands();
-await bot.setupWebhook({ url: config.bot.webhookUrl, secret: config.bot.webhookSecret });
+
+if (config.bot.polling) bot.start();
+else await bot.setupWebhook();
+
 await startApi();

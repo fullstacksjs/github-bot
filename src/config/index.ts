@@ -12,9 +12,10 @@ const schema = new Config({
     chatId: Config.number().required(),
     topicId: Config.number(),
     adminIds: Config.array(Config.number({ coerce: true })),
-    webhookUrl: Config.string().required(),
-    webhookSecret: Config.string().required(),
+    webhookUrl: Config.string(),
+    webhookSecret: Config.string(),
     reportChatId: Config.number(),
+    polling: Config.boolean({ default: false }),
   }),
 
   github: Config.object({
@@ -40,6 +41,7 @@ export const config = schema
       adminIds: env.BOT_ADMIN_IDS?.split(",").map((v) => toDecimal(v.trim())),
       webhookUrl: env.BOT_WEBHOOK_URL,
       webhookSecret: env.BOT_WEBHOOK_SECRET,
+      polling: env.BOT_POLLING === "true",
       reportChatId: env.BOT_REPORT_CHAT_ID ? toDecimal(env.BOT_REPORT_CHAT_ID) : undefined,
     },
     github: {

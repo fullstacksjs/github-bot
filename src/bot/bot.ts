@@ -96,10 +96,13 @@ export class Bot extends GrammyBot<BotContext> {
     await Promise.all([userCommands.setCommands(this), adminCommands.setCommands(this)]);
   }
 
-  async setupWebhook({ secret, url }: { url: string; secret: string }) {
-    return this.api.setWebhook(url, {
+  async setupWebhook() {
+    if (!config.bot.webhookUrl || !config.bot.webhookSecret)
+      throw new Error("Webhook URL and secret must be provided for webhook mode");
+
+    return this.api.setWebhook(config.bot.webhookUrl, {
       allowed_updates: ["message"],
-      secret_token: secret,
+      secret_token: config.bot.webhookSecret,
     });
   }
 }
