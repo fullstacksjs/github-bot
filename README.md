@@ -7,7 +7,6 @@ The bot automatically announces:
 - ⭐ **Stars** — when someone stars the repository
 - 📝 **New Issues** — when a new issue is opened
 - 🔀 **Pull Requests** — when a PR is created
-- 👀 **Review Requests** — when a PR review is requested
 - ✅ **PR Merges** — when a PR is merged
 - 🏁 **Releases** — when a new release is published
 
