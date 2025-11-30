@@ -59,7 +59,7 @@ Environment variables:
 | `BOT_TOPIC_ID`          | Optional Telegram topic ID (for forum groups)                  |
 | `BOT_WEBHOOK_URL`       | Telegram bot webhook URL                                       |
 | `BOT_WEBHOOK_SECRET`    | Secret used for Telegram webhook validation                    |
-| `BOT_POOLING`           | Use polling instead of webhook (recommended for local testing) |
+| `BOT_POLLING`           | Use polling instead of webhook (recommended for local testing) |
 | `GITHUB_TOKEN`          | Personal GitHub token                                          |
 | `GITHUB_ORG_NAME`       | GitHub organization to receive events from                     |
 | `GITHUB_WEBHOOK_SECRET` | Shared secret for GitHub webhook                               |
@@ -105,7 +105,7 @@ To test GitHub announcements locally:
 If you are testing or running the bot locally, you can simply use polling by setting:
 
 ```
-BOT_POOLING=true
+BOT_POLLING=true
 ```
 
 No additional configuration is required.
