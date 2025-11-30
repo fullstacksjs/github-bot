@@ -69,7 +69,7 @@ See `.env.example` for all available options.
 ## Configure GitHub Webhooks
 
 > [!NOTE]
-> If you want to use FullStacksJS events, you can skip this section and go to the [gaining access to FullstacksJS events](#gaining-access-to-fullstacksjs-events-optional) section.
+> If you want to use FullstacksJS events, you can skip this section and go to the [gaining access to FullstacksJS events](#gaining-access-to-fullstacksjs-events-optional) section.
 
 To test GitHub announcements locally:
 
