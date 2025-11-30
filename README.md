@@ -9,6 +9,7 @@ The bot automatically announces:
 - 🔀 **Pull Requests** — when a PR is created
 - ✅ **PR Merges** — when a PR is merged
 - 🏁 **Releases** — when a new release is published
+- 👀 **Repository Created** — when a repository is created
 
 ## Installation
 
