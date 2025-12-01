@@ -47,25 +47,6 @@ cp .env.example .env
 Open `.env` and fill in each variable as needed.
 See the **Configuration Reference** and **Contributing** sections below for more information.
 
-## Configuration Reference
-
-Environment variables:
-
-| Key                     | Description                                                    |
-| ----------------------- | -------------------------------------------------------------- |
-| `PORT`                  | Port for the server                                            |
-| `BOT_TOKEN`             | Telegram bot token from BotFather                              |
-| `CHAT_ID`               | Telegram chat, group, or channel ID                            |
-| `BOT_TOPIC_ID`          | Optional Telegram topic ID (for forum groups)                  |
-| `BOT_WEBHOOK_URL`       | Telegram bot webhook URL                                       |
-| `BOT_WEBHOOK_SECRET`    | Secret used for Telegram webhook validation                    |
-| `BOT_POLLING`           | Use polling instead of webhook (recommended for local testing) |
-| `GITHUB_TOKEN`          | Personal GitHub token                                          |
-| `GITHUB_ORG_NAME`       | GitHub organization to receive events from                     |
-| `GITHUB_WEBHOOK_SECRET` | Shared secret for GitHub webhook                               |
-
-See `.env.example` for all available options.
-
 ## Configure GitHub Webhooks
 
 > [!NOTE]
