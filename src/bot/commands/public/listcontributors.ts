@@ -32,7 +32,7 @@ export async function listcontributorsHandler(ctx: BotContext) {
       const displayName = c.tgName || c.tgUsername || c.tgId.toString();
       tgLink = `[${escapeMarkdown(displayName)}](tg://user?id=${c.tgId})`;
     } else if (c.tgUsername) {
-      tgLink = `@${escapeMarkdown(c.tgUsername)}`;
+      tgLink = `[@${escapeMarkdown(c.tgUsername)}](https://t.me/${c.tgUsername})`;
     } else {
       tgLink = "🤷‍♂️";
     }
@@ -51,6 +51,7 @@ export async function listcontributorsHandler(ctx: BotContext) {
       contributors: contributorEntries.join("\n"),
       count: contributorEntries.length,
     }),
+    { disable_notification: true },
   );
 }
 
