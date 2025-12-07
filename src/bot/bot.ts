@@ -1,5 +1,5 @@
 import type { I18nFlavor } from "@grammyjs/i18n";
-import type { Context } from "grammy";
+import type { Context, PollingOptions } from "grammy";
 
 import { autoRetry } from "@grammyjs/auto-retry";
 import { I18n } from "@grammyjs/i18n";
@@ -24,6 +24,8 @@ const defaultChat: AnnounceChat = {
 interface BotOptions {
   /** Telegram bot's token */
   token: string;
+  /** Polling options, if polling is enabled */
+  polling?: boolean | PollingOptions;
 }
 
 interface AnnounceChat {
@@ -53,12 +55,14 @@ export class Bot extends GrammyBot<BotContext> {
       useIsolating: false,
     },
   });
+  polling: PollingOptions | undefined;
 
   /**
    * @param options bot options required to make the bot work.
    */
-  constructor({ token }: BotOptions) {
+  constructor({ token, polling }: BotOptions) {
     super(token);
+    this.polling = typeof polling === "boolean" ? {} : polling;
     this.use(markdown);
     this.use(logger);
     this.use(this.i18n);
@@ -105,8 +109,18 @@ export class Bot extends GrammyBot<BotContext> {
       secret_token: config.bot.webhookSecret,
     });
   }
+
+  override async start() {
+    await this.setCommands();
+    if (this.polling) {
+      await super.start(this.polling);
+    } else {
+      await this.setupWebhook();
+    }
+  }
 }
 
 export const bot = new Bot({
   token: config.bot.token,
+  polling: config.bot.polling,
 });

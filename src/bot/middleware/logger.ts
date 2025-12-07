@@ -2,7 +2,7 @@
 import type { BotContext } from "#bot";
 
 import { config } from "#config";
-import { GrammyError, HttpError } from "grammy";
+import { GrammyError } from "grammy";
 
 export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
   ctx.logger = {
