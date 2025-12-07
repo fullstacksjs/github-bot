@@ -28,6 +28,7 @@ export function withGuards<TEvent extends EmitterWebhookEventName>(handler: Hand
 
     if (username && (await isUserMuted(username))) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return handler(event);
   };
 }
