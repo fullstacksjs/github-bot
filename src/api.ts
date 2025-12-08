@@ -20,9 +20,9 @@ export async function createApi() {
         payload: z.string(),
       })
       .safeParse({
-        id: ctx.req.header("X-GitHub-Delivery") ?? "",
-        name: ctx.req.header("X-GitHub-Event") ?? "",
-        signature: ctx.req.header("X-Hub-Signature-256") ?? "",
+        id: ctx.req.header("X-GitHub-Delivery"),
+        name: ctx.req.header("X-GitHub-Event"),
+        signature: ctx.req.header("X-Hub-Signature-256"),
         payload: await ctx.req.text(),
       });
 

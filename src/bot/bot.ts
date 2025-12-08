@@ -113,7 +113,7 @@ export class Bot extends GrammyBot<BotContext> {
   override async start() {
     await this.setCommands();
     if (this.polling) {
-      await super.start(this.polling);
+      super.start(this.polling);
     } else {
       await this.setupWebhook();
     }
