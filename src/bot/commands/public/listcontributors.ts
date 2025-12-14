@@ -5,7 +5,7 @@ import { desc, eq, sum } from "drizzle-orm";
 
 import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 export async function listcontributorsHandler(ctx: BotContext) {
   const contributors = await db
@@ -23,16 +23,17 @@ export async function listcontributorsHandler(ctx: BotContext) {
     .orderBy(desc(sum(schema.repositoryContributors.contributions)));
 
   if (contributors.length === 0) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_listcontributors_empty"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_listcontributors_empty"));
   }
 
   const contributorEntries = contributors.map((c) => {
     let tgLink: string;
     if (c.tgId) {
       const displayName = c.tgName || c.tgUsername || c.tgId.toString();
-      tgLink = `[${escapeMarkdown(displayName)}](tg://user?id=${c.tgId})`;
+      tgLink = `<a href="tg://user?id=${c.tgId}">${escapeHtml(displayName)}</a>`;
     } else if (c.tgUsername) {
-      tgLink = `[@${escapeMarkdown(c.tgUsername)}](https://t.me/${c.tgUsername})`;
+      const encodedUsername = encodeURIComponent(c.tgUsername);
+      tgLink = `<a href="https://t.me/${encodedUsername}">${escapeHtml(c.tgName ?? c.tgUsername)}</a>`;
     } else {
       tgLink = "🤷‍♂️";
     }
@@ -40,13 +41,13 @@ export async function listcontributorsHandler(ctx: BotContext) {
     return ctx.t("cmd_listcontributors_url", {
       contributions: c.contributions ?? 0,
       isMuted: c.isMuted ? "🔇" : "",
-      ghUsername: c.ghUsername ? escapeMarkdown(c.ghUsername) : "",
-      ghUrl: c.ghUsername ? escapeMarkdown(`https://github.com/${c.ghUsername}`) : "",
+      ghUsername: c.ghUsername ? escapeHtml(c.ghUsername) : "",
+      ghUrl: c.ghUsername ? escapeHtml(`https://github.com/${c.ghUsername}`) : "",
       tgUsername: tgLink,
     });
   });
 
-  return await ctx.md.replyToMessage(
+  return await ctx.html.replyToMessage(
     ctx.t("cmd_listcontributors", {
       contributors: contributorEntries.join("\n"),
       count: contributorEntries.length,

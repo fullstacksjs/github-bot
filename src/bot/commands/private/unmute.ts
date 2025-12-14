@@ -6,7 +6,7 @@ import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 const schema = z.object({
   ghUsername: zs.ghUsername,
@@ -24,12 +24,12 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   }
 
   if (!existingContributor?.isMuted) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_unmute_already", { ghUsername: escapeMarkdown(ghUsername) }));
+    return await ctx.html.replyToMessage(ctx.t("cmd_unmute_already", { ghUsername: escapeHtml(ghUsername) }));
   }
 
   await db.update(s.contributors).set({ isMuted: false }).where(eq(s.contributors.ghUsername, ghUsername));
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_unmute"));
+  return await ctx.html.replyToMessage(ctx.t("cmd_unmute"));
 }
 
 export const cmdUnmute = createCommand({

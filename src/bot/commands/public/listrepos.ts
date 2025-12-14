@@ -4,7 +4,7 @@ import { createCommand } from "#telegram";
 
 import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 export async function handler(ctx: BotContext) {
   const repos = await db.query.repositories.findMany({
@@ -14,14 +14,14 @@ export async function handler(ctx: BotContext) {
   });
 
   if (repos.length === 0) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_listrepos_no_repo"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_listrepos_no_repo"));
   }
 
   const repositories = repos.map((repo) =>
-    ctx.t("cmd_listrepos_url", { name: escapeMarkdown(repo.name), url: escapeMarkdown(repo.htmlUrl) }),
+    ctx.t("cmd_listrepos_url", { name: escapeHtml(repo.name), url: escapeHtml(repo.htmlUrl) }),
   );
 
-  return await ctx.md.replyToMessage(
+  return await ctx.html.replyToMessage(
     ctx.t("cmd_listrepos", {
       repositories: repositories.join("\n"),
       repositoriesCount: repositories.length,

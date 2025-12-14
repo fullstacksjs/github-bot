@@ -15,7 +15,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   const { repoUrl } = ctx.args;
   const repoName = extractRepoName(repoUrl);
   if (!repoName) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_addrepo_help"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_addrepo_help"));
   }
 
   await db
@@ -29,7 +29,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
       set: { isBlacklisted: false },
     });
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_addrepo"));
+  return await ctx.html.replyToMessage(ctx.t("cmd_addrepo"));
 }
 
 export const cmdAddRepo = createCommand({

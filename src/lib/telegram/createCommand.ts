@@ -51,7 +51,7 @@ export const createCommand = <S extends Record<string, ZodType>>(args: CreateCom
 
     if (!command.success) {
       const message = typeof args.helpMessage === "function" ? args.helpMessage(ctx.t) : args.helpMessage;
-      return ctx.md.reply(message ?? `Invalid command usage. Correct format: /${template}`);
+      return ctx.html.reply(message ?? `Invalid command usage. Correct format: /${template}`);
     }
 
     ctx.args = command.data;

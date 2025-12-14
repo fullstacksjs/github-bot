@@ -16,12 +16,12 @@ export async function handler(ctx: BotContext) {
   });
 
   if (!existingContributor) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_unlink_not_found"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_unlink_not_found"));
   }
 
   await db.update(s.contributors).set({ tgUsername: null }).where(eq(s.contributors.tgUsername, tgUsername));
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_unlink"));
+  return await ctx.html.replyToMessage(ctx.t("cmd_unlink"));
 }
 
 export const cmdUnlink = createCommand({

@@ -2,7 +2,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 
 import { bot } from "#bot";
 
-import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { escapeHtml } from "../../../escape-html.ts";
 import { botText, getRepoHashtag, getUser } from "./_utils.ts";
 
 export const pullRequestClosedCallback: HandlerFunction<"pull_request.closed", unknown> = async (event) => {
@@ -14,10 +14,10 @@ export const pullRequestClosedCallback: HandlerFunction<"pull_request.closed", u
 
   await bot.announce(
     botText("e_pull_request_closed_merged", {
-      user: escapeMarkdown(user.user),
-      userUrl: escapeMarkdown(user.userUrl),
-      prUrl: escapeMarkdown(pr.html_url),
-      repoHashtag: escapeMarkdown(repoHashtag),
+      user: escapeHtml(user.user),
+      userUrl: escapeHtml(user.userUrl),
+      prUrl: escapeHtml(pr.html_url),
+      repoHashtag: escapeHtml(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: pr.html_url } },
   );
