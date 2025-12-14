@@ -3,7 +3,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 import { bot } from "#bot";
 import { db, schema } from "#db";
 
-import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { escapeHtml } from "../../../escape-html.ts";
 import { botText, getRepoHashtag } from "./_utils.ts";
 
 export const repositoryCreatedCallback: HandlerFunction<"repository.created", unknown> = async (event) => {
@@ -20,9 +20,9 @@ export const repositoryCreatedCallback: HandlerFunction<"repository.created", un
 
   await bot.announce(
     botText("e_repository_created", {
-      repoName: escapeMarkdown(repo.name),
-      repoUrl: escapeMarkdown(repo.html_url),
-      repoHashtag: escapeMarkdown(repoHashtag),
+      repoName: escapeHtml(repo.name),
+      repoUrl: escapeHtml(repo.html_url),
+      repoHashtag: escapeHtml(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: repo.html_url } },
   );

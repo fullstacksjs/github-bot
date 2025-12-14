@@ -6,7 +6,7 @@ import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 const schema = z.object({ gitHubUrl: zs.repoUrl });
 
@@ -18,14 +18,12 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   });
 
   if (!repo) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_removerepo_not_found"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_removerepo_not_found"));
   }
 
   await db.update(s.repositories).set({ isBlacklisted: true }).where(eq(s.repositories.id, repo.id));
 
-  return await ctx.md.replyToMessage(
-    ctx.t("cmd_removerepo", { name: escapeMarkdown(repo.name), url: escapeMarkdown(repo.htmlUrl) }),
-  );
+  return await ctx.html.replyToMessage(ctx.t("cmd_removerepo", { name: escapeHtml(repo.name), url: repo.htmlUrl }));
 }
 
 export const cmdRemoveRepo = createCommand({

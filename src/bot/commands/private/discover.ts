@@ -4,20 +4,16 @@ import { config } from "#config";
 import { createCommand } from "#telegram";
 
 import { startDiscovery } from "../../../lib/discovery.ts";
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
 
 export async function handler(ctx: BotContext) {
-  const update = await ctx.md.replyToMessage(ctx.t("cmd_discover"));
+  const update = await ctx.html.replyToMessage(ctx.t("cmd_discover"));
 
   startDiscovery().then((rawDuration) => {
     const duration = (rawDuration / 1000).toFixed(2);
 
-    return ctx.api.editMessageText(
-      update.chat.id,
-      update.message_id,
-      ctx.t("cmd_discover_done", { duration: escapeMarkdown(duration) }),
-      { parse_mode: "MarkdownV2" },
-    );
+    return ctx.api.editMessageText(update.chat.id, update.message_id, ctx.t("cmd_discover_done", { duration }), {
+      parse_mode: "HTML",
+    });
   });
 }
 

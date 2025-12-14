@@ -2,7 +2,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 
 import { bot } from "#bot";
 
-import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { escapeHtml } from "../../../escape-html.ts";
 import { botText, getRepoHashtag, getUser } from "./_utils.ts";
 
 export const starCreatedCallback: HandlerFunction<"star.created", unknown> = async (event) => {
@@ -13,11 +13,11 @@ export const starCreatedCallback: HandlerFunction<"star.created", unknown> = asy
 
   await bot.announce(
     botText("e_star_created", {
-      user: escapeMarkdown(user.user),
-      userUrl: escapeMarkdown(githubUrl),
-      repoName: escapeMarkdown(repo.name),
-      repoUrl: escapeMarkdown(repo.html_url),
-      repoHashtag: escapeMarkdown(repoHashtag),
+      user: escapeHtml(user.user),
+      userUrl: escapeHtml(githubUrl),
+      repoName: escapeHtml(repo.name),
+      repoUrl: escapeHtml(repo.html_url),
+      repoHashtag: escapeHtml(repoHashtag),
       starNumber: repo.stargazers_count,
     }),
     { link_preview_options: { prefer_small_media: true, url: githubUrl } },

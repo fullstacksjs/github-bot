@@ -8,12 +8,12 @@ import { config } from "#config";
 import { Bot as GrammyBot } from "grammy";
 
 import type { LoggerContext } from "./middleware/logger.ts";
-import type { MarkdownContext } from "./middleware/markdown.ts";
+import type { MarkupContext } from "./middleware/markup.ts";
 
 import { adminCommands } from "./commands/private/group.ts";
 import { userCommands } from "./commands/public/group.ts";
 import { logger } from "./middleware/logger.ts";
-import { markdown } from "./middleware/markdown.ts";
+import { markup } from "./middleware/markup.ts";
 
 const defaultChat: AnnounceChat = {
   chatId: config.bot.chatId,
@@ -41,7 +41,7 @@ export type BotContext<Args = Record<string, never>> = CommandContext<Args> &
   Context &
   I18nFlavor &
   LoggerContext &
-  MarkdownContext;
+  MarkupContext;
 
 /**
  * Bot extends GrammY's Bot by doing the bootstrap steps in constructor level.
@@ -63,7 +63,7 @@ export class Bot extends GrammyBot<BotContext> {
   constructor({ token, polling }: BotOptions) {
     super(token);
     this.polling = typeof polling === "boolean" ? {} : polling;
-    this.use(markdown);
+    this.use(markup);
     this.use(logger);
     this.use(this.i18n);
     this.use(
@@ -71,7 +71,10 @@ export class Bot extends GrammyBot<BotContext> {
         limit: 10,
         timeFrame: 10_000,
         onLimitExceeded: async (ctx) => {
-          await ctx.reply(ctx.t("ratelimiter_onLimitExceeded"));
+          await ctx.reply(ctx.t("ratelimiter_onLimitExceeded"), {
+            parse_mode: "HTML",
+            link_preview_options: { is_disabled: true },
+          });
         },
       }),
     );
@@ -89,11 +92,13 @@ export class Bot extends GrammyBot<BotContext> {
    * @param topicId ID of the chat topic for the message to get announced in. default: `config.bot.topicId`
    */
   public async announce(text: string, other?: Parameters<typeof this.api.sendMessage>[2], chat = defaultChat) {
-    await this.api.sendMessage(chat?.chatId, text, {
-      message_thread_id: chat?.topicId,
-      parse_mode: "MarkdownV2",
-      ...other,
-    });
+    const options = {
+      ...(other ?? {}),
+      message_thread_id: other?.message_thread_id ?? chat.topicId,
+      parse_mode: "HTML" as const,
+    } satisfies Parameters<typeof this.api.sendMessage>[2];
+
+    await this.api.sendMessage(chat.chatId, text, options);
   }
 
   async setCommands() {

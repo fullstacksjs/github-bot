@@ -2,69 +2,69 @@
 ratelimiter_onLimitExceeded = Chill out. D:
 
 # Commands
-cmd_addrepo = ✅ *Repository added successfully*\!
+cmd_addrepo = ✅ <b>Repository added successfully!</b>
 
 cmd_addrepo_help =
-    ✍️ `/addrepo` Guide:
+    ✍️ <code>/addrepo</code> Guide:
 
-    Pass the complete GitHub repository url after the command\.
+    Pass the complete GitHub repository url after the command.
 
     Pattern:
-    — `/addrepo <github-url>`
+    — <code>/addrepo &lt;github-url&gt;</code>
 
     Example:
-    — `/addrepo https://github.com/fullstacksjs/github-bot`
+    — <code>/addrepo https://github.com/fullstacksjs/github-bot</code>
 
 cmd_discover =
-    ⏳ *Discovery began*\.
+    ⏳ <b>Discovery began.</b>
 
-    This might take a few seconds\.
+    This might take a few seconds.
 
-cmd_discover_done = ✅ Discovery completed in { $duration } seconds\!
+cmd_discover_done = ✅ Discovery completed in <b>{ $duration }</b> seconds!
 
 cmd_listrepos =
-    ✨ *Repositories:*
+    ✨ <b>Repositories:</b>
 
     { $repositories }
 
-    💎 *Total:* `{ $repositoriesCount }`
+    💎 <b>Total:</b> <code>{ $repositoriesCount }</code>
 
-cmd_listrepos_url = — [{ $name }]({ $url })
+cmd_listrepos_url = — <a href="{ $url }">{ $name }</a>
 
 cmd_listrepos_no_repo = 🌚 Nothing's getting monitored
 
 cmd_listcontributors =
-    🏆 *Contributors:*
+    🏆 <b>Contributors:</b>
     GitHub, Telegram, Contributions
     { $contributors }
 
-    💎 *Total:* `{ $count }`
+    💎 <b>Total:</b> <code>{ $count }</code>
 
-cmd_listcontributors_url = — [{ $ghUsername }]({ $ghUrl }), { $tgUsername }, { $contributions } { $isMuted }
+cmd_listcontributors_url = — <a href="{ $ghUrl }">{ $ghUsername }</a>, { $tgUsername }, { $contributions } { $isMuted }
 
 cmd_no_contributor = 🤔 Who are you talking about?!
 
 cmd_listcontributors_empty = 🥲 No one is here
 
-cmd_removerepo = Repository [{ $name }]({ $url }) removed successfully\.
+cmd_removerepo = Repository <a href="{ $url }">{ $name }</a> removed successfully.
 
-cmd_removerepo_not_found = Repository couldn't be found\!
+cmd_removerepo_not_found = Repository couldn't be found!
 
 cmd_removerepo_help =
-    ✍️ `/removerepo` Guide:
+    ✍️ <code>/removerepo</code> Guide:
 
-    Pass the complete GitHub repository url after the command\.
+    Pass the complete GitHub repository url after the command.
 
     Pattern:
-    — `/removerepo <github-url>`
+    — <code>/removerepo &lt;github-url&gt;</code>
 
     Example:
-    — `/removerepo https://github.com/fullstacksjs/github-bot`
+    — <code>/removerepo https://github.com/fullstacksjs/github-bot</code>
 
 cmd_whoami =
-    Hello *{ $name }*\!
-    I know you as *{ $ghUsername }*\.
-    { $githubUrl }
+    Hello <b>{ $name }</b>!
+    I know you as <b>{ $ghUsername }</b>.
+    <a href="{ $githubUrl }">{ $githubUrl }</a>
 
 cmd_whoami_not_found =
     I've never seen you before.
@@ -73,142 +73,154 @@ cmd_whoami_no_username =
     If you don't know, why should I?
 
 cmd_link_help =
-    ✍️ `/link` Guide:
+    ✍️ <code>/link</code> Guide:
 
     Method 1: Reply to a user's message
-    — `/link <github-username>`
+    — <code>/link &lt;github-username&gt;</code>
 
     Method 2: Provide both usernames
-    — `/link <github-username> <telegram-username>`
+    — <code>/link &lt;github-username&gt; &lt;telegram-username&gt;</code>
 
     Examples:
-    — Reply to user: `/link ASafaeirad`
-    — Direct: `/link ASafaeirad S_Kill`
+    — Reply to user: <code>/link ASafaeirad</code>
+    — Direct: <code>/link ASafaeirad S_Kill</code>
 
-cmd_link = ✅ *Account linked successfully*\!
+cmd_link = ✅ <b>Account linked successfully!</b>
 
-cmd_link_no_user = ⚠️ Could not find user information\.
+cmd_link_no_user = ⚠️ Could not find user information.
 
 cmd_unlink_help =
-    ✍️ `/unlink` Guide:
-    Pass the Telegram username after the command\.
+    ✍️ <code>/unlink</code> Guide:
+    Pass the Telegram username after the command.
     Pattern:
-     — `/unlink <telegram-username>`
+     — <code>/unlink &lt;telegram-username&gt;</code>
     Example:
-    — `/unlink @S_Kill`
+    — <code>/unlink @S_Kill</code>
 
-cmd_unlink = ✅ *Account unlinked successfully*\!
+cmd_unlink = ✅ <b>Account unlinked successfully!</b>
 
-cmd_unlink_not_found = ❌ *User not found*\!
+cmd_unlink_not_found = ❌ <b>User not found!</b>
 
 cmd_help_admin =
     This bot will monitor and notify GitHub activities within the FullstacksJS community.
 
     💡 Commands:
-     
-     /help - to see this help.
-     /listrepos - see list of the monitored repositories.
-     /addrepo - add an existing repository.
-     /removerepo - remove a repository.
-     /link - link telegram account to the github username.
-     /unlink - unlink telegram account from github username.
-     /listcontributors - see list of the monitored contributors.
-     /discover - update the repository database.
-     /whoami - show your GitHub account.
-     /mute - mute github account.
+
+    <code>/help</code> - to see this help.
+    <code>/listrepos</code> - see list of the monitored repositories.
+    <code>/addrepo</code> - add an existing repository.
+    <code>/removerepo</code> - remove a repository.
+    <code>/link</code> - link telegram account to the github username.
+    <code>/unlink</code> - unlink telegram account from github username.
+    <code>/listcontributors</code> - see list of the monitored contributors.
+    <code>/discover</code> - update the repository database.
+    <code>/whoami</code> - show your GitHub account.
+    <code>/mute</code> - mute github account.
 
 cmd_help =
     This bot will monitor and notify GitHub activities within the FullstacksJS community.
 
     💡 Commands:
-     
-     /help - to see this help.
-     /listrepos - see list of the monitored repositories.
-     /listcontributors - see list of the monitored contributors.
-     /whoami - show your GitHub account.
- 
-cmd_mute_help =
-    ✍️ `/mute` Guide:
 
-    Pass the GitHub username after the command\.
+    <code>/help</code> - to see this help.
+     <code>/listrepos</code> - see list of the monitored repositories.
+     <code>/listcontributors</code> - see list of the monitored contributors.
+     <code>/whoami</code> - show your GitHub account.
+
+cmd_mute_help =
+    ✍️ <code>/mute</code> Guide:
+
+    Pass the GitHub username after the command.
 
     Pattern:
-    — `/mute <github-username>`
+    — <code>/mute &lt;github-username&gt;</code>
 
     Example:
-    — `/mute ASafaeirad`
+    — <code>/mute ASafaeirad</code>
 
-cmd_mute_already = *{ $ghUsername }* has been muted already\!
+cmd_mute_already = <b>{ $ghUsername }</b> has been muted already!
 
-cmd_mute = 🔇 *User muted successfully*\!
+cmd_mute = 🔇 <b>User muted successfully!</b>
 
 cmd_unmute_help =
-    ✍️ `/unmute` Guide:
+    ✍️ <code>/unmute</code> Guide:
 
-    Pass the GitHub username after the command\.
+    Pass the GitHub username after the command.
 
     Pattern:
-    — `/unmute <github-username>`
+    — <code>/unmute &lt;github-username&gt;</code>
 
     Example:
-    — `/unmute ASafaeirad`
+    — <code>/unmute ASafaeirad</code>
 
-cmd_unmute_already = *{ $ghUsername }* is not muted\!
+cmd_unmute_already = <b>{ $ghUsername }</b> is not muted!
 
-cmd_unmute = 🔊 *User unMuted successfully*\!
+cmd_unmute = 🔊 <b>User unMuted successfully!</b>
 
 # Events
 e_issue_opened =
-    🔘 Issue: *{ $issueTitle }*\.
+    🔘 Issue: <b>{ $issueTitle }</b>.
 
-    👤 Author: [{ $user }]({ $userUrl })
+    👤 Author: <a href="{ $userUrl }">{ $user }</a>
 
-    — { $issueUrl }
+    — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
-    { $repoHashtag } \#issue
+    { $repoHashtag } #issue
 
 e_pull_request_closed_merged =
-    🌳 PR Merged\!
+    🌳 PR Merged!
 
-    👤 Author: [{ $user }]({ $userUrl })
+    👤 Author: <a href="{ $userUrl }">{ $user }</a>
 
-    — { $prUrl }
+    — <a href="{ $prUrl }">{ $prUrl }</a>
 
-    { $repoHashtag } \#pr
+    { $repoHashtag } #pr
 
 e_pull_request_opened =
-    🌴 PR Created: *{ $prTitle }*
+    🌴 PR Created: <b>{ $prTitle }</b>
 
-    👤 Author: [{ $user }]({ $userUrl })\!
+    👤 Author: <a href="{ $userUrl }">{ $user }</a>!
 
-    — { $prUrl }
+    — <a href="{ $prUrl }">{ $prUrl }</a>
 
-    { $repoHashtag } \#pr
+    { $repoHashtag } #pr
 
 e_release_created =
-    🎉 *{ $repoName } { $releaseTag }*
-    — { $releaseUrl }
+    🚀 <b>{ $repoName }@{ $releaseTag }</b> is out!
 
-    { $repoHashtag } \#release
+    <a href="{ $releaseUrl }">View Release</a>
+
+    { $repoHashtag } #release
+
+
+e_release_created_with_notes =
+    🚀 <b>{ $repoName }@{ $releaseTag }</b> is out! WTF?
+
+    <b>Release notes</b>
+    { $notes }
+
+    <a href="{ $releaseUrl }">View Release</a>
+
+    { $repoHashtag } #release
 
 e_repository_created =
-    ✨ New repository\!
+    ✨ New repository!
 
-    — [{ $repoName }]({ $repoUrl })
+    — <a href="{ $repoUrl }">{ $repoName }</a>
 
-    { $repoHashtag } \#new_repo
+    { $repoHashtag } #new_repo
 
 e_star_created =
-    🌟 [{ $user }]({ $userUrl }) gave star number { $starNumber } to [{ $repoName }]({ $repoUrl })\.
+    🌟 <a href="{ $userUrl }">{ $user }</a> gave star number { $starNumber } to <a href="{ $repoUrl }">{ $repoName }</a>.
 
-    { $repoHashtag } \#star
+    { $repoHashtag } #star
 
 e_issue_assigned =
-    👥 Issue Assigned: *{ $issueTitle }*\.
+    👥 Issue Assigned: <b>{ $issueTitle }</b>.
 
-    👤 Assignee: [{ $assignee }]({ $assigneeUrl })
+    👤 Assignee: <a href="{ $assigneeUrl }">{ $assignee }</a>
 
-    — { $issueUrl }
+    — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
-    { $repoHashtag } \#assigned
+    { $repoHashtag } #assigned
 

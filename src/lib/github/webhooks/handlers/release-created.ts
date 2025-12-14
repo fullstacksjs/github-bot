@@ -2,7 +2,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 
 import { bot } from "#bot";
 
-import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { escapeHtml } from "../../../escape-html.ts";
 import { botText, getRepoHashtag } from "./_utils.ts";
 
 export const releaseCreatedCallback: HandlerFunction<"release.created", unknown> = async (event) => {
@@ -12,10 +12,10 @@ export const releaseCreatedCallback: HandlerFunction<"release.created", unknown>
 
   await bot.announce(
     botText("e_release_created", {
-      repoName: escapeMarkdown(repo.name),
-      releaseTag: escapeMarkdown(release.tag_name),
-      releaseUrl: escapeMarkdown(release.html_url),
-      repoHashtag: escapeMarkdown(repoHashtag),
+      repoName: escapeHtml(repo.name),
+      releaseTag: escapeHtml(release.tag_name),
+      releaseUrl: escapeHtml(release.html_url),
+      repoHashtag: escapeHtml(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: release.html_url } },
   );

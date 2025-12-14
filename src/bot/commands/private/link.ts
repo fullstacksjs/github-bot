@@ -20,7 +20,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   const tgId = isActualReply ? repliedMessage.from?.id : null;
 
   if (!tgId && !tgUsername) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_link_no_user"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_link_no_user"));
   }
 
   const set: SQLiteInsertValue<typeof s.contributors> = { ghUsername };
@@ -35,7 +35,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
       set: set as SQLiteUpdateSetSource<typeof s.contributors>,
     });
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_link"));
+  return await ctx.html.replyToMessage(ctx.t("cmd_link"));
 }
 
 export const cmdLink = createCommand({

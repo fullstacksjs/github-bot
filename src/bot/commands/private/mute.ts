@@ -6,7 +6,7 @@ import { createCommand, zs } from "#telegram";
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 const schema = z.object({
   ghUsername: zs.ghUsername,
@@ -20,7 +20,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   });
 
   if (existingContributor?.isMuted) {
-    return await ctx.md.replyToMessage(ctx.t("cmd_mute_already", { ghUsername: escapeMarkdown(ghUsername) }));
+    return await ctx.html.replyToMessage(ctx.t("cmd_mute_already", { ghUsername: escapeHtml(ghUsername) }));
   }
 
   if (existingContributor) {
@@ -32,7 +32,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
     });
   }
 
-  return await ctx.md.replyToMessage(ctx.t("cmd_mute"));
+  return await ctx.html.replyToMessage(ctx.t("cmd_mute"));
 }
 
 export const cmdMute = createCommand({

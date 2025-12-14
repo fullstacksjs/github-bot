@@ -2,7 +2,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 
 import { bot } from "#bot";
 
-import { escapeMarkdown } from "../../../escape-markdown.ts";
+import { escapeHtml } from "../../../escape-html.ts";
 import { botText, getRepoHashtag, getUser } from "./_utils.ts";
 
 export const issuesAssignedCallback: HandlerFunction<"issues.assigned", unknown> = async (event) => {
@@ -19,11 +19,11 @@ export const issuesAssignedCallback: HandlerFunction<"issues.assigned", unknown>
 
   await bot.announce(
     botText("e_issue_assigned", {
-      issueTitle: escapeMarkdown(issue.title),
-      assignee: escapeMarkdown(assignee.user),
-      assigneeUrl: escapeMarkdown(assignee.userUrl),
-      issueUrl: escapeMarkdown(issue.html_url),
-      repoHashtag: escapeMarkdown(repoHashtag),
+      issueTitle: escapeHtml(issue.title),
+      assignee: escapeHtml(assignee.user),
+      assigneeUrl: assignee.userUrl,
+      issueUrl: issue.html_url,
+      repoHashtag: escapeHtml(repoHashtag),
     }),
     { link_preview_options: { prefer_small_media: true, url: issue.html_url } },
   );

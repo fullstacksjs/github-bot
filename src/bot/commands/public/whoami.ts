@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 import type { BotContext } from "../../bot.ts";
 
-import { escapeMarkdown } from "../../../lib/escape-markdown.ts";
+import { escapeHtml } from "../../../lib/escape-html.ts";
 
 export async function handler(ctx: BotContext) {
   const sender = ctx.message.from;
@@ -28,11 +28,11 @@ export async function handler(ctx: BotContext) {
     .set({ tgName: fullName, tgId: sender.id, tgUsername: sender.username })
     .where(eq(schema.contributors.ghUsername, ghUser.ghUsername));
 
-  return await ctx.md.replyToMessage(
+  return await ctx.html.replyToMessage(
     ctx.t("cmd_whoami", {
-      name: escapeMarkdown(fullName),
-      githubUrl: escapeMarkdown(githubUrl),
-      ghUsername: escapeMarkdown(ghUser.ghUsername),
+      name: escapeHtml(fullName),
+      githubUrl,
+      ghUsername: ghUser.ghUsername,
     }),
     { link_preview_options: { prefer_small_media: true, is_disabled: false, url: githubUrl } },
   );
