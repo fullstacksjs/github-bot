@@ -2,7 +2,7 @@
   "name": "github-bot",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@10.26.0",
   "imports": {
     "#config": [
       "./src/config/index.ts"
@@ -26,7 +26,7 @@
   "scripts": {
     "dev": "node --watch --env-file-if-exists=.env src/index.ts",
     "start": "node --env-file-if-exists=.env src/index.ts",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "test": "node --test src/**/*.spec.ts",
     "test:watch": "node --watch --test src/**/*.spec.ts",
     "typecheck": "tsc",
@@ -72,7 +72,6 @@
     "typescript": "5.9.3"
   },
   "volta": {
-    "node": "22.18.0",
-    "pnpm": "10.22.0"
+    "node": "24.12.0"
   }
 }
