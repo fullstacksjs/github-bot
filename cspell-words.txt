@@ -1,6 +1,8 @@
 addrepo
+appleboy
 autoincrement
 buildx
+elif
 fullstacksjs
 gitmessage
 grammyjs
@@ -9,6 +11,7 @@ listcontributors
 listrepos
 lyja
 nodenext
+pipefail
 removerepo
 Safaeirad
 smee

@@ -1,24 +1,31 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 concurrency:
-  group: deploy-main
-  cancel-in-progress: true
+  group: deploy-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
 
 jobs:
   build-and-push:
     name: Build and Push Image
     runs-on: ubuntu-24.04
+
+    outputs:
+      image: ${{ steps.out.outputs.image }}
+      digest: ${{ steps.push.outputs.digest }}
+
     permissions:
       contents: read
       packages: write
+      id-token: write
+
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
+
     steps:
       - uses: actions/checkout@v6
       - uses: docker/setup-buildx-action@v3
@@ -28,13 +35,76 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: type=ref,event=tag
+
       - uses: docker/build-push-action@v6
+        id: push
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Output image ref
+        id: out
+        run: |
+          echo "image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-24.04
+    needs: build-and-push
+
+    permissions:
+      contents: read
+      packages: read
+
+    env:
+      IMAGE: ${{ needs.build-and-push.outputs.image }}
+      DIGEST: ${{ needs.build-and-push.outputs.digest }}
+      CONTAINER_NAME: ${{ vars.DOCKER_CONTAINER_NAME }}
+      GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+      GHCR_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          envs: IMAGE,DIGEST,CONTAINER_NAME,GHCR_USERNAME,GHCR_TOKEN
+          script: |
+            set -euo pipefail
+
+            if [ -n "${GHCR_USERNAME:-}" ] && [ -n "${GHCR_TOKEN:-}" ]; then
+              printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
+            fi
+
+            IMAGE_REF="$IMAGE@$DIGEST"
+            echo "Deploying $IMAGE_REF"
+
+            docker pull "$IMAGE_REF"
+
+            docker stop "$CONTAINER_NAME" 2>/dev/null || true
+            docker rm "$CONTAINER_NAME" 2>/dev/null || true
+
+            docker run -d \
+              --restart unless-stopped \
+              --name "$CONTAINER_NAME" \
