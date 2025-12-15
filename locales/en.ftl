@@ -194,7 +194,7 @@ e_release_created =
 
 
 e_release_created_with_notes =
-    🚀 <b>{ $repoName }@{ $releaseTag }</b> is out! WTF?
+    🚀 <b>{ $repoName }@{ $releaseTag }</b> is out!
 
     <b>Release notes</b>
     <blockquote>{ $notes }</blockquote>
