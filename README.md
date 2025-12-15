@@ -119,24 +119,21 @@ Because GitHub and Telegram deliver events through webhooks, your bot must be ac
 
 If you are running the bot locally, use a tunneling tool such as:
 
-- ngrok
+- Smee.io
+- Ngrok
 - Cloudflare Tunnel
 - LocalTunnel
 - Expose
 
-### Example Using ngrok
+### Example Using Smee.io
 
-```bash
-ngrok http 3000
+1. Start a tunnel with the bundled script:
+
+```bash copy
+pnpm smee --path /api/webhook/github
 ```
 
-Use the generated HTTPS URL as your GitHub webhook endpoint:
-
-```
-https://<random>.ngrok-free.app/api/webhook/github
-```
-
-Every restart may generate a new URL (you can have Fixed URL if you sign-up in ngrok)
+2. Set the Forwarding URL as your GitHub webhook endpoint.
 
 ## Contributing
 
