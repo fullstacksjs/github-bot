@@ -94,6 +94,8 @@ jobs:
           script: |
             set -euo pipefail
 
+            cd github-bot || exit 1
+
             printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
 
             IMAGE_REF="$IMAGE@$DIGEST"
