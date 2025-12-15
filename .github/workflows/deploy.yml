@@ -104,6 +104,8 @@ jobs:
             docker pull "$IMAGE_REF"
             docker stop "$CONTAINER_NAME" 2>/dev/null || true
             docker rm "$CONTAINER_NAME" 2>/dev/null || true
-            docker run -d --restart unless-stopped --name "$CONTAINER_NAME" "$IMAGE_REF"
+
+            API_PORT=$(grep ^API_PORT= .env | cut -d '=' -f2)
+            docker run -d -p ${API_PORT}:${API_PORT} --env-file .env -v ./data:/app/data --restart on-failure:16 --name "$CONTAINER_NAME" "$IMAGE_REF"
 
             docker logout ghcr.io
