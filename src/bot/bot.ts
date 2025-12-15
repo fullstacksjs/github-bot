@@ -55,14 +55,14 @@ export class Bot extends GrammyBot<BotContext> {
       useIsolating: false,
     },
   });
-  polling: PollingOptions | undefined;
+  polling: false | PollingOptions | undefined;
 
   /**
    * @param options bot options required to make the bot work.
    */
   constructor({ token, polling }: BotOptions) {
     super(token);
-    this.polling = typeof polling === "boolean" ? {} : polling;
+    this.polling = polling === true ? {} : polling;
     this.use(markup);
     this.use(logger);
     this.use(this.i18n);
@@ -101,6 +101,15 @@ export class Bot extends GrammyBot<BotContext> {
     await this.api.sendMessage(chat.chatId, text, options);
   }
 
+  async run() {
+    await this.setCommands();
+    if (this.polling) {
+      this.start(this.polling);
+    } else {
+      await this.setupWebhook();
+    }
+  }
+
   async setCommands() {
     await Promise.all([userCommands.setCommands(this), adminCommands.setCommands(this)]);
   }
@@ -113,15 +122,6 @@ export class Bot extends GrammyBot<BotContext> {
       allowed_updates: ["message"],
       secret_token: config.bot.webhookSecret,
     });
-  }
-
-  override async start() {
-    await this.setCommands();
-    if (this.polling) {
-      super.start(this.polling);
-    } else {
-      await this.setupWebhook();
-    }
   }
 }
 
