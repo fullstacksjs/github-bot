@@ -23,15 +23,15 @@ export const releaseCreatedCallback: HandlerFunction<"release.created", unknown>
       }),
       { link_preview_options: { prefer_small_media: true, url: release.html_url } },
     );
+  } else {
+    await bot.announce(
+      botText("e_release_created", {
+        repoName: escapeHtml(repo.name),
+        releaseTag: escapeHtml(release.tag_name),
+        releaseUrl: escapeHtml(release.html_url),
+        repoHashtag,
+      }),
+      { link_preview_options: { prefer_small_media: true, url: release.html_url } },
+    );
   }
-
-  await bot.announce(
-    botText("e_release_created", {
-      repoName: escapeHtml(repo.name),
-      releaseTag: escapeHtml(release.tag_name),
-      releaseUrl: escapeHtml(release.html_url),
-      repoHashtag,
-    }),
-    { link_preview_options: { prefer_small_media: true, url: release.html_url } },
-  );
 };
