@@ -9,13 +9,25 @@ export const releaseCreatedCallback: HandlerFunction<"release.created", unknown>
   const repo = event.payload.repository;
   const release = event.payload.release;
   const repoHashtag = getRepoHashtag(repo.name);
+  if (release.body) {
+    await bot.announce(
+      botText("e_release_created_with_notes", {
+        repoName: escapeHtml(repo.name),
+        releaseTag: escapeHtml(release.tag_name),
+        releaseUrl: escapeHtml(release.html_url),
+        notes: release.body,
+        repoHashtag,
+      }),
+      { link_preview_options: { prefer_small_media: true, url: release.html_url } },
+    );
+  }
 
   await bot.announce(
     botText("e_release_created", {
       repoName: escapeHtml(repo.name),
       releaseTag: escapeHtml(release.tag_name),
       releaseUrl: escapeHtml(release.html_url),
-      repoHashtag: escapeHtml(repoHashtag),
+      repoHashtag,
     }),
     { link_preview_options: { prefer_small_media: true, url: release.html_url } },
   );

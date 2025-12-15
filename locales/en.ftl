@@ -197,7 +197,7 @@ e_release_created_with_notes =
     🚀 <b>{ $repoName }@{ $releaseTag }</b> is out! WTF?
 
     <b>Release notes</b>
-    { $notes }
+    <blockquote>{ $notes }</blockquote>
 
     <a href="{ $releaseUrl }">View Release</a>
 
@@ -223,4 +223,3 @@ e_issue_assigned =
     — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
     { $repoHashtag } #assigned
-
