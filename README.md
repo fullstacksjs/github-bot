@@ -11,6 +11,8 @@
 
 FullstacksJS GitHub bot is a Telegram bot that listens to GitHub activity and announces repository events directly into a Telegram chat.
 
+</div>
+
 ## Features
 
 The bot automatically announces:
