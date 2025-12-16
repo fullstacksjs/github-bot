@@ -1,4 +1,15 @@
-FullstacksJS Telegram bot that listens to GitHub activity and announces repository events directly into a Telegram chat.
+<div align="center">
+
+<br/>
+<br/>
+
+<img src="https://raw.githubusercontent.com/fullstacksjs/github-bot/main/assets/logo.svg" width="200" alt="FullstacksJS GitHub Telegram Bot Logo" />
+
+<br/>
+<br/>
+<br/>
+
+FullstacksJS GitHub bot is a Telegram bot that listens to GitHub activity and announces repository events directly into a Telegram chat.
 
 ## Features
 
