@@ -27,8 +27,8 @@
     "dev": "node --watch --env-file-if-exists=.env src/index.ts",
     "start": "node --env-file-if-exists=.env src/index.ts",
     "lint": "eslint .",
-    "test": "node --test src/**/*.spec.ts",
-    "test:watch": "node --watch --test src/**/*.spec.ts",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "typecheck": "tsc",
     "smee": "smee",
     "db:studio": "drizzle-kit studio",
@@ -69,7 +69,8 @@
     "prettier": "3.6.2",
     "simple-git-hooks": "2.13.1",
     "smee-client": "5.0.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "4.0.16"
   },
   "volta": {
     "node": "24.12.0"

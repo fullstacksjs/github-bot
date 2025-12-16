@@ -1,10 +1,10 @@
 import assert from "node:assert";
-import test from "node:test";
+import { expect, test } from "vitest";
 import zod from "zod";
 
 import { CommandParser } from "./CommandParser.ts";
 
-test("CommandParser parses command arguments correctly", () => {
+test("commandParser parses command arguments correctly", () => {
   const parser = CommandParser(
     "/link $repoUrl $ghUsername",
     zod.object({
@@ -14,11 +14,12 @@ test("CommandParser parses command arguments correctly", () => {
   );
   const { success, data } = parser("/link https://github.com/ASafaeirad/repo ASafaeirad");
   assert.ok(success);
-  assert.equal(data.ghUsername, "ASafaeirad");
-  assert.equal(data.repoUrl, "https://github.com/ASafaeirad/repo");
+
+  expect(data.ghUsername).toBe("ASafaeirad");
+  expect(data.repoUrl).toBe("https://github.com/ASafaeirad/repo");
 });
 
-test("CommandParser returns failure on invalid input", () => {
+test("commandParser returns failure on invalid input", () => {
   const parser = CommandParser(
     "/link $repoUrl $ghUsername",
     zod.object({
@@ -27,5 +28,6 @@ test("CommandParser returns failure on invalid input", () => {
     }),
   );
   const { success } = parser("/link invalid-url ASafaeirad");
-  assert.ok(!success);
+
+  expect(success).toBe(false);
 });

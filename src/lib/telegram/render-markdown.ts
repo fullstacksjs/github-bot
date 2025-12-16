@@ -2,9 +2,15 @@ import { crlfToLf, isNullOrEmptyString } from "@fullstacksjs/toolbox";
 
 const boldPattern = /\*\*(.+?)\*\*/g;
 const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+const githubPullPattern = /(?<!["=])(https:\/\/github\.com\/[^/]+\/[^/]+\/pull\/(\d+))(?!<)/g;
+const githubComparePattern = /(?<!["=])(https:\/\/github\.com\/[^/]+\/[^/]+\/compare\/(\S+))(?!<)/g;
 
 function renderInline(content: string): string {
-  return content.replace(boldPattern, "<b>$1</b>").replace(linkPattern, '<a href="$2">$1</a>');
+  return content
+    .replace(boldPattern, "<b>$1</b>")
+    .replace(linkPattern, '<a href="$2">$1</a>')
+    .replace(githubPullPattern, '<a href="$1">[$2]</a>')
+    .replace(githubComparePattern, '<a href="$1">[$2]</a>');
 }
 
 export function renderMarkdown(markdown: string, maxChars: number = Infinity): string {
