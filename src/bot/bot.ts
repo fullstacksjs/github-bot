@@ -80,7 +80,13 @@ export class Bot extends GrammyBot<BotContext> {
     );
 
     this.use(userCommands);
-    this.filter((ctx) => config.bot.adminIds.includes(ctx.message.from.id)).use(adminCommands);
+
+    const isAdmin = (ctx: Context) =>
+          ctx.from !== undefined &&
+          config.bot.adminIds.includes(ctx.from.id);
+
+    this.filter(isAdmin).use(adminCommands);
+
     this.api.config.use(autoRetry({ maxRetryAttempts: 2 }));
   }
 
