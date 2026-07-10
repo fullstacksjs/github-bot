@@ -4,9 +4,16 @@ import type { components } from "@octokit/openapi-webhooks-types";
 import { bot } from "#bot";
 import { db, schema } from "#db";
 
+import { escapeHtml } from "../../../escape-html.ts";
+
 export interface User {
-  user: string;
-  userUrl: string;
+  ghUsername: string;
+  ghProfileUrl: string;
+  ghDisplayname: string;
+  tgId?: number | null;
+  tgUsername?: string | null;
+  tgDisplayName?: string | null;
+  telegramStatus: string;
 }
 
 type SimpleUser = Pick<components["schemas"]["simple-user"], "html_url" | "login" | "name">;
@@ -35,24 +42,36 @@ export async function isUserMuted(githubUsername: string): Promise<boolean> {
   return !!contributor?.isMuted;
 }
 
-export async function getUser(simpleUser: SimpleUser): Promise<User> {
-  const ghUsername = simpleUser.login;
+export async function getUser(githubUser: SimpleUser): Promise<User> {
+  const ghUsername = githubUser.login;
 
-  let user = simpleUser.name ?? ghUsername;
-  let userUrl = simpleUser.html_url;
-
-  const dbUser = await db.query.contributors.findFirst({
+  const contributor = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, ghUsername),
   });
 
-  if (!dbUser?.ghUsername) {
+  if (!contributor) {
     await db.insert(schema.contributors).values({ ghUsername });
   }
 
-  if (dbUser?.tgId && dbUser?.tgName) {
-    user = dbUser.tgName;
-    userUrl = `tg://user?id=${dbUser.tgId}`;
+  let telegramStatus = "(-)";
+  const isLinked = contributor?.tgId || contributor?.tgUsername;
+  if (isLinked) {
+    if (contributor.tgUsername) {
+      telegramStatus = `(@${escapeHtml(contributor.tgUsername)})`;
+    } else if (contributor.tgName) {
+      telegramStatus = `(<a href="tg://user?id=${contributor.tgId}">${escapeHtml(contributor.tgName)}</a>)`;
+    } else {
+      telegramStatus = `(<a href="tg://user?id=${contributor.tgId}">-</a>)`;
+    }
   }
 
-  return { user, userUrl };
+  return {
+    ghUsername,
+    ghProfileUrl: githubUser.html_url,
+    ghDisplayname: githubUser.name ?? ghUsername,
+    tgId: contributor?.tgId,
+    tgUsername: contributor?.tgUsername,
+    tgDisplayName: contributor?.tgName,
+    telegramStatus,
+  };
 }
