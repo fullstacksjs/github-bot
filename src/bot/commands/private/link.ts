@@ -16,8 +16,19 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
   const repliedMessage = ctx.message.reply_to_message;
   const isActualReply = repliedMessage && !repliedMessage.forum_topic_created;
 
-  const { ghUsername, tgUsername } = ctx.args;
-  const tgId = isActualReply ? repliedMessage.from?.id : null;
+  const { ghUsername } = ctx.args;
+  let { tgUsername } = ctx.args;
+
+  const from = isActualReply ? repliedMessage.from : undefined;
+  const tgId = from?.id ?? null;
+  const tgName = from ? [from.first_name, from.last_name].filter(Boolean).join(" ") : null;
+
+  if (from?.username) {
+    const result = zs.tgUsername.safeParse(from.username);
+    if (result.success) {
+      tgUsername = result.data;
+    }
+  }
 
   if (!tgId && !tgUsername) {
     return await ctx.html.replyToMessage(ctx.t("cmd_link_no_user"));
@@ -25,6 +36,7 @@ export async function handler(ctx: BotContext<z.infer<typeof schema>>) {
 
   const set: SQLiteInsertValue<typeof s.contributors> = { ghUsername };
   if (tgId) set.tgId = tgId;
+  if (tgName) set.tgName = tgName;
   if (tgUsername) set.tgUsername = tgUsername;
 
   await db
