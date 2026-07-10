@@ -14,8 +14,9 @@ export const pullRequestClosedCallback: HandlerFunction<"pull_request.closed", u
 
   await bot.announce(
     botText("e_pull_request_closed_merged", {
-      user: escapeHtml(user.user),
-      userUrl: escapeHtml(user.userUrl),
+      user: escapeHtml(user.ghDisplayname),
+      telegramStatus: user.telegramStatus,
+      userUrl: escapeHtml(user.ghProfileUrl),
       prUrl: escapeHtml(pr.html_url),
       repoHashtag: escapeHtml(repoHashtag),
     }),

@@ -20,8 +20,9 @@ export const issuesAssignedCallback: HandlerFunction<"issues.assigned", unknown>
   await bot.announce(
     botText("e_issue_assigned", {
       issueTitle: escapeHtml(issue.title),
-      assignee: escapeHtml(assignee.user),
-      assigneeUrl: assignee.userUrl,
+      assignee: escapeHtml(assignee.ghDisplayname),
+      telegramStatus: assignee.telegramStatus,
+      assigneeUrl: assignee.ghProfileUrl,
       issueUrl: issue.html_url,
       repoHashtag: escapeHtml(repoHashtag),
     }),
