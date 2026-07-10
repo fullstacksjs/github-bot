@@ -161,7 +161,7 @@ cmd_unmute = 🔊 <b>User unMuted successfully!</b>
 e_issue_opened =
     🔘 Issue: <b>{ $issueTitle }</b>.
 
-    👤 Author: <a href="{ $userUrl }">{ $user }</a>
+    👤 Author: <a href="{ $userUrl }">{ $user }</a> { $telegramStatus }
 
     — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
@@ -170,7 +170,7 @@ e_issue_opened =
 e_pull_request_closed_merged =
     🌳 PR Merged!
 
-    👤 Author: <a href="{ $userUrl }">{ $user }</a>
+    👤 Author: <a href="{ $userUrl }">{ $user }</a> { $telegramStatus }
 
     — <a href="{ $prUrl }">{ $prUrl }</a>
 
@@ -179,7 +179,7 @@ e_pull_request_closed_merged =
 e_pull_request_opened =
     🌴 PR Created: <b>{ $prTitle }</b>
 
-    👤 Author: <a href="{ $userUrl }">{ $user }</a>!
+    👤 Author: <a href="{ $userUrl }">{ $user }</a> { $telegramStatus }!
 
     — <a href="{ $prUrl }">{ $prUrl }</a>
 
@@ -211,14 +211,14 @@ e_repository_created =
     { $repoHashtag } #new_repo
 
 e_star_created =
-    🌟 <a href="{ $userUrl }">{ $user }</a> gave star number { $starNumber } to <a href="{ $repoUrl }">{ $repoName }</a>.
+    🌟 <a href="{ $userUrl }">{ $user }</a> { $telegramStatus } gave star number { $starNumber } to <a href="{ $repoUrl }">{ $repoName }</a>.
 
     { $repoHashtag } #star
 
 e_issue_assigned =
     👥 Issue Assigned: <b>{ $issueTitle }</b>.
 
-    👤 Assignee: <a href="{ $assigneeUrl }">{ $assignee }</a>
+    👤 Assignee: <a href="{ $assigneeUrl }">{ $assignee }</a> { $telegramStatus }
 
     — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
