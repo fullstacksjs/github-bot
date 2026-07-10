@@ -13,8 +13,9 @@ export const issuesOpenedCallback: HandlerFunction<"issues.opened", unknown> = a
   await bot.announce(
     botText("e_issue_opened", {
       issueTitle: escapeHtml(issue.title),
-      user: escapeHtml(user.user),
-      userUrl: escapeHtml(user.userUrl),
+      user: escapeHtml(user.ghDisplayname),
+      telegramStatus: user.telegramStatus,
+      userUrl: escapeHtml(user.ghProfileUrl),
       issueUrl: escapeHtml(issue.html_url),
       repoHashtag: escapeHtml(repoHashtag),
     }),
