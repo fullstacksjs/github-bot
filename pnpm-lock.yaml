@@ -63,9 +63,6 @@ importers:
       '@commitlint/types':
         specifier: 20.0.0
         version: 20.0.0
-      '@cspell/dict-fa-ir':
-        specifier: 4.0.5
-        version: 4.0.5
       '@fullstacksjs/eslint-config':
         specifier: 13.10.0
         version: 13.10.0(@typescript-eslint/eslint-plugin@8.46.3(@typescript-eslint/parser@8.46.3(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/utils@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(prettier@3.6.2)(react@19.2.0)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.3.0(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)))(tailwindcss@4.1.13)(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))
@@ -325,9 +322,6 @@ packages:
 
   '@cspell/dict-en_us@4.4.24':
     resolution: {integrity: sha512-JE+/H2YicHJTneRmgH4GSI21rS+1yGZVl1jfOQgl8iHLC+yTTMtCvueNDMK94CgJACzYAoCsQB70MqiFJJfjLQ==}
-
-  '@cspell/dict-fa-ir@4.0.5':
-    resolution: {integrity: sha512-07H0WOw7vtBxjYz1AJ+abhQwtbg5KBQ5KlStEtNNz1uoIlaIlRrnHz+kSwOXThCYPEEBTUfrYhniTvEJu9U75g==}
 
   '@cspell/dict-filetypes@3.0.14':
     resolution: {integrity: sha512-KSXaSMYYNMLLdHEnju1DyRRH3eQWPRYRnOXpuHUdOh2jC44VgQoxyMU7oB3NAhDhZKBPCihabzECsAGFbdKfEA==}
@@ -4354,8 +4348,6 @@ snapshots:
   '@cspell/dict-en-gb-mit@3.1.14': {}
 
   '@cspell/dict-en_us@4.4.24': {}
-
-  '@cspell/dict-fa-ir@4.0.5': {}
 
   '@cspell/dict-filetypes@3.0.14': {}
 

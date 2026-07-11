@@ -1,8 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
-  "import": ["@cspell/dict-fa-ir/cspell-ext.json"],
-  "language": "en, fa, fa-IR",
+  "language": "en",
   "dictionaryDefinitions": [
     {
       "name": "cspell-words",

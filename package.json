@@ -58,7 +58,6 @@
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
     "@commitlint/types": "20.0.0",
-    "@cspell/dict-fa-ir": "4.0.5",
     "@fullstacksjs/eslint-config": "13.10.0",
     "@fullstacksjs/tsconfig": "2.0.0",
     "@types/node": "24.10.1",
