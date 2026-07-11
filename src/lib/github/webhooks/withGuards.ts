@@ -8,24 +8,46 @@ import { isRepositoryAccepted, isUserMuted } from "./handlers/_utils.ts";
  * This ensures that only events which meet certain conditions reach the handler:
  * - The event comes from an accepted repository (`isRepositoryAccepted` returns true).
  * - The user who triggered the event is not muted (`isUserMuted` returns false).
-
+ *
+ * Guards can be configured through the `options` parameter.
+ *
  * @template TEvent - The GitHub webhook event name (e.g., "pull_request.opened").
  * @param handler - The original handler function to wrap.
- * @returns A new handler function that applies the guards before calling the original handler.
+ * @param options - Optional configuration for enabling or disabling specific guards.
+ * @returns A new handler function that applies the configured guards before calling the original handler.
  *
  * @example
  * webhooks.on("pull_request.opened", withGuards(pullRequestOpenedCallback));
+ *
+ * @example
+ * webhooks.on(
+ *   "projects_v2_item.edited",
+ *   withGuards(projectItemEditedCallback, {
+ *     skipRepositoryCheck: true,
+ *   }),
+ * );
  */
 
-export function withGuards<TEvent extends EmitterWebhookEventName>(handler: HandlerFunction<TEvent, unknown>) {
+interface GuardOptions {
+  skipRepositoryCheck?: boolean;
+}
+
+export function withGuards<TEvent extends EmitterWebhookEventName>(
+  handler: HandlerFunction<TEvent, unknown>,
+  options: GuardOptions = {},
+) {
   return async (event: EmitterWebhookEvent<TEvent>) => {
-    if (!("repository" in event.payload)) return;
-
     const username = event.payload.sender?.login;
-    const repo = event.payload.repository?.full_name;
 
-    if (repo && !(await isRepositoryAccepted(repo))) return;
+    if (!options.skipRepositoryCheck) {
+      if (!("repository" in event.payload)) return;
 
+      const repo = event.payload.repository?.full_name;
+
+      if (repo && !(await isRepositoryAccepted(repo))) {
+        return;
+      }
+    }
     if (username && (await isUserMuted(username))) return;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
