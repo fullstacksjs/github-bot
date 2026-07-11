@@ -223,3 +223,12 @@ e_issue_assigned =
     — <a href="{ $issueUrl }">{ $issueUrl }</a>
 
     { $repoHashtag } #assigned
+
+e_project_item_status_changed =
+    🔄 { $itemTypeIcon } { $itemType } status changed in { $repoName } / <b>{ $projectName }</b>.
+
+    👤 User: <a href="{ $userUrl }">{ $user }</a> { $telegramStatus }
+    📚 Item: <a href="{ $itemUrl }">{ $itemTitle }</a>
+    👉 status: <b>{ $status }</b>
+
+    { $repoHashtag } #project
