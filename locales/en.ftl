@@ -232,3 +232,11 @@ e_project_item_status_changed =
     👉 status: <b>{ $status }</b>
 
     { $repoHashtag } #project
+
+e_comment_created =
+    💬 <a href="{ $ghProfileUrl }">{ $commentAuthor }</a> { $telegramStatus } commented on <a href="{ $commentLink }">{ $repoName }#{ $number }</a>:
+
+    <b>{ $title }</b>
+    <blockquote>{ $commentPreview }</blockquote>
+
+    { $repoHashtag } #{ $type }
