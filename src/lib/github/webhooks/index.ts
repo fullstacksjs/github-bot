@@ -23,4 +23,4 @@ webhooks.on("repository.created", withGuards(repositoryCreatedCallback));
 webhooks.on("star.created", withGuards(starCreatedCallback));
 webhooks.on("issue_comment.created", withGuards(commentCreatedCallback));
 webhooks.on("pull_request_review_comment.created", withGuards(commentCreatedCallback));
-webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback));
+webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback, { skipRepositoryCheck: true }));
