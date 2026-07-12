@@ -1,6 +1,7 @@
 import { Webhooks } from "@octokit/webhooks";
 import { config } from "#config";
 
+import { commentCreatedCallback } from "./handlers/comment-created.ts";
 import { issuesAssignedCallback } from "./handlers/issues-assigned.ts";
 import { issuesOpenedCallback } from "./handlers/issues-opened.ts";
 import { projectItemEditedCallback } from "./handlers/projects-item-edited.ts";
@@ -20,4 +21,6 @@ webhooks.on("pull_request.opened", withGuards(pullRequestOpenedCallback));
 webhooks.on("release.created", withGuards(releaseCreatedCallback));
 webhooks.on("repository.created", withGuards(repositoryCreatedCallback));
 webhooks.on("star.created", withGuards(starCreatedCallback));
-webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback, { skipRepositoryCheck: true }));
+webhooks.on("issue_comment.created", withGuards(commentCreatedCallback));
+webhooks.on("pull_request_review_comment.created", withGuards(commentCreatedCallback));
+webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback));
