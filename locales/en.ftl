@@ -81,13 +81,21 @@ cmd_link_help =
     Method 2: Provide both usernames
     — <code>/link &lt;github-username&gt; &lt;telegram-username&gt;</code>
 
+    Method 3: Reply to a bot event containing a GitHub user
+    — <code>/link &lt;telegram-username&gt;</code>
+
     Examples:
     — Reply to user: <code>/link ASafaeirad</code>
     — Direct: <code>/link ASafaeirad S_Kill</code>
+    — Reply to bot event: <code>/link @S_Kill</code>
 
 cmd_link = ✅ <b>Account linked successfully!</b>
 
+cmd_link_event = ✅ GitHub user <b>{ $ghUsername }</b> has been linked to <b>{ $tgUsername }</b>.
+
 cmd_link_no_user = ⚠️ Could not find user information.
+
+cmd_link_no_github_user = ⚠️ Could not find a GitHub user in the replied-to bot message.
 
 cmd_unlink_help =
     ✍️ <code>/unlink</code> Guide:
