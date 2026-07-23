@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import type { BotContext } from "../../bot.ts";
 
 import { escapeHtml } from "../../../lib/escape-html.ts";
+import { toTelegramFullName } from "../../../lib/telegram/telegram-user.ts";
 
 export async function handler(ctx: BotContext) {
   const sender = ctx.message.from;
@@ -19,7 +20,7 @@ export async function handler(ctx: BotContext) {
     return await ctx.replyToMessage(ctx.t("cmd_whoami_not_found"));
   }
 
-  const fullName = `${sender.first_name} ${sender.last_name ?? ""}`;
+  const fullName = toTelegramFullName(sender);
   const githubUrl = `https://github.com/${ghUser.ghUsername}`;
 
   // Make user's Telegram information fresh.
