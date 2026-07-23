@@ -7,11 +7,13 @@ import { limit } from "@grammyjs/ratelimiter";
 import { config } from "#config";
 import { Bot as GrammyBot } from "grammy";
 
+import type { HelperContext } from "./middleware/helpers.ts";
 import type { LoggerContext } from "./middleware/logger.ts";
 import type { MarkupContext } from "./middleware/markup.ts";
 
 import { adminCommands } from "./commands/private/group.ts";
 import { userCommands } from "./commands/public/group.ts";
+import { helpers } from "./middleware/helpers.ts";
 import { logger } from "./middleware/logger.ts";
 import { markup } from "./middleware/markup.ts";
 
@@ -39,6 +41,7 @@ type CommandContext<Args> = { args: Args } & { message: { text: string } };
 
 export type BotContext<Args = Record<string, never>> = CommandContext<Args> &
   Context &
+  HelperContext &
   I18nFlavor &
   LoggerContext &
   MarkupContext;
@@ -65,6 +68,7 @@ export class Bot extends GrammyBot<BotContext> {
     this.polling = polling === true ? {} : polling;
     this.use(markup);
     this.use(logger);
+    this.use(helpers);
     this.use(this.i18n);
     this.use(
       limit({
