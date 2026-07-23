@@ -3,7 +3,7 @@ import type { HandlerFunction } from "@octokit/webhooks/types";
 import { bot } from "#bot";
 
 import { escapeHtml } from "../../../escape-html.ts";
-import { botText, getRepoHashtag, getUser } from "./_utils.ts";
+import { botText, getRepoHashtag, getUser, isUserMuted } from "./_utils.ts";
 
 export const commentCreatedCallback: HandlerFunction<
   "issue_comment.created" | "pull_request_review_comment.created",
@@ -12,6 +12,8 @@ export const commentCreatedCallback: HandlerFunction<
   const comment = event.payload.comment;
   const repository = event.payload.repository;
   const sender = event.payload.sender;
+
+  if (await isUserMuted(sender.login)) return;
 
   const user = await getUser(sender);
   const repoHashtag = getRepoHashtag(repository.name);
