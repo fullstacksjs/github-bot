@@ -4,36 +4,36 @@ import type { BotContext } from "#bot";
 import { config } from "#config";
 import { GrammyError } from "grammy";
 
+import { formatErrorDetails } from "../../lib/error-details.ts";
+import { escapeHtml } from "../../lib/escape-html.ts";
+import { sendReport } from "../../lib/telegram/report.ts";
+
 export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
   ctx.logger = {
     log: async (message: string) => {
       console.log(message);
-      const reportId = config.bot.reportChatId;
-      if (!reportId) return;
-
-      return ctx.api.sendMessage(reportId, message, { parse_mode: "HTML" });
+      return sendReport(ctx.api, message);
     },
     error: async (message: string) => {
       console.log("Report for", config.bot.reportChatId);
 
       console.error(message);
-      const reportId = config.bot.reportChatId;
-      if (!reportId) return;
-
-      return ctx.api.sendMessage(reportId, message, { parse_mode: "HTML" });
+      return sendReport(ctx.api, message);
     },
   };
 
   ctx.report = async (e: unknown) => {
     let message = "";
     const update = ctx.update.message;
+    const command = update?.text ? escapeHtml(update.text) : "N/A";
+    const firstName = update?.from?.first_name ? escapeHtml(update.from.first_name) : "Unknown";
     const link = update?.from.username
-      ? `@${update.from.username}`
-      : `<a href="tg://user?id=${update?.from.id}">${update?.from.first_name}</a>`;
+      ? `@${escapeHtml(update.from.username)}`
+      : `<a href="tg://user?id=${update?.from.id}">${firstName}</a>`;
 
     message += [
       "<b>Error:</b>",
-      `Command: <code>${update?.text}</code>`,
+      `Command: <code>${command}</code>`,
       `Sender Name: ${link}`,
       "",
       "<b>Message:</b>",
@@ -41,14 +41,14 @@ export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
     ].join("\n");
 
     if (e instanceof GrammyError) {
-      message += `<pre>${e.description}</pre>\n`;
+      message += `<pre>${escapeHtml(e.description)}</pre>\n`;
     } else {
-      message += `<pre>${e}</pre>\n`;
+      message += `<pre>${escapeHtml(formatErrorDetails(e))}</pre>\n`;
     }
 
     message += `\n#error`;
 
-    ctx.logger.error(message);
+    return ctx.logger.error(message);
   };
 
   return next();
