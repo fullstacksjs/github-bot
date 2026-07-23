@@ -10,6 +10,7 @@ import { pullRequestOpenedCallback } from "./handlers/pull-request-opened.ts";
 import { releaseCreatedCallback } from "./handlers/release-created.ts";
 import { repositoryCreatedCallback } from "./handlers/repository-created.ts";
 import { starCreatedCallback } from "./handlers/star-created.ts";
+import { reportWebhookError } from "./report.ts";
 import { withGuards } from "./withGuards.ts";
 
 export const webhooks = new Webhooks({ secret: config.github.webhookSecret });
@@ -24,3 +25,4 @@ webhooks.on("star.created", withGuards(starCreatedCallback));
 webhooks.on("issue_comment.created", withGuards(commentCreatedCallback));
 webhooks.on("pull_request_review_comment.created", withGuards(commentCreatedCallback));
 webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback, { skipRepositoryCheck: true }));
+webhooks.onError(reportWebhookError);

@@ -5,6 +5,8 @@ import { webhookCallback } from "grammy";
 import { Hono } from "hono";
 import * as z from "zod";
 
+import { reportWebhookError } from "./lib/github/webhooks/report.ts";
+
 export async function createApi() {
   const api = new Hono();
 
@@ -12,6 +14,9 @@ export async function createApi() {
     api.use(`/api/webhook/telegram`, webhookCallback(bot, "hono", { secretToken: config.bot.webhookSecret }));
 
   api.post(`/api/webhook/github`, async (ctx) => {
+    const deliveryId = ctx.req.header("X-GitHub-Delivery");
+    const eventName = ctx.req.header("X-GitHub-Event");
+    const signature = ctx.req.header("X-Hub-Signature-256");
     const payload = z
       .object({
         id: z.string(),
@@ -20,19 +25,33 @@ export async function createApi() {
         payload: z.string(),
       })
       .safeParse({
-        id: ctx.req.header("X-GitHub-Delivery"),
-        name: ctx.req.header("X-GitHub-Event"),
-        signature: ctx.req.header("X-Hub-Signature-256"),
+        id: deliveryId,
+        name: eventName,
+        signature,
         payload: await ctx.req.text(),
       });
 
     if (!payload.success) {
       // eslint-disable-next-line no-console
       console.error("Invalid payload:", payload.error);
+      await reportWebhookError(payload.error, {
+        eventId: deliveryId,
+        eventName,
+        source: "request_validation",
+      });
       return ctx.text("Bad Request", 400);
     }
 
-    await webhooks.verifyAndReceive(payload.data);
+    try {
+      await webhooks.verifyAndReceive(payload.data);
+    } catch (error) {
+      await reportWebhookError(error, {
+        eventId: payload.data.id,
+        eventName: payload.data.name,
+        source: "request_processing",
+      });
+      throw error;
+    }
 
     return ctx.text("Accepted", 202);
   });
