@@ -5,6 +5,7 @@ import { autoRetry } from "@grammyjs/auto-retry";
 import { I18n } from "@grammyjs/i18n";
 import { limit } from "@grammyjs/ratelimiter";
 import { config } from "#config";
+import { botLogger } from "#logger";
 import { Bot as GrammyBot } from "grammy";
 
 import type { HelperContext } from "./middleware/helpers.ts";
@@ -90,6 +91,10 @@ export class Bot extends GrammyBot<BotContext> {
     this.filter(isAdmin).use(adminCommands);
 
     this.api.config.use(autoRetry({ maxRetryAttempts: 2 }));
+
+    this.catch(({ error, ctx }) => {
+      botLogger.error({ err: error, updateId: ctx.update.update_id, chatId: ctx.chat?.id }, "unhandled bot error");
+    });
   }
 
   /**

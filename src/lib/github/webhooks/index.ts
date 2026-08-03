@@ -1,5 +1,6 @@
 import { Webhooks } from "@octokit/webhooks";
 import { config } from "#config";
+import { githubLogger } from "#logger";
 
 import { commentCreatedCallback } from "./handlers/comment-created.ts";
 import { issuesAssignedCallback } from "./handlers/issues-assigned.ts";
@@ -14,6 +15,27 @@ import { reportWebhookError } from "./report.ts";
 import { withGuards } from "./withGuards.ts";
 
 export const webhooks = new Webhooks({ secret: config.github.webhookSecret });
+
+interface AnyPayload {
+  action?: string;
+  repository?: { full_name?: string };
+  sender?: { login?: string };
+}
+
+webhooks.onAny(({ id, name, payload }) => {
+  const { action, repository, sender } = payload as AnyPayload;
+
+  githubLogger.info(
+    {
+      deliveryId: id,
+      event: action ? `${name}.${action}` : name,
+      repo: repository?.full_name,
+      sender: sender?.login,
+      tags: ["webhook"],
+    },
+    "webhook received",
+  );
+});
 
 webhooks.on("issues.assigned", withGuards(issuesAssignedCallback));
 webhooks.on("issues.opened", withGuards(issuesOpenedCallback));

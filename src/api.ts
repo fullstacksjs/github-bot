@@ -32,9 +32,7 @@ export async function createApi() {
       });
 
     if (!payload.success) {
-      // eslint-disable-next-line no-console
-      console.error("Invalid payload:", payload.error);
-      await reportWebhookError(payload.error, {
+      reportWebhookError(payload.error, {
         eventId: deliveryId,
         eventName,
         source: "request_validation",
@@ -45,7 +43,7 @@ export async function createApi() {
     try {
       await webhooks.verifyAndReceive(payload.data);
     } catch (error) {
-      await reportWebhookError(error, {
+      reportWebhookError(error, {
         eventId: payload.data.id,
         eventName: payload.data.name,
         source: "request_processing",

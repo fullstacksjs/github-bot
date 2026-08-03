@@ -22,6 +22,7 @@
       "#db": ["./src/db/index.ts"],
       "#bot": ["./src/bot/bot.ts"],
       "#github": ["./src/lib/github/index.ts"],
+      "#logger": ["./src/lib/logger/index.ts"],
       "#webhooks": ["./src/lib/github/webhooks/index.ts"],
       "#telegram": ["./src/lib/index.ts"]
     }

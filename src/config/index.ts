@@ -27,6 +27,12 @@ const schema = new Config({
   database: Config.object({
     filePath: Config.string({ default: "file:database.sqlite" }),
   }),
+
+  logger: Config.object({
+    level: Config.string({ default: "info" }),
+    filePath: Config.string({ default: "logs/app.log" }),
+    telegramLevel: Config.string({ default: "info" }),
+  }),
 });
 
 export const config = schema
@@ -51,6 +57,11 @@ export const config = schema
     },
     database: {
       filePath: env.DB_FILE_PATH,
+    },
+    logger: {
+      level: env.LOG_LEVEL,
+      filePath: env.LOG_FILE_PATH,
+      telegramLevel: env.LOG_TELEGRAM_LEVEL,
     },
   })
   .getAll();

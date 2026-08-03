@@ -8,4 +8,5 @@ services:
       - .env
     volumes:
       - ./data:/app/data
+      - ./logs:/app/logs
     restart: on-failure:16

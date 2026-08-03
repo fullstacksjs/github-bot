@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
-import { bot } from "#bot";
+import { githubLogger } from "#logger";
 
 import { formatErrorDetails } from "../../error-details.ts";
 import { escapeHtml } from "../../escape-html.ts";
-import { sendReport } from "../../telegram/report.ts";
 
 const reportedWebhookError = Symbol("reportedWebhookError");
 
@@ -59,16 +57,27 @@ export function buildWebhookErrorReport(error: unknown, context: WebhookReportCo
   if (eventId) lines.push(`Delivery: <code>${escapeHtml(eventId)}</code>`);
   if (context.source) lines.push(`Source: <code>${escapeHtml(context.source)}</code>`);
 
-  lines.push("", "<b>Message:</b>", "", `<pre>${escapeHtml(formatErrorDetails(error))}</pre>`, "", "#webhook #error");
+  lines.push("", "<b>Message:</b>", "", `<pre>${escapeHtml(formatErrorDetails(error))}</pre>`);
 
   return lines.join("\n");
 }
 
-export async function reportWebhookError(error: unknown, context: WebhookReportContext = {}) {
+export function reportWebhookError(error: unknown, context: WebhookReportContext = {}) {
   if (hasReportedWebhookError(error)) return;
 
   markWebhookErrorReported(error);
-  console.error(error);
 
-  return sendReport(bot.api, buildWebhookErrorReport(error, context));
+  const event = getEventInfo(error);
+
+  githubLogger.error(
+    {
+      err: error,
+      deliveryId: context.eventId ?? event.eventId,
+      event: context.eventName ?? event.eventName,
+      source: context.source,
+      tags: ["webhook"],
+      tg: buildWebhookErrorReport(error, context),
+    },
+    "webhook failed",
+  );
 }

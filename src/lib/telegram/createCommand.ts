@@ -50,6 +50,7 @@ export const createCommand = <S extends Record<string, ZodType>>(args: CreateCom
     const command = parse(ctx.message.text);
 
     if (!command.success) {
+      ctx.logger.info({ command: name, text: ctx.message.text }, "command rejected");
       const message = typeof args.helpMessage === "function" ? args.helpMessage(ctx.t) : args.helpMessage;
       return ctx.html.reply(message ?? `Invalid command usage. Correct format: /${template}`);
     }
@@ -62,9 +63,16 @@ export const createCommand = <S extends Record<string, ZodType>>(args: CreateCom
     messageValidator,
     validator,
     async (ctx, next) => {
-      // @ts-expect-error It's safe
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return handler(ctx, next).catch(ctx.report);
+      const startedAt = performance.now();
+      ctx.logger.info({ command: name, args: ctx.args }, "command received");
+
+      try {
+        // @ts-expect-error It's safe
+        await handler(ctx, next);
+        ctx.logger.debug({ command: name, durationMs: Math.round(performance.now() - startedAt) }, "command handled");
+      } catch (error) {
+        ctx.report(error);
+      }
     },
   ] satisfies Middleware<CommandContext<ContextWithValidator<S>>>[];
 

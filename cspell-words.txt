@@ -10,6 +10,7 @@ libsql
 listcontributors
 listrepos
 lyja
+multistream
 nodenext
 pipefail
 removerepo

@@ -1,5 +1,7 @@
 import type { EmitterWebhookEvent, EmitterWebhookEventName, HandlerFunction } from "@octokit/webhooks/types";
 
+import { githubLogger } from "#logger";
+
 import { isRepositoryAccepted, isUserMuted } from "./handlers/_utils.ts";
 
 /**
@@ -38,17 +40,20 @@ export function withGuards<TEvent extends EmitterWebhookEventName>(
 ) {
   return async (event: EmitterWebhookEvent<TEvent>) => {
     const username = event.payload.sender?.login;
+    const skipped = (reason: string, details: Record<string, unknown> = {}) => {
+      githubLogger.debug({ deliveryId: event.id, event: event.name, reason, ...details }, "webhook skipped");
+    };
 
     if (!options.skipRepositoryCheck) {
-      if (!("repository" in event.payload)) return;
+      if (!("repository" in event.payload)) return skipped("no_repository");
 
       const repo = event.payload.repository?.full_name;
 
       if (repo && !(await isRepositoryAccepted(repo))) {
-        return;
+        return skipped("repository_blacklisted", { repo });
       }
     }
-    if (username && (await isUserMuted(username))) return;
+    if (username && (await isUserMuted(username))) return skipped("user_muted", { sender: username });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return handler(event);

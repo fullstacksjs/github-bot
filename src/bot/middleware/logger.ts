@@ -1,63 +1,51 @@
-/* eslint-disable no-console */
 import type { BotContext } from "#bot";
 
-import { config } from "#config";
+import { botLogger } from "#logger";
 import { GrammyError } from "grammy";
 
 import { formatErrorDetails } from "../../lib/error-details.ts";
 import { escapeHtml } from "../../lib/escape-html.ts";
-import { sendReport } from "../../lib/telegram/report.ts";
+
+function buildErrorReport(ctx: BotContext, error: unknown): string {
+  const update = ctx.update.message;
+  const command = update?.text ? escapeHtml(update.text) : "N/A";
+  const firstName = update?.from?.first_name ? escapeHtml(update.from.first_name) : "Unknown";
+  const link = update?.from?.username
+    ? `@${escapeHtml(update.from.username)}`
+    : `<a href="tg://user?id=${update?.from?.id}">${firstName}</a>`;
+
+  const details = error instanceof GrammyError ? error.description : formatErrorDetails(error);
+
+  return [
+    `Command: <code>${command}</code>`,
+    `Sender Name: ${link}`,
+    "",
+    "<b>Message:</b>",
+    "",
+    `<pre>${escapeHtml(details)}</pre>`,
+  ].join("\n");
+}
 
 export const logger = async (ctx: BotContext, next: () => Promise<unknown>) => {
-  ctx.logger = {
-    log: async (message: string) => {
-      console.log(message);
-      return sendReport(ctx.api, message);
-    },
-    error: async (message: string) => {
-      console.log("Report for", config.bot.reportChatId);
+  ctx.logger = botLogger.child({
+    updateId: ctx.update.update_id,
+    chatId: ctx.chat?.id,
+    userId: ctx.from?.id,
+    username: ctx.from?.username,
+  });
 
-      console.error(message);
-      return sendReport(ctx.api, message);
-    },
+  ctx.report = (error: unknown) => {
+    ctx.logger.error({ err: error, tg: buildErrorReport(ctx, error) }, "command failed");
   };
 
-  ctx.report = async (e: unknown) => {
-    let message = "";
-    const update = ctx.update.message;
-    const command = update?.text ? escapeHtml(update.text) : "N/A";
-    const firstName = update?.from?.first_name ? escapeHtml(update.from.first_name) : "Unknown";
-    const link = update?.from.username
-      ? `@${escapeHtml(update.from.username)}`
-      : `<a href="tg://user?id=${update?.from.id}">${firstName}</a>`;
-
-    message += [
-      "<b>Error:</b>",
-      `Command: <code>${command}</code>`,
-      `Sender Name: ${link}`,
-      "",
-      "<b>Message:</b>",
-      "",
-    ].join("\n");
-
-    if (e instanceof GrammyError) {
-      message += `<pre>${escapeHtml(e.description)}</pre>\n`;
-    } else {
-      message += `<pre>${escapeHtml(formatErrorDetails(e))}</pre>\n`;
-    }
-
-    message += `\n#error`;
-
-    return ctx.logger.error(message);
-  };
+  ctx.logger.debug({ text: ctx.update.message?.text }, "update received");
 
   return next();
 };
 
 export interface LoggerContext {
-  logger: {
-    log: (log: string) => Promise<unknown> | undefined;
-    error: (error: string) => Promise<unknown> | undefined;
-  };
-  report: (error: unknown) => Promise<unknown> | undefined;
+  /** Logger bound to the current update. */
+  logger: typeof botLogger;
+  /** Reports an error to the log file and the Telegram debug chat. */
+  report: (error: unknown) => void;
 }
