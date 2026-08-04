@@ -1,3 +1,5 @@
+import type { EmitterWebhookEventName, HandlerFunction } from "@octokit/webhooks/types";
+
 import { Webhooks } from "@octokit/webhooks";
 import { config } from "#config";
 import { githubLogger } from "#logger";
@@ -22,13 +24,22 @@ interface AnyPayload {
   sender?: { login?: string };
 }
 
+const handledEvents = new Set<string>();
+
+function handle<TEvent extends EmitterWebhookEventName>(event: TEvent, callback: HandlerFunction<TEvent, unknown>) {
+  handledEvents.add(event);
+  webhooks.on(event, callback);
+}
+
 webhooks.onAny(({ id, name, payload }) => {
   const { action, repository, sender } = payload as AnyPayload;
+  const event = action ? `${name}.${action}` : name;
+  const level = handledEvents.has(event) ? "debug" : "info";
 
-  githubLogger.info(
+  githubLogger[level](
     {
       deliveryId: id,
-      event: action ? `${name}.${action}` : name,
+      event,
       repo: repository?.full_name,
       sender: sender?.login,
       tags: ["webhook"],
@@ -37,14 +48,14 @@ webhooks.onAny(({ id, name, payload }) => {
   );
 });
 
-webhooks.on("issues.assigned", withGuards(issuesAssignedCallback));
-webhooks.on("issues.opened", withGuards(issuesOpenedCallback));
-webhooks.on("pull_request.closed", withGuards(pullRequestClosedCallback));
-webhooks.on("pull_request.opened", withGuards(pullRequestOpenedCallback));
-webhooks.on("release.created", withGuards(releaseCreatedCallback));
-webhooks.on("repository.created", withGuards(repositoryCreatedCallback));
-webhooks.on("star.created", withGuards(starCreatedCallback));
-webhooks.on("issue_comment.created", withGuards(commentCreatedCallback));
-webhooks.on("pull_request_review_comment.created", withGuards(commentCreatedCallback));
-webhooks.on("projects_v2_item.edited", withGuards(projectItemEditedCallback, { skipRepositoryCheck: true }));
+handle("issues.assigned", withGuards(issuesAssignedCallback));
+handle("issues.opened", withGuards(issuesOpenedCallback));
+handle("pull_request.closed", withGuards(pullRequestClosedCallback));
+handle("pull_request.opened", withGuards(pullRequestOpenedCallback));
+handle("release.created", withGuards(releaseCreatedCallback));
+handle("repository.created", withGuards(repositoryCreatedCallback));
+handle("star.created", withGuards(starCreatedCallback));
+handle("issue_comment.created", withGuards(commentCreatedCallback));
+handle("pull_request_review_comment.created", withGuards(commentCreatedCallback));
+handle("projects_v2_item.edited", withGuards(projectItemEditedCallback, { skipRepositoryCheck: true }));
 webhooks.onError(reportWebhookError);
