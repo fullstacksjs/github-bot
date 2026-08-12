@@ -248,3 +248,12 @@ e_comment_created =
     <blockquote>{ $commentPreview }</blockquote>
 
     { $repoHashtag } #{ $type }
+
+
+cmd_issuelist_empty = 🥲 No open issues found
+
+cmd_issuelist_repo = <b>{ $repoName }</b>
+
+cmd_issuelist_issue = { $emoji }<a href="{ $issueUrl }">{ $issueTitle }</a> => { $assignee }
+
+cmd_issuelist_unassigned = Unassigned

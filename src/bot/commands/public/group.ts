@@ -3,6 +3,7 @@ import type { BotContext } from "#bot";
 import { CommandGroup } from "@grammyjs/commands";
 
 import { cmdHelp } from "./help.ts";
+import { cmdIssuelist } from "./issuelist.ts";
 import { cmdListContributors } from "./listcontributors.ts";
 import { cmdListRepos } from "./listrepos.ts";
 import { cmdWhoami } from "./whoami.ts";
@@ -12,5 +13,6 @@ export const userCommands = new CommandGroup<BotContext<any>>().add([
   cmdWhoami,
   cmdListContributors,
   cmdListRepos,
+  cmdIssuelist,
   cmdHelp,
 ]);

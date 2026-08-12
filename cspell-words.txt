@@ -9,6 +9,7 @@ grammyjs
 libsql
 listcontributors
 listrepos
+issuelist
 lyja
 multistream
 nodenext
