@@ -252,8 +252,12 @@ e_comment_created =
 
 cmd_issuelist_empty = 🥲 No open issues found
 
-cmd_issuelist_repo = <b>{ $repoName }</b>
+cmd_issuelist_repo = 📦 <b>{ $repoName }</b>
 
-cmd_issuelist_issue = { $emoji }<a href="{ $issueUrl }">{ $issueTitle }</a> => { $assignee }
+cmd_issuelist_issue = — <a href="{ $issueUrl }">{ $issueTitle }</a> → { $assignee }
 
 cmd_issuelist_unassigned = Unassigned
+
+cmd_issuelist_header = ✨ <b>Open issues:</b>
+
+cmd_issuelist_total = 💎 <b>Total:</b> <code>{ $count }</code>
