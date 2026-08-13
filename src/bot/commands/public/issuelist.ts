@@ -7,13 +7,6 @@ import type { BotContext } from "../../bot.ts";
 import { escapeHtml } from "../../../lib/escape-html.ts";
 import { octokit } from "../../../lib/github/github.ts";
 
-function getStatusEmoji(labels: (string | { name?: string | null })[]): string {
-  const names = labels.map((l) => (typeof l === "string" ? l : (l.name ?? "")));
-  if (names.includes("Todo")) return "📝 ";
-  if (names.includes("In Progress")) return "🔄 ";
-  return "";
-}
-
 async function resolveAssignee(login: string, htmlUrl: string): Promise<string> {
   const contributor = await db.query.contributors.findFirst({
     where: (f, o) => o.eq(f.ghUsername, login),
@@ -59,13 +52,12 @@ export async function issuelistHandler(ctx: BotContext) {
 
         const issueLines = await Promise.all(
           openIssues.map(async (issue) => {
-            const emoji = getStatusEmoji(issue.labels);
             const assigneeText = issue.assignee
               ? await resolveAssignee(issue.assignee.login, issue.assignee.html_url)
               : ctx.t("cmd_issuelist_unassigned");
 
             return ctx.t("cmd_issuelist_issue", {
-              emoji,
+              emoji: "",
               issueUrl: escapeHtml(issue.html_url),
               issueTitle: escapeHtml(issue.title),
               assignee: assigneeText,
@@ -82,9 +74,16 @@ export async function issuelistHandler(ctx: BotContext) {
     return await ctx.html.replyToMessage(ctx.t("cmd_issuelist_empty"));
   }
 
-  return await ctx.html.replyToMessage(sections.join("\n\n"), {
-    disable_notification: true,
-  });
+  const totalIssues = sections.reduce((acc, section) => {
+    const issueCount = (section ?? "").split("\n").length - 1;
+    return acc + issueCount;
+  }, 0);
+
+  const body = sections.join("\n\n");
+  return await ctx.html.replyToMessage(
+    `${ctx.t("cmd_issuelist_header")}\n\n${body}\n\n${ctx.t("cmd_issuelist_total", { count: totalIssues })}`,
+    { disable_notification: true },
+  );
 }
 
 export const cmdIssuelist = createCommand({
