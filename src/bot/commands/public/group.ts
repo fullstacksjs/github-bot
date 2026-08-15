@@ -3,6 +3,7 @@ import type { BotContext } from "#bot";
 import { CommandGroup } from "@grammyjs/commands";
 
 import { cmdHelp } from "./help.ts";
+import { cmdIssuelist } from "./issuelist.ts";
 import { cmdListContributors } from "./listcontributors.ts";
 import { cmdlistissues } from "./listissues.ts";
 import { cmdListRepos } from "./listrepos.ts";
