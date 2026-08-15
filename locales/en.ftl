@@ -250,14 +250,14 @@ e_comment_created =
     { $repoHashtag } #{ $type }
 
 
-cmd_issuelist_empty = 🥲 No open issues found
+cmd_listissues_empty = 🥲 No open issues found
 
-cmd_issuelist_repo = 📦 <b>{ $repoName }</b>
+cmd_listissues_repo = 📦 <b>{ $repoName }</b>
 
-cmd_issuelist_issue = — <a href="{ $issueUrl }">{ $issueTitle }</a> → { $assignee }
+cmd_listissues_issue = — <a href="{ $issueUrl }">{ $issueTitle }</a> → { $assignee }
 
-cmd_issuelist_unassigned = Unassigned
+cmd_listissues_unassigned = Unassigned
 
-cmd_issuelist_header = ✨ <b>Open issues:</b>
+cmd_listissues_header = ✨ <b>Open issues:</b>
 
-cmd_issuelist_total = 💎 <b>Total:</b> <code>{ $count }</code>
+cmd_listissues_total = 💎 <b>Total:</b> <code>{ $count }</code>
