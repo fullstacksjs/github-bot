@@ -16,7 +16,7 @@ interface Section {
   count: number;
 }
 
-export async function issuelistHandler(ctx: BotContext) {
+export async function listissuesHandler(ctx: BotContext) {
   const org = config.github.orgName;
 
   const repos = await octokit.paginate(octokit.rest.repos.listForOrg, {
@@ -52,9 +52,9 @@ export async function issuelistHandler(ctx: BotContext) {
     const issueLines = await mapWithConcurrency(openIssues, ISSUE_CONCURRENCY, async (issue) => {
       const assigneeText = issue.assignee
         ? await resolveAssigneeCached(issue.assignee.login, issue.assignee.html_url)
-        : ctx.t("cmd_issuelist_unassigned");
+        : ctx.t("cmd_listissues_unassigned");
 
-      return ctx.t("cmd_issuelist_issue", {
+      return ctx.t("cmd_listissues_issue", {
         emoji: "",
         issueUrl: escapeHtml(issue.html_url),
         issueTitle: escapeHtml(issue.title),
@@ -63,7 +63,7 @@ export async function issuelistHandler(ctx: BotContext) {
     });
 
     return {
-      text: `${ctx.t("cmd_issuelist_repo", { repoName: repo.name })}\n${issueLines.join("\n")}`,
+      text: `${ctx.t("cmd_listissues_repo", { repoName: repo.name })}\n${issueLines.join("\n")}`,
       count: openIssues.length,
     };
   });
@@ -71,22 +71,22 @@ export async function issuelistHandler(ctx: BotContext) {
   const sections = rawSections.filter((s): s is Section => s !== null);
 
   if (sections.length === 0) {
-    return await ctx.html.replyToMessage(ctx.t("cmd_issuelist_empty"));
+    return await ctx.html.replyToMessage(ctx.t("cmd_listissues_empty"));
   }
 
   const totalIssues = sections.reduce((acc, s) => acc + s.count, 0);
 
   const body = sections.map((s) => s.text).join("\n\n");
   return await ctx.html.replyToMessage(
-    `${ctx.t("cmd_issuelist_header")}\n\n${body}\n\n${ctx.t("cmd_issuelist_total", { count: totalIssues })}`,
+    `${ctx.t("cmd_listissues_header")}\n\n${body}\n\n${ctx.t("cmd_listissues_total", { count: totalIssues })}`,
     { disable_notification: true },
   );
 }
 
-export const cmdIssuelist = createCommand({
-  template: "issuelist",
+export const cmdlistissues = createCommand({
+  template: "listissues",
   description: "List all open issues grouped by repository",
-  handler: issuelistHandler,
+  handler: listissuesHandler,
   scopes: [
     { type: "chat", chat_id: config.bot.chatId },
     { type: "chat_administrators", chat_id: config.bot.chatId },
