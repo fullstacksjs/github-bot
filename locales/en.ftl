@@ -219,7 +219,7 @@ e_repository_created =
     { $repoHashtag } #new_repo
 
 e_star_created =
-    🌟 <a href="{ $userUrl }">{ $user }</a> { $telegramStatus } gave star number { $starNumber } to <a href="{ $repoUrl }">{ $repoName }</a>.
+    🌟 <a href="{ $userUrl }">{ $user }</a> { $telegramStatus } stared <a href="{ $repoUrl }">{ $repoName }</a> — now at { $starNumber } stars.
 
     { $repoHashtag } #star
 
