@@ -1,9 +1,8 @@
-FROM node:22-slim
+FROM node:26-slim
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN corepack prepare pnpm@10.22.0 --activate
+RUN npm install --global pnpm@12.16.1
 
 WORKDIR /app
 
