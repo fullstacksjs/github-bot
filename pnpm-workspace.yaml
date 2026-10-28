@@ -1,11 +1,12 @@
 engineStrict: true
 
-onlyBuiltDependencies:
-  - esbuild
-  - simple-git-hooks
-  - unrs-resolver
+minimumReleaseAgeExclude:
+  - '@types/node@26.6.6'
 
-packageManagerStrictVersion: true
+allowBuilds:
+  esbuild: true
+  simple-git-hooks: true
+  unrs-resolver: true
 
 savePrefix: ''
 
