@@ -83,8 +83,8 @@ jobs:
       IMAGE: ${{ needs.build-and-push.outputs.image }}
       DIGEST: ${{ needs.build-and-push.outputs.digest }}
       CONTAINER_NAME: ${{ vars.DOCKER_CONTAINER_NAME }}
-      GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
-      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      GHCR_USERNAME: ${{ github.actor }}
+      GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Deploy over SSH
